@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="keywords" content="private sector, public sector, WMBE, MBE,staff augmentation,federal,state,local,city,county, software as a service, Crystal Reports, Business Objects,Software Development,Custom Software Development, Report, minority, woman, saas, remote, onsite, available, energov, clerk of court, city, trainer, hospitality, recruiter, recruitement, consultants, network, networking, subcontracting, subcontractor, Development,SSRS,Certified,Minority,Project Manager, Project Management, Project Coordination, Certified, Certification, SBA, Small Business,8a, City of Orlando, Orange County Florida, Broward Health, City of Tampa, Hillsborough County, African American,SBA,IT Software Consulting, Consultants,Consultant software, software quality, software systems, software testing, software testing quality, software testing quality assurance, solution, solutions, source, sql, sql server, sql server reporting, sql server reporting services, success, suite, support, system, systems, mobile application development, php, asp, C-sharp, CSharp,C Sharp, C,C++,Java,IT Software Consulting ,Information Technology, web development, developer, web, programmer, training, training crystal, viewer, viewer, visual, visual manufacturing, web, sharepoint, php, c#, sql, asp.net, vb.net, javascript, jquery,json, Florida, algorithm, application, applications, assurance, information technology, business, business automation, business automation software, business intelligence, business objects, business process, strategy, implementation, advisory, HR, regulatory, compliance, risk, audit, tax, and operations project managers, business process automation, buy, companies, services, consulting, consulting crystal, contact, control, crd, crd sql, crystal, crystal report, crystal reports, crystal reports crystal, crystal reports crystal reports, crystal reports training, crystal reports viewer, crystal resource, custom, customer, customers, data, data sheet, data sheet mastercontrol, project facilitator, budget, time, scheduling, managing, design, designed, development, dev test, directory, distribution, document, edition, email, enterprise, features, find, forum, forums, free, free crystal, free crystal reports, google, group, implementation, information, non-profit crystal reports, razor edge,Management,PMP,Agile,Business Intelligence, integrated, intelligence, interactive, internet, iso, issues, jobs, learn, visual, resume, resumes, management, management software, management tqm, manufacturing, mastercontrol, microsoft, microsoft access, new, new features, news, objects, online, organization, overview, owner, performance, product, product data, database, professional, project, quality, quality assurance, quality management, quality management software, quick, related, released, released, report, report scheduler, reporting, reporting services, reports, reports consulting, reports crystal, reports crystal reports, reports crystal reports crystal, reports training, reports viewer, resource, resources, sap, sap crystal, sap crystal reports schedule, schedule crystal, schedule crystal reports, scheduler, scheduling, search, server, server reporting, server reporting services, service, services, share, production, environment”>
+<meta name="description" content=“SDTR Consulting LLC provide staff augmentation - Information Technology Consulting, Software development, Crystal Reports, SQL Server Reporting Service, Project Management/Coordination, Technicians, Trainers, etc. Florida WMBE and 8A SBA Certified “/>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<META http-equiv="Page-Enter" content="blendTrans(Duration=0.1)"> 
+<title>SDTR Consulting LLC</title>
+<!--[if !IE]><!-->
+	<link rel="stylesheet" type="text/css" href="stylesheets/main.css" />
+ <!--<![endif]-->
+ <!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="stylesheets/main_IE.css" />
+<![endif]-->
+</head>
+
+<body class="oneColElsCtrHdr">
+
+<div id="container">
+  <div id="header">
+    <ul>
+   <li><a href="index.htm" class="current"> About Us</a> </li>
+    <li><a href="Web.htm">Software Development</a> </li>
+    <li><a href="crystalreports.htm"> Crystal Reports/SSRS</a></li>
+    <li><a href="QA.htm">Project Management/Coordination </a></li>
+<li><a href="WMBE Certifications.htm">MWBE Certifications</a></li>
+  
+     </ul> 
+    <div id="title">SDTR CONSULTING LLC</div>
+    <!-- end #header --></div>
+    <div id="footer">
+<p>SDTR Consulting LLC is a service based company established in 2010. As a Minority/Woman Owned Certified Company based out of Central Florida we have over sixteen years of Information Technology Experience.
+Supplementing staff can be a challenge today.  We are here to lighten that load.  SDTR Consulting LLC has a large database of Information Technology Consultants who can provide services for small to large private and public sector clients.  Our industry experience is key to filling that void.  SDTR Consulting LLC supply entry to architect level consultants exceeding expections of any project. Our goal is to place the most reliable qualified consultants to accurately complete project without any delays.
+Some of our consultants consists of but not limited to Software Developers, Software Techicians, IT Project Coordinators/Managmers and Report Developers with the following skillsets: Crystal Reports, SQL Server Reporting Services and Business Intelligence Consultants. 
+We have supported over thirty private sectors clients and over twenty-six public sector clients for various muncipalities. 
+</p>
+     
+<p>
+Let us complete your next project!!!
+</p>
+<p>
+contact us at <a href="mailto:sdtrconsulting@gmail.com">sdtrconsulting@gmail.com</a>
+</p>
+
+
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+<div class="preload"></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+/*SELECT  cf.CnGf_1Fnds_1_Fund_ID,cb.CnBio_ID,cng.CnGf_1_Type,cf.CnGf_1Fnds_1_Amount,cng.CnGf_1_LINK,cng.CnGf_1_Date,cb.CnBio_Org_Name,c.CnGf_1Fnds_1FnAtrCat_1_Description,
+cap.CnAdrPrf_Addrline1,cap.CnAdrPrf_Addrline2,cap.CnAdrPrf_City,cap.CnAdrPrf_ContryLongDscription,cap.CnAdrPrf_County,cap.CnAdrPrf_Region,
+cap.CnAdrPrf_State,cap.CnAdrPrf_ZIP*/
+  
+  
+  select * 
+  FROM ((
+  dbo.CnGf_1Fnds_1FnAtr a WITH(NOLOCK)
+  LEFT JOIN dbo.CnGf_1Fnds_1FnAtrCat_1 c WITH(NOLOCK)
+   ON isnull(a.CnGf_1Fnds_1FnAtrCat_1_LINK,0) = isnull(c.CnGf_1Fnds_1FnAtrCat_1_LINK,0))
+  LEFT JOIN CnGf_1Fnds_1 cf WITH(NOLOCK)
+   
+   ON a.CnGf_1Fnds_1FnAtr_LINK = cf.CnGf_1Fnds_1Fn_LINK)
+  LEFT JOIN CnGf_1 cng WITH(NOLOCK)
+  ON cf.CnGf_1Fnds_1_LINK = cng.CnGf_1Fnds_1_LINK
+  INNER JOIN Cn cn WITH(NOLOCK)
+  ON cng.CnGf_1_LINK=cn.CnGf_1_LINK 
+   INNER JOIN CnRel cr WITH(NOLOCK)
+  ON cr.CnRel_LINK = cn.CnRel_LINK
+   INNER JOIN CnRelOrg_1 cro WITH(NOLOCK)
+  ON cr.CnRelOrg_1_LINK = cro.CnRelOrg_1_LINK
+  INNER JOIN CnBio cb WITH(NOLOCK)
+  ON  cb.CnBio_LINK = cn.CnBio_LINK
+  INNER JOIN CnAttr ca WITH(NOLOCK)
+  ON ca.CnAttr_LINK = cn.CnAttr_LINK
+  INNER JOIN CnAttrCat_1 cac WITH(NOLOCK)
+  ON ca.CnAttrCat_1_LINK = cac.CnAttrCat_1_LINK
+  INNER JOIN CnAdr cad WITH(NOLOCK)
+  ON cad.CnAdr_LINK = cn.CnAdr_LINK

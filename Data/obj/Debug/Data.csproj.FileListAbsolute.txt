@@ -1,0 +1,10 @@
+D:\My Work\TC\TimeTracking\Data\bin\Debug\Data.dll.config
+D:\My Work\TC\TimeTracking\Data\bin\Debug\Data.dll
+D:\My Work\TC\TimeTracking\Data\bin\Debug\Data.pdb
+D:\My Work\TC\TimeTracking\Data\bin\Debug\EntityFramework.dll
+D:\My Work\TC\TimeTracking\Data\bin\Debug\EntityFramework.SqlServer.dll
+D:\My Work\TC\TimeTracking\Data\bin\Debug\EntityFramework.xml
+D:\My Work\TC\TimeTracking\Data\bin\Debug\EntityFramework.SqlServer.xml
+D:\My Work\TC\TimeTracking\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+D:\My Work\TC\TimeTracking\Data\obj\Debug\Data.dll
+D:\My Work\TC\TimeTracking\Data\obj\Debug\Data.pdb

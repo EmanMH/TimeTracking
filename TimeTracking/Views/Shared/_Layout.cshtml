@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDTR Consulting LLC</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body class="oneColElsCtrHdr">
+    
+        <div id="containerStatic">
+
+            <div id="headerStatic">
+                <ul>
+                    <li><a href="/Static/Index" class="current" style="font-size:10px;"> About Us</a> </li>
+                    <li><a href="/Static/Web" style="font-size:10px;">Software Development</a> </li>
+                    <li><a href="/Static/CrystalReports" style="font-size:10px;"> Crystal Reports/SSRS</a></li>
+                    <li><a href="/Static/QA" style="font-size:10px;">Project Management/Coordination </a></li>
+                    <li><a href="/Static/WMBECertifications" style="font-size:10px;">MWBE Certifications</a></li>
+                    <li><a href="/Static/Jobs" style="font-size:10px;">Job Opportunities</a></li>
+                </ul>
+                <div id="title">SDTR CONSULTING LLC</div>
+            </div>
+                <div id="footer">
+                    @RenderBody()
+                    <!-- end #footer -->
+                </div>
+                <!-- end #header -->
+            <!-- end #container -->
+        </div>
+   
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿@charset "utf-8";
+body {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #F3ECC2;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the containerStatic in IE 5* browsers. The text is then set to the left aligned default in the #containerStatic selector */
+}
+.oneColElsCtrHdr #containerStatic #header ul li {
+	float: left;	
+}
+
+
+#header li a:link,#header li a:visited{
+	background:#003333;
+	padding:.2em .5em;
+	display:block;
+	font-family:"Times New Roman", Times, serif;
+	font-size:.65em;
+	font-weight:bold;
+	text-decoration:none;
+	line-height:1em;
+	margin-right:1.8em;
+	color: #F3ECC2;
+	}
+	#header li a:hover
+	{
+		color:#000033;
+		background:#F3ECC2;
+				
+		}
+		
+	#header li a.current,#header li a.current:hover, #header li a.current:active
+	{
+		color:#000033;
+		/*-background:996633;#996600;*/
+		background:#F3ECC2;
+		cursor:default;
+	}
+	
+	
+
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #containerStatic, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust based on your final font sizing.
+*/
+.oneColElsCtrHdr #containerStatic {
+	width: 800px;  /* this width will create a containerStatic that will fit in an 800px browser window if text is left at browser default font sizes */
+	background: #FFFCFD;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align:left;
+	 /* this overrides the text-align: center on the body element. */
+}
+.oneColElsCtrHdr #header {
+	background: #FFFCFD url(../TrenieciaWard/images/heading6.jpg) no-repeat;
+	padding: 0 10px 0 10px;  /* this padding matches the left alignment of the elements in the divs that appear beneath it. If an image is used in the #header instead of text, you may want to remove the padding. */
+	height: 208px;
+	position:relative;
+	color: #FFF;
+	} 
+	
+.oneColElsCtrHdr #header ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+	float: left;
+	position:absolute;
+	left:25px;
+	bottom:0px;
+	
+}
+
+.oneColElsCtrHdr #footer {
+	padding: 10px 0px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
+	background:#D9B794 url(../TrenieciaWard/images/HEADING5.jpg) no-repeat;
+	position:relative;
+	Weight:800px;
+	Height:435px;
+} 
+.oneColElsCtrHdr #containerStatic #footer p {
+	color: #FFF;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+}
+.oneColElsCtrHdr #containerStatic #footer ul li {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	color: #FFF;
+	text-align: center;
+	list-style: none;
+}
+.oneColElsCtrHdr #containerStatic #footer #rate {
+	text-align: center;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	font-style: normal;
+}

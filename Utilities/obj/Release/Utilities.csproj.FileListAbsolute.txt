@@ -1,0 +1,5 @@
+D:\My Work\TC\TimeTracking\Utilities\bin\Release\Utilities.dll
+D:\My Work\TC\TimeTracking\Utilities\bin\Release\Utilities.pdb
+D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.csprojResolveAssemblyReference.cache
+D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.dll
+D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.pdb

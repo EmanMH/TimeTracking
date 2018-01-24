@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<META http-equiv="Page-Enter" content="blendTrans(Duration=0.1)"> 
+<title>SDTR Consulting LLC</title>
+<!--[if !IE]><!-->
+	<link rel="stylesheet" type="text/css" href="stylesheets/QA.css" />
+ <!--<![endif]-->
+ <!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="stylesheets/QA_IE.css" />
+<![endif]-->
+</head>
+
+<body class="oneColElsCtrHdr">
+
+<div id="container">
+  <div id="header">
+    <ul>
+   <li><a href="WMBE Certifications.htm" class="current">MWBE Certifications</a></li>
+   <li><a href="index.htm" > About Us</a> </li>
+    <li><a href="Web.htm">Software Development</a> </li>
+    <li><a href="crystalreports.htm"> Crystal Reports/SSRS</a></li>
+    <li><a href="QA.htm"> Project Management/Coordination</a></li>
+    </ul> 
+    <div id = "title">SDTR CONSULTING</div>
+    <!-- end #header --></div>
+ 
+  
+  
+  <div id="footer">
+   <p>
+   SDTR Consulting LLC is certified from the following agencies and can be utilized for the following agencies WMBE or Total Small Business utilization participation goal.
+    </p>
+  <ul>
+   <li><img src='graphics\OSD.jpg'</li>
+   <li><img src='graphics\city of tampa'</li>
+    <li><img src='graphics\city of orlando' </li>
+    <li><img src='graphics\orange county florida'</li>
+    <li><img src='graphics\8a'</li>
+    </ul> 
+
+   <p>&nbsp;</p>
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+
+</body>
+</html>
