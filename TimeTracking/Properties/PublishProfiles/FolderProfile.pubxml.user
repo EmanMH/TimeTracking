@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_NewBackgroundProfile>True</_NewBackgroundProfile>
+    <_NewBackgroundProfile>False</_NewBackgroundProfile>
     <_PublishTargetUrl>D:\My Work\TC\TimeTracking\TimeTracking\bin\Release\PublishOutput</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
@@ -23,10 +23,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 19:28:20</publishTime>
     </File>
     <File Include="bin/Business.dll">
-      <publishTime>01/23/2018 22:31:41</publishTime>
+      <publishTime>01/25/2018 16:18:18</publishTime>
     </File>
     <File Include="bin/Business.pdb">
-      <publishTime>01/23/2018 22:31:41</publishTime>
+      <publishTime>01/25/2018 16:18:18</publishTime>
     </File>
     <File Include="bin/Data.dll">
       <publishTime>01/23/2018 21:39:15</publishTime>
@@ -218,16 +218,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2015 03:04:30</publishTime>
     </File>
     <File Include="bin/TimeTracking.dll">
-      <publishTime>01/24/2018 02:28:40</publishTime>
+      <publishTime>01/25/2018 22:59:25</publishTime>
     </File>
     <File Include="bin/TimeTracking.pdb">
-      <publishTime>01/24/2018 02:28:40</publishTime>
+      <publishTime>01/25/2018 22:59:25</publishTime>
     </File>
     <File Include="bin/Utilities.dll">
-      <publishTime>01/23/2018 20:55:45</publishTime>
+      <publishTime>01/25/2018 15:57:28</publishTime>
     </File>
     <File Include="bin/Utilities.pdb">
-      <publishTime>01/23/2018 20:55:45</publishTime>
+      <publishTime>01/25/2018 15:57:28</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>03/10/2014 11:33:46</publishTime>
@@ -242,7 +242,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 19:26:40</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>01/23/2018 19:26:19</publishTime>
+      <publishTime>01/25/2018 22:19:45</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>01/23/2018 19:26:19</publishTime>
@@ -261,6 +261,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Global.asax">
       <publishTime>01/23/2018 19:26:19</publishTime>
+    </File>
+    <File Include="Images/logo.png">
+      <publishTime>01/25/2018 17:37:02</publishTime>
+    </File>
+    <File Include="Images/logot.png">
+      <publishTime>01/25/2018 19:47:02</publishTime>
+    </File>
+    <File Include="Images/sdtrlogo.gif">
+      <publishTime>01/25/2018 16:34:07</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>01/23/2018 20:52:02</publishTime>
@@ -311,19 +320,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 20:42:31</publishTime>
     </File>
     <File Include="Views/Account/ForgotPassword.cshtml">
-      <publishTime>01/23/2018 20:42:31</publishTime>
+      <publishTime>01/24/2018 20:36:12</publishTime>
     </File>
     <File Include="Views/Account/ForgotPasswordConfirmation.cshtml">
       <publishTime>01/23/2018 20:42:31</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>01/23/2018 20:42:31</publishTime>
+      <publishTime>01/25/2018 22:16:41</publishTime>
     </File>
     <File Include="Views/Account/Register.cshtml">
       <publishTime>01/23/2018 20:42:31</publishTime>
     </File>
     <File Include="Views/Account/ResetPassword.cshtml">
-      <publishTime>01/23/2018 21:45:58</publishTime>
+      <publishTime>01/23/2018 22:28:15</publishTime>
     </File>
     <File Include="Views/Account/ResetPasswordConfirmation.cshtml">
       <publishTime>01/23/2018 20:42:31</publishTime>
@@ -338,7 +347,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 20:42:32</publishTime>
     </File>
     <File Include="Views/Admin/AddUser.cshtml">
-      <publishTime>01/23/2018 20:42:32</publishTime>
+      <publishTime>01/25/2018 20:34:04</publishTime>
     </File>
     <File Include="Views/Admin/Index.cshtml">
       <publishTime>01/23/2018 20:42:32</publishTime>
@@ -353,7 +362,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 20:42:32</publishTime>
     </File>
     <File Include="Views/Home/username.cshtml">
-      <publishTime>01/23/2018 20:42:32</publishTime>
+      <publishTime>01/25/2018 22:21:36</publishTime>
     </File>
     <File Include="Views/Manage/AddPhoneNumber.cshtml">
       <publishTime>01/23/2018 20:42:32</publishTime>
@@ -380,7 +389,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 20:42:31</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/23/2018 20:42:31</publishTime>
+      <publishTime>01/25/2018 20:21:45</publishTime>
+    </File>
+    <File Include="Views/Shared/_LayoutAll.cshtml">
+      <publishTime>01/25/2018 22:22:40</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>01/23/2018 22:41:22</publishTime>
@@ -392,7 +404,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 19:26:19</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/23/2018 22:45:10</publishTime>
+      <publishTime>01/25/2018 22:28:20</publishTime>
     </File>
   </ItemGroup>
 </Project>

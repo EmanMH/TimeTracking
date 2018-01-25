@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using TimeTracking.Models;
+using Utilities;
 
 namespace TimeTracking
 {
@@ -18,6 +19,7 @@ namespace TimeTracking
     {
         public Task SendAsync(IdentityMessage message)
         {
+            Email.sendEmail(message.Destination, message.Subject, message.Body);
             // Plug in your email service here to send an email.
             return Task.FromResult(0);
         }

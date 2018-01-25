@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Business.Services;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TimeTracking.Models;
+using Utilities;
 
 namespace TimeTracking.Controllers
 {
@@ -15,12 +20,67 @@ namespace TimeTracking.Controllers
             return View();
         }
 
-        public ActionResult AddUser(RegisterViewModel model)
+        public ActionResult AddUser()
         {
-            if(model!=null)
-            return View(model);
-            else
+           
                 return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddUser(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                AdminServices  adminServices = new AdminServices();
+                RandomGenerator rg = new RandomGenerator();
+                var password = "Password@123";
+
+                var UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var username = model.FirstName[0] + model.LastName + rg.GenerateRandomNo();
+
+                var usere = adminServices.getByEmail(model.Email);
+                if (usere != null)
+                {
+                    ModelState.AddModelError("", "Email already exists!");
+                    return View(model);
+                }
+
+                while (adminServices.getByUsername(username) != null)
+                {
+                    username = model.FirstName[0] + model.LastName + rg.GenerateRandomNo();
+                }
+
+                var user = new ApplicationUser { UserName = username, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    // await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    adminServices.AddUserInfo(model.FirstName, model.LastName, model.MiddleName, user.Id, true);
+
+                    return RedirectToAction("username", "Home", new { username = username, password = password });
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View( model);
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
 
         // GET: Admin/Details/5

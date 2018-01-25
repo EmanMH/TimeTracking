@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44387</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -47,7 +47,7 @@
   <ItemGroup>
     <Reference Include="Business, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Business\bin\Debug\Business.dll</HintPath>
+      <HintPath>..\Business\bin\Release\Business.dll</HintPath>
     </Reference>
     <Reference Include="Data">
       <HintPath>..\Data\bin\Debug\Data.dll</HintPath>
@@ -112,8 +112,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Utilities">
-      <HintPath>..\Utilities\bin\Debug\Utilities.dll</HintPath>
+    <Reference Include="Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Utilities\bin\Release\Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
@@ -208,7 +209,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\StaticController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -221,54 +221,18 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\graphics\8a.png" />
-    <Content Include="Content\graphics\bhlogo.jpg" />
-    <Content Include="Content\graphics\city of orlando.jpg" />
-    <Content Include="Content\graphics\city of tampa.jpg" />
-    <Content Include="Content\graphics\contact3_small.jpg" />
-    <Content Include="Content\graphics\crystal.jpg" />
-    <Content Include="Content\graphics\GOAA.png" />
-    <Content Include="Content\graphics\HEADING4_small.jpg" />
-    <Content Include="Content\graphics\HEADING5.jpg" />
-    <Content Include="Content\graphics\heading6.jpg" />
-    <Content Include="Content\graphics\heading6_old.jpg" />
-    <Content Include="Content\graphics\heading6_old2.jpg" />
-    <Content Include="Content\graphics\HEADING6_small.jpg" />
-    <Content Include="Content\graphics\HEADING7_small.jpg" />
-    <Content Include="Content\graphics\HEADING8_small.jpg" />
-    <Content Include="Content\graphics\HEADING9_small.jpg" />
-    <Content Include="Content\graphics\orange county florida.jpg" />
-    <Content Include="Content\graphics\OSD.jpg" />
-    <Content Include="Content\graphics\OSD_old.jpg" />
-    <Content Include="Content\graphics\OSD_original_size.jpg" />
-    <Content Include="Content\graphics\ron_small.jpg" />
-    <Content Include="Content\graphics\SDTR.jpg" />
-    <Content Include="Content\graphics\_notes\dwsync.xml" />
-    <Content Include="Content\stylesheets\contact.css" />
-    <Content Include="Content\stylesheets\contact_IE.css" />
-    <Content Include="Content\stylesheets\crystal.css" />
-    <Content Include="Content\stylesheets\crystal_IE.css" />
-    <Content Include="Content\stylesheets\main.css" />
-    <Content Include="Content\stylesheets\main_IE.css" />
-    <Content Include="Content\stylesheets\main_old.css" />
-    <Content Include="Content\stylesheets\QA.css" />
-    <Content Include="Content\stylesheets\QA_IE.css" />
-    <Content Include="Content\stylesheets\SDTR.css" />
-    <Content Include="Content\stylesheets\testing.css" />
-    <Content Include="Content\stylesheets\testing.txt" />
-    <Content Include="Content\stylesheets\web.css" />
-    <Content Include="Content\stylesheets\web_IE.css" />
-    <Content Include="Content\stylesheets\_notes\dwsync.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\logot.png" />
+    <Content Include="Images\sdtrlogo.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\graphics\Thumbs.db" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -281,88 +245,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="StaticPages\crystalreports.htm" />
-    <Content Include="StaticPages\crystalreports_old.htm" />
-    <Content Include="StaticPages\crystalreports_old.txt" />
-    <Content Include="StaticPages\favicon.ico" />
-    <Content Include="StaticPages\google77fb79c85947b4ce.html" />
-    <Content Include="StaticPages\graphics\8a.png" />
-    <Content Include="StaticPages\graphics\bhlogo.jpg" />
-    <Content Include="StaticPages\graphics\city of orlando.jpg" />
-    <Content Include="StaticPages\graphics\city of tampa.jpg" />
-    <Content Include="StaticPages\graphics\contact3_small.jpg" />
-    <Content Include="StaticPages\graphics\crystal.jpg" />
-    <Content Include="StaticPages\graphics\GOAA.png" />
-    <Content Include="StaticPages\graphics\HEADING4_small.jpg" />
-    <Content Include="StaticPages\graphics\HEADING5.jpg" />
-    <Content Include="StaticPages\graphics\heading6.jpg" />
-    <Content Include="StaticPages\graphics\heading6_old.jpg" />
-    <Content Include="StaticPages\graphics\heading6_old2.jpg" />
-    <Content Include="StaticPages\graphics\HEADING6_small.jpg" />
-    <Content Include="StaticPages\graphics\HEADING7_small.jpg" />
-    <Content Include="StaticPages\graphics\HEADING8_small.jpg" />
-    <Content Include="StaticPages\graphics\HEADING9_small.jpg" />
-    <Content Include="StaticPages\graphics\orange county florida.jpg" />
-    <Content Include="StaticPages\graphics\OSD.jpg" />
-    <Content Include="StaticPages\graphics\OSD_old.jpg" />
-    <Content Include="StaticPages\graphics\OSD_original_size.jpg" />
-    <Content Include="StaticPages\graphics\ron_small.jpg" />
-    <Content Include="StaticPages\graphics\SDTR.jpg" />
-    <Content Include="StaticPages\graphics\_notes\dwsync.xml" />
-    <Content Include="StaticPages\iisstart.htm" />
-    <Content Include="StaticPages\iisstart.png" />
-    <Content Include="StaticPages\index.htm" />
-    <Content Include="StaticPages\indexold1417.htm" />
-    <Content Include="StaticPages\index_old.htm" />
-    <Content Include="StaticPages\index_old.txt" />
-    <Content Include="StaticPages\javascript\form.js" />
-    <Content Include="StaticPages\javascript\javascript.js" />
-    <Content Include="StaticPages\javascript\_notes\dwsync.xml" />
-    <Content Include="StaticPages\Jobs.htm" />
-    <Content Include="StaticPages\pdf\BillingDetail2.png" />
-    <Content Include="StaticPages\pdf\BillingDetail_Basic_2.jpg" />
-    <Content Include="StaticPages\pdf\BillingDetail_Basic_thumb.jpg" />
-    <Content Include="StaticPages\pdf\History-of-Orders.png" />
-    <Content Include="StaticPages\pdf\Invoice.jpg" />
-    <Content Include="StaticPages\pdf\OnlineEnrollmentRollup_crosstab.png" />
-    <Content Include="StaticPages\pdf\Personal Care Services Year to Date by Worker.jpg" />
-    <Content Include="StaticPages\pdf\WFW Donor Reference Sheet with Cost per Donation.jpg" />
-    <Content Include="StaticPages\pdf\_notes\dwsync.xml" />
-    <Content Include="StaticPages\QA.htm" />
-    <Content Include="StaticPages\QA_old.txt" />
-    <Content Include="StaticPages\SpryAssets\SpryEffects.js" />
-    <Content Include="StaticPages\SpryAssets\SpryValidationCheckbox.css" />
-    <Content Include="StaticPages\SpryAssets\SpryValidationCheckbox.js" />
-    <Content Include="StaticPages\SpryAssets\SpryValidationTextarea.css" />
-    <Content Include="StaticPages\SpryAssets\SpryValidationTextarea.js" />
-    <Content Include="StaticPages\SpryAssets\SpryValidationTextField.css" />
-    <Content Include="StaticPages\SpryAssets\SpryValidationTextField.js" />
-    <Content Include="StaticPages\SpryAssets\_notes\dwsync.xml" />
-    <Content Include="StaticPages\start.txt" />
-    <Content Include="StaticPages\stylesheets\contact.css" />
-    <Content Include="StaticPages\stylesheets\contact_IE.css" />
-    <Content Include="StaticPages\stylesheets\crystal.css" />
-    <Content Include="StaticPages\stylesheets\crystal_IE.css" />
-    <Content Include="StaticPages\stylesheets\main.css" />
-    <Content Include="StaticPages\stylesheets\main_IE.css" />
-    <Content Include="StaticPages\stylesheets\main_old.css" />
-    <Content Include="StaticPages\stylesheets\QA.css" />
-    <Content Include="StaticPages\stylesheets\QA_IE.css" />
-    <Content Include="StaticPages\stylesheets\SDTR.css" />
-    <Content Include="StaticPages\stylesheets\testing.css" />
-    <Content Include="StaticPages\stylesheets\testing.txt" />
-    <Content Include="StaticPages\stylesheets\web.css" />
-    <Content Include="StaticPages\stylesheets\web_IE.css" />
-    <Content Include="StaticPages\stylesheets\_notes\dwsync.xml" />
-    <Content Include="StaticPages\Web.htm" />
-    <Content Include="StaticPages\Web_OLD.htm" />
-    <Content Include="StaticPages\Web_old1617.txt" />
-    <Content Include="StaticPages\WMBE Certifications.htm" />
-    <Content Include="StaticPages\WMBE Certifications.txt" />
-    <Content Include="StaticPages\WMBE CertificationsOld11517.htm" />
-    <Content Include="StaticPages\WMBE Certifications_new.htm" />
-    <Content Include="StaticPages\WMBE Certifications_old.txt" />
-    <Content Include="StaticPages\WMBE Certifications_old81817.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -400,52 +282,7 @@
     <Content Include="Views\Admin\AddUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Home\username.cshtml" />
-    <Content Include="StaticPages\.DS_Store" />
-    <Content Include="StaticPages\graphics\Thumbs.db" />
-    <Content Include="StaticPages\Jobs\BUSINESS ANALYST.pdf" />
-    <Content Include="StaticPages\Jobs\BUSINESS ANALYST_old.pdf" />
-    <Content Include="StaticPages\Jobs\CNA_HHA_PCA.pdf" />
-    <Content Include="StaticPages\Jobs\Graphic Artist.pdf" />
-    <Content Include="StaticPages\Jobs\HYPERION TECHNICAL SUPPORT SERVICES.pdf" />
-    <Content Include="StaticPages\Jobs\Microsoft Dynamics CRM.pdf" />
-    <Content Include="StaticPages\pdf\BillingDetail_Basic_report.pdf" />
-    <Content Include="StaticPages\pdf\History of Orders.pdf" />
-    <Content Include="StaticPages\pdf\Invoice.pdf" />
-    <Content Include="StaticPages\pdf\OnlineEnrollmentRollup_crosstab_ex.pdf" />
-    <Content Include="StaticPages\pdf\Personal Care Services Year to Date by Worker.pdf" />
-    <Content Include="StaticPages\pdf\Thumbs.db" />
-    <Content Include="StaticPages\pdf\WFW Donor Reference Sheet with Cost per Donation.pdf" />
-    <Content Include="StaticPages\Resume\capabilities statement.pdf" />
-    <Content Include="StaticPages\Resume\capabilities statement_financials.pdf" />
-    <Content Include="StaticPages\Resume\capabilities statement_old.pdf" />
-    <Content Include="StaticPages\Resume\John_McAvoy_old.pdf" />
-    <Content Include="StaticPages\Resume\Ronald_Richardson.pdf" />
-    <Content Include="StaticPages\Resume\Ronald_Richardson_old.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl Richardson_resume.doc" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson2.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson3.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson4.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardsonold122017.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old10.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old11.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old12.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old2.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old4.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old6.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old62813.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old7.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old8.pdf" />
-    <Content Include="StaticPages\Resume\Sheryl_Richardson_old9.pdf" />
-    <Content Include="StaticPages\Resume\SoftwareDeveloper.pdf" />
-    <Content Include="StaticPages\Resume\SSRSDeveloper.pdf" />
-    <Content Include="Views\Static\Index.cshtml" />
-    <Content Include="Views\Static\Web.cshtml" />
-    <Content Include="Views\Static\CrystalReports.cshtml" />
-    <Content Include="Views\Static\QA.cshtml" />
-    <Content Include="Views\Static\WMBECertifications.cshtml" />
-    <Content Include="Views\Static\Jobs.cshtml" />
+    <Content Include="Views\Shared\_LayoutAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

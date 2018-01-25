@@ -68,7 +68,9 @@ namespace TimeTracking.Models
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Middle Name")]
+        [Required]
+        [Display(Name = "Middle Initial")]
+        [MaxLength(1)]
         public string MiddleName { get; set; }
 
         [Required]
@@ -112,11 +114,12 @@ namespace TimeTracking.Models
         public string Code { get; set; }
     }
 
+
+
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string Username { get; set; }
     }
 }

@@ -25,8 +25,7 @@ namespace TimeTracking
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
-                      "~/Content/stylesheets/main.css"));
+                      "~/Content/site.css"));
         }
     }
 }

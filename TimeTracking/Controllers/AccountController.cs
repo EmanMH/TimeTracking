@@ -58,6 +58,11 @@ namespace TimeTracking.Controllers
             }
         }
 
+        public ApplicationUserManager getmanager()
+        {
+            return UserManager;
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -94,9 +99,9 @@ namespace TimeTracking.Controllers
             {
                 case SignInStatus.Success:
                     if(userInfo.UserDetails.FirstOrDefault() != null && userInfo.UserDetails.FirstOrDefault().isFirst==true)
-                        return RedirectToAction("ResetPassword","Account");
+                        return RedirectToAction("ResetPasswordFirst", "Account");
 
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("AddUser","Admin");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -171,9 +176,16 @@ namespace TimeTracking.Controllers
                 adminServices = new AdminServices();
                 RandomGenerator rg = new RandomGenerator();
 
-                var password = Guid.NewGuid().ToString()+"Pp-12";
+                var password = "Password@123";
                     
                 var username = model.FirstName[0] + model.LastName + rg.GenerateRandomNo();
+
+                var usere = adminServices.getByEmail(model.Email);
+                if(usere!=null)
+                {
+                    ModelState.AddModelError("", "Email already exists!");
+                    return RedirectToAction("AddUser", "Admin", model);
+                }
 
                 while(adminServices.getByUsername(username) != null)
                 {
@@ -233,8 +245,8 @@ namespace TimeTracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await UserManager.FindByNameAsync(model.Username);
+                if (user == null )
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -242,10 +254,10 @@ namespace TimeTracking.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new {  code = code }, protocol: Request.Url.Scheme);
+                 Email.sendEmail(user.Email, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -262,14 +274,21 @@ namespace TimeTracking.Controllers
 
         //
         // GET: /Account/ResetPassword
-        public ActionResult ResetPassword()
+        public ActionResult ResetPasswordFirst()
         {
             string code = UserManager.GeneratePasswordResetToken(User.Identity.GetUserId());
             ResetPasswordViewModel model = new ResetPasswordViewModel();
             model.Code = code;
             //return code == null ? View("Error") : View();
-            return View(model);
+            return View("ResetPassword", model);
         }
+
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string code)
+        {
+            return code == null ? View("Error") : View();
+        }
+
 
         //
         // POST: /Account/ResetPassword
@@ -293,7 +312,7 @@ namespace TimeTracking.Controllers
             {
                 adminServices = new AdminServices();
                 adminServices.UpdateFirstPasswordReset(user.Id);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("AddUser", "Admin");
             }
             AddErrors(result);
             return View();

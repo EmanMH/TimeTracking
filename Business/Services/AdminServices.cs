@@ -52,6 +52,11 @@ namespace Business.Services
             return _ttContext.AspNetUsers.Where(u => u.UserName == username).FirstOrDefault() ;
         }
 
+        public AspNetUser getByEmail(string email)
+        {
+            return _ttContext.AspNetUsers.Where(u => u.Email == email).FirstOrDefault();
+        }
+
         public void AddUserInfo(string firstName,string lastName,string middleName,string id,bool isFirst)
         {
             UserDetail myuser = new UserDetail();

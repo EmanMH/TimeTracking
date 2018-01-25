@@ -2,3 +2,4 @@ D:\My Work\TC\TimeTracking\Utilities\bin\Debug\Utilities.dll
 D:\My Work\TC\TimeTracking\Utilities\bin\Debug\Utilities.pdb
 D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.dll
 D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.pdb
+D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
