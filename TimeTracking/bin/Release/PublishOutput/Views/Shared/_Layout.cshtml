@@ -9,15 +9,37 @@
 
 </head>
 <body>
-        
-        <div class="container body-content" style="border:medium">
-            <br />
+    <div class="navbar navbar-default navbar-fixed-top ">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
 
-            @RenderBody()
-           
+
+                <div class="navbar-brand"> <img src="~/Images/logot.png" width="106" height="45"> &nbsp; @Html.ActionLink("SDTRCare", "Index", "Home", new { area = "" }, new { @style = "color:white;" })</div>
+
+
+            </div>
+            <div class="navbar-collapse collapse">
+                @*<ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
+
+
+                    </ul>*@
+                @Html.Partial("_LoginPartial")
+            </div>
         </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    </div>
+    <div class="container body-content">
+        <br/>
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

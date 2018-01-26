@@ -312,7 +312,7 @@ namespace TimeTracking.Controllers
             {
                 adminServices = new AdminServices();
                 adminServices.UpdateFirstPasswordReset(user.Id);
-                return RedirectToAction("AddUser", "Admin");
+                return RedirectToAction("Login", "Account");
             }
             AddErrors(result);
             return View();
