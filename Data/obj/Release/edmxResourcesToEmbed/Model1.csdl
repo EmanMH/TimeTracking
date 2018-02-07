@@ -23,6 +23,31 @@
       <End Role="AspNetRole" EntitySet="AspNetRoles" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="TimeInOuts" EntityType="TimeTrackingModel.TimeInOut" />
+    <EntitySet Name="TimeSheets" EntityType="TimeTrackingModel.TimeSheet" />
+    <AssociationSet Name="FK__TimeSheet__fk_us__239E4DCF" Association="TimeTrackingModel.FK__TimeSheet__fk_us__239E4DCF">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="TimeSheet" EntitySet="TimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TimeInOut__fk_Ti__267ABA7A" Association="TimeTrackingModel.FK__TimeInOut__fk_Ti__267ABA7A">
+      <End Role="TimeSheet" EntitySet="TimeSheets" />
+      <End Role="TimeInOut" EntitySet="TimeInOuts" />
+    </AssociationSet>
+    <EntitySet Name="serviceCodes" EntityType="TimeTrackingModel.serviceCode" />
+    <AssociationSet Name="FK__TimeInOut__fk_se__29572725" Association="TimeTrackingModel.FK__TimeInOut__fk_se__29572725">
+      <End Role="serviceCode" EntitySet="serviceCodes" />
+      <End Role="TimeInOut" EntitySet="TimeInOuts" />
+    </AssociationSet>
+    <EntitySet Name="planSections" EntityType="TimeTrackingModel.planSection" />
+    <EntitySet Name="status" EntityType="TimeTrackingModel.status" />
+    <AssociationSet Name="FK__TimeSheet__fk_st__2C3393D0" Association="TimeTrackingModel.FK__TimeSheet__fk_st__2C3393D0">
+      <End Role="status" EntitySet="status" />
+      <End Role="TimeSheet" EntitySet="TimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TimeInOut__fk_pl__37A5467C" Association="TimeTrackingModel.FK__TimeInOut__fk_pl__37A5467C">
+      <End Role="planSection" EntitySet="planSections" />
+      <End Role="TimeInOut" EntitySet="TimeInOuts" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -83,6 +108,7 @@
     <NavigationProperty Name="AspNetUserLogins" Relationship="TimeTrackingModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
     <NavigationProperty Name="UserDetails" Relationship="TimeTrackingModel.FK__UserDetai__FK_Ne__1FCDBCEB" FromRole="AspNetUser" ToRole="UserDetail" />
     <NavigationProperty Name="AspNetRoles" Relationship="TimeTrackingModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+    <NavigationProperty Name="TimeSheets" Relationship="TimeTrackingModel.FK__TimeSheet__fk_us__239E4DCF" FromRole="AspNetUser" ToRole="TimeSheet" />
   </EntityType>
   <EntityType Name="UserDetail">
     <Key>
@@ -139,5 +165,120 @@
   <Association Name="AspNetUserRoles">
     <End Type="TimeTrackingModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
     <End Type="TimeTrackingModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityType Name="TimeInOut">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fk_TimeSheetId" Type="Int32" />
+    <Property Name="TimeIn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="isInAM" Type="Boolean" />
+    <Property Name="TimeOut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="isOutAM" Type="Boolean" />
+    <NavigationProperty Name="TimeSheet" Relationship="TimeTrackingModel.FK__TimeInOut__fk_Ti__267ABA7A" FromRole="TimeInOut" ToRole="TimeSheet" />
+    <Property Name="fk_serviceCode" Type="Int32" />
+    <NavigationProperty Name="serviceCode" Relationship="TimeTrackingModel.FK__TimeInOut__fk_se__29572725" FromRole="TimeInOut" ToRole="serviceCode" />
+    <Property Name="fk_plansection" Type="Int32" />
+    <NavigationProperty Name="planSection" Relationship="TimeTrackingModel.FK__TimeInOut__fk_pl__37A5467C" FromRole="TimeInOut" ToRole="planSection" />
+  </EntityType>
+  <EntityType Name="TimeSheet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fk_userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DayDate" Type="DateTime" Precision="3" />
+    <Property Name="isBackup" Type="Boolean" />
+    <Property Name="isLiveIn" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="TimeTrackingModel.FK__TimeSheet__fk_us__239E4DCF" FromRole="TimeSheet" ToRole="AspNetUser" />
+    <NavigationProperty Name="TimeInOuts" Relationship="TimeTrackingModel.FK__TimeInOut__fk_Ti__267ABA7A" FromRole="TimeSheet" ToRole="TimeInOut" />
+    <Property Name="fk_statusid" Type="Int32" />
+    <Property Name="HasTime2" Type="Boolean" />
+    <NavigationProperty Name="status" Relationship="TimeTrackingModel.FK__TimeSheet__fk_st__2C3393D0" FromRole="TimeSheet" ToRole="status" />
+  </EntityType>
+  <Association Name="FK__TimeSheet__fk_us__239E4DCF">
+    <End Type="TimeTrackingModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.TimeSheet" Role="TimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeSheet">
+        <PropertyRef Name="fk_userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TimeInOut__fk_Ti__267ABA7A">
+    <End Type="TimeTrackingModel.TimeSheet" Role="TimeSheet" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.TimeInOut" Role="TimeInOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TimeSheet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeInOut">
+        <PropertyRef Name="fk_TimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="serviceCode">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TimeInOuts" Relationship="TimeTrackingModel.FK__TimeInOut__fk_se__29572725" FromRole="serviceCode" ToRole="TimeInOut" />
+  </EntityType>
+  <Association Name="FK__TimeInOut__fk_se__29572725">
+    <End Type="TimeTrackingModel.serviceCode" Role="serviceCode" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.TimeInOut" Role="TimeInOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="serviceCode">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeInOut">
+        <PropertyRef Name="fk_serviceCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="planSection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TimeInOuts" Relationship="TimeTrackingModel.FK__TimeInOut__fk_pl__37A5467C" FromRole="planSection" ToRole="TimeInOut" />
+  </EntityType>
+  <EntityType Name="status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TimeSheets" Relationship="TimeTrackingModel.FK__TimeSheet__fk_st__2C3393D0" FromRole="status" ToRole="TimeSheet" />
+  </EntityType>
+  <Association Name="FK__TimeSheet__fk_st__2C3393D0">
+    <End Type="TimeTrackingModel.status" Role="status" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.TimeSheet" Role="TimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeSheet">
+        <PropertyRef Name="fk_statusid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TimeInOut__fk_pl__37A5467C">
+    <End Type="TimeTrackingModel.planSection" Role="planSection" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.TimeInOut" Role="TimeInOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="planSection">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeInOut">
+        <PropertyRef Name="fk_plansection" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
 </Schema>

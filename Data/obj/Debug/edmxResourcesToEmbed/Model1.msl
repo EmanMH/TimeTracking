@@ -76,5 +76,61 @@
         <ScalarProperty Name="Id" ColumnName="RoleId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="TimeInOuts">
+      <EntityTypeMapping TypeName="TimeTrackingModel.TimeInOut">
+        <MappingFragment StoreEntitySet="TimeInOut">
+          <ScalarProperty Name="isOutAM2" ColumnName="isOutAM2" />
+          <ScalarProperty Name="isInAM2" ColumnName="isInAM2" />
+          <ScalarProperty Name="TimeOut2" ColumnName="TimeOut2" />
+          <ScalarProperty Name="TimeIn2" ColumnName="TimeIn2" />
+          <ScalarProperty Name="dayDate" ColumnName="dayDate" />
+          <ScalarProperty Name="fk_plansection" ColumnName="fk_plansection" />
+          <ScalarProperty Name="fk_serviceCode" ColumnName="fk_serviceCode" />
+          <ScalarProperty Name="isOutAM" ColumnName="isOutAM" />
+          <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
+          <ScalarProperty Name="isInAM" ColumnName="isInAM" />
+          <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
+          <ScalarProperty Name="fk_TimeSheetId" ColumnName="fk_TimeSheetId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TimeSheets">
+      <EntityTypeMapping TypeName="TimeTrackingModel.TimeSheet">
+        <MappingFragment StoreEntitySet="TimeSheet">
+          <ScalarProperty Name="HasTime2" ColumnName="HasTime2" />
+          <ScalarProperty Name="fk_statusid" ColumnName="fk_statusid" />
+          <ScalarProperty Name="isLiveIn" ColumnName="isLiveIn" />
+          <ScalarProperty Name="isBackup" ColumnName="isBackup" />
+          <ScalarProperty Name="DayDate" ColumnName="DayDate" />
+          <ScalarProperty Name="fk_userId" ColumnName="fk_userId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="serviceCodes">
+      <EntityTypeMapping TypeName="TimeTrackingModel.serviceCode">
+        <MappingFragment StoreEntitySet="serviceCodes">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="planSections">
+      <EntityTypeMapping TypeName="TimeTrackingModel.planSection">
+        <MappingFragment StoreEntitySet="planSections">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="status">
+      <EntityTypeMapping TypeName="TimeTrackingModel.status">
+        <MappingFragment StoreEntitySet="status">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

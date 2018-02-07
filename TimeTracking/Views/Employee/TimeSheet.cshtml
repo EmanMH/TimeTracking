@@ -1,0 +1,190 @@
+﻿@using TimeTracking.Models
+
+@{
+    ViewBag.Title = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="~/Scripts/Knockout/TimeSheet.js"></script>
+
+<h2>Employee</h2>
+
+
+  <div>
+    <table class="table table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Date Selection</th>
+                <th>Backup (Y/N)</th>
+                <th>Live-In (Y/N)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@ViewBag.empName</td>
+                <td>
+                    <select class="form-control" name="dateSelected" data-bind="value:dateSelected,options: dateItems,
+                       optionsText: 'date',optionsValue: 'date', event:{change:showTime},optionsCaption: 'Select...'"></select>
+                </td>
+                <td><select name="backup" class="form-control" data-bind="value:backup,options: backuparr,optionsText: 'name',optionsValue: 'Id'"></select></td>
+                <td><select name="liveIn" class="form-control" data-bind="value:liveIn,options: liveInarr,optionsText: 'name',optionsValue: 'Id'"></select></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+    <table class="table table-bordered table-responsive" data-bind="visble:items.length>0">
+
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Service Code</th>
+                <th>Plan Section</th>
+                <th>Time In</th>
+                <th>AM/PM</th>
+                <th>Time Out</th>
+                <th>AM/PM</th>
+                <!-- ko if: HasTime2 -->
+                <th>Time In</th>
+                <th>AM/PM</th>
+                <th>Time Out</th>
+                <th>AM/PM</th>
+                <!-- /ko -->
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:items">
+
+            <tr>
+                <td ><label data-bind="text:dayName"></label>
+                <br/>
+                    <label data-bind="text: moment(dayDate).format('L')"></label>
+                </td>
+                <td>
+                    <select class="form-control" data-bind="value:serviceCodeId,options: $root.serviceCodes,
+                       optionsText: 'Name',optionsValue: 'Id'"></select>
+
+                </td>
+                <td>
+                    <select class="form-control" data-bind="value:plansectionId,options: $root.PlanSections,
+                       optionsText: 'Name',optionsValue: 'Id'"></select>
+                </td>
+                <td>
+                    <select data-bind="value:TimeIn" class="form-control">
+                        <option value="1">01:00</option>
+                        <option value="2">02:00</option>
+                        <option value="3">03:00</option>
+                        <option value="4">04:00</option>
+                        <option value="5">05:00</option>
+                        <option value="6">06:00</option>
+                        <option value="7">07:00</option>
+                        <option value="8">08:00</option>
+                        <option value="9">09:00</option>
+                        <option value="10">10:00</option>
+                        <option value="11">11:00</option>
+                        <option value="12">12:00</option>
+
+                    </select>
+                </td>
+                <td>
+                    <select data-bind="value:isAmIn" class="form-control">
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
+                </td>
+                <td>
+                    <select data-bind="value:TimeOut" class="form-control">
+                        <option value="1">01:00</option>
+                        <option value="2">02:00</option>
+                        <option value="3">03:00</option>
+                        <option value="4">04:00</option>
+                        <option value="5">05:00</option>
+                        <option value="6">06:00</option>
+                        <option value="7">07:00</option>
+                        <option value="8">08:00</option>
+                        <option value="9">09:00</option>
+                        <option value="10">10:00</option>
+                        <option value="11">11:00</option>
+                        <option value="12">12:00</option>
+
+                    </select>
+                </td>
+                <td>
+                    <select data-bind="value:isAmOut" class="form-control">
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
+                </td>
+
+
+                <!-- ko if: $root.HasTime2 -->
+                <td>
+                    <select data-bind="value:TimeIn2,visible:Time2" class="form-control">
+                        <option value="1">01:00</option>
+                        <option value="2">02:00</option>
+                        <option value="3">03:00</option>
+                        <option value="4">04:00</option>
+                        <option value="5">05:00</option>
+                        <option value="6">06:00</option>
+                        <option value="7">07:00</option>
+                        <option value="8">08:00</option>
+                        <option value="9">09:00</option>
+                        <option value="10">10:00</option>
+                        <option value="11">11:00</option>
+                        <option value="12">12:00</option>
+
+                    </select>
+                </td>
+                <td>
+                    <select data-bind="value:isAmIn2,visible:Time2" class="form-control">
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
+                </td>
+                <td>
+                    <select data-bind="value:TimeOut2,visible:Time2" class="form-control">
+                        <option value="1">01:00</option>
+                        <option value="2">02:00</option>
+                        <option value="3">03:00</option>
+                        <option value="4">04:00</option>
+                        <option value="5">05:00</option>
+                        <option value="6">06:00</option>
+                        <option value="7">07:00</option>
+                        <option value="8">08:00</option>
+                        <option value="9">09:00</option>
+                        <option value="10">10:00</option>
+                        <option value="11">11:00</option>
+                        <option value="12">12:00</option>
+
+                    </select>
+                </td>
+                <td>
+                    <select data-bind="value:isAmOut2,visible:Time2" class="form-control">
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
+                </td>
+                <!--/ko-->
+                <td>
+                    <a href="#" data-bind="click:$root.moreTime">Add time</a> | <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
+                </td>
+            </tr>
+
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="8" align="right"><input type="button" value="save" data-bind="click:save" class="btn btn-default" /></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        TimeSheet.load();
+    });
+</script>
+

@@ -61,6 +61,52 @@
     <Property Name="AccessFailedCount" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
   </EntityType>
+  <EntityType Name="planSections">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="serviceCodes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="TimeInOut">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fk_TimeSheetId" Type="int" />
+    <Property Name="TimeIn" Type="nvarchar" MaxLength="50" />
+    <Property Name="isInAM" Type="bit" />
+    <Property Name="TimeOut" Type="nvarchar" MaxLength="50" />
+    <Property Name="isOutAM" Type="bit" />
+    <Property Name="fk_serviceCode" Type="int" />
+    <Property Name="fk_plansection" Type="int" />
+  </EntityType>
+  <EntityType Name="TimeSheet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fk_userId" Type="nvarchar" MaxLength="128" />
+    <Property Name="DayDate" Type="datetime" />
+    <Property Name="isBackup" Type="bit" />
+    <Property Name="isLiveIn" Type="bit" />
+    <Property Name="fk_statusid" Type="int" />
+    <Property Name="HasTime2" Type="bit" />
+  </EntityType>
   <EntityType Name="UserDetails">
     <Key>
       <PropertyRef Name="Id" />
@@ -72,6 +118,66 @@
     <Property Name="FK_NetID" Type="nvarchar" MaxLength="128" />
     <Property Name="isFirst" Type="bit" />
   </EntityType>
+  <Association Name="FK__TimeInOut__fk_pl__37A5467C">
+    <End Role="planSections" Type="Self.planSections" Multiplicity="0..1" />
+    <End Role="TimeInOut" Type="Self.TimeInOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="planSections">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeInOut">
+        <PropertyRef Name="fk_plansection" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TimeInOut__fk_se__29572725">
+    <End Role="serviceCodes" Type="Self.serviceCodes" Multiplicity="0..1" />
+    <End Role="TimeInOut" Type="Self.TimeInOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="serviceCodes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeInOut">
+        <PropertyRef Name="fk_serviceCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TimeInOut__fk_Ti__267ABA7A">
+    <End Role="TimeSheet" Type="Self.TimeSheet" Multiplicity="0..1" />
+    <End Role="TimeInOut" Type="Self.TimeInOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TimeSheet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeInOut">
+        <PropertyRef Name="fk_TimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TimeSheet__fk_st__2C3393D0">
+    <End Role="status" Type="Self.status" Multiplicity="0..1" />
+    <End Role="TimeSheet" Type="Self.TimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeSheet">
+        <PropertyRef Name="fk_statusid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TimeSheet__fk_us__239E4DCF">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="TimeSheet" Type="Self.TimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TimeSheet">
+        <PropertyRef Name="fk_userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__UserDetai__FK_Ne__1FCDBCEB">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
     <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="*" />
@@ -147,7 +253,32 @@
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="planSections" EntityType="Self.planSections" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="serviceCodes" EntityType="Self.serviceCodes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TimeInOut" EntityType="Self.TimeInOut" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TimeSheet" EntityType="Self.TimeSheet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__TimeInOut__fk_pl__37A5467C" Association="Self.FK__TimeInOut__fk_pl__37A5467C">
+      <End Role="planSections" EntitySet="planSections" />
+      <End Role="TimeInOut" EntitySet="TimeInOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TimeInOut__fk_se__29572725" Association="Self.FK__TimeInOut__fk_se__29572725">
+      <End Role="serviceCodes" EntitySet="serviceCodes" />
+      <End Role="TimeInOut" EntitySet="TimeInOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TimeInOut__fk_Ti__267ABA7A" Association="Self.FK__TimeInOut__fk_Ti__267ABA7A">
+      <End Role="TimeSheet" EntitySet="TimeSheet" />
+      <End Role="TimeInOut" EntitySet="TimeInOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TimeSheet__fk_st__2C3393D0" Association="Self.FK__TimeSheet__fk_st__2C3393D0">
+      <End Role="status" EntitySet="status" />
+      <End Role="TimeSheet" EntitySet="TimeSheet" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TimeSheet__fk_us__239E4DCF" Association="Self.FK__TimeSheet__fk_us__239E4DCF">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="TimeSheet" EntitySet="TimeSheet" />
+    </AssociationSet>
     <AssociationSet Name="FK__UserDetai__FK_Ne__1FCDBCEB" Association="Self.FK__UserDetai__FK_Ne__1FCDBCEB">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="UserDetails" EntitySet="UserDetails" />

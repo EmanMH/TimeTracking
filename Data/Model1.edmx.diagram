@@ -15,6 +15,16 @@
         <AssociationConnector Association="TimeTrackingModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="TimeTrackingModel.FK__UserDetai__FK_Ne__1FCDBCEB" />
         <AssociationConnector Association="TimeTrackingModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="TimeTrackingModel.TimeInOut" Width="1.5" PointX="7.5" PointY="9.875" />
+        <EntityTypeShape EntityType="TimeTrackingModel.TimeSheet" Width="1.5" PointX="5.25" PointY="9.875" />
+        <AssociationConnector Association="TimeTrackingModel.FK__TimeSheet__fk_us__239E4DCF" />
+        <AssociationConnector Association="TimeTrackingModel.FK__TimeInOut__fk_Ti__267ABA7A" />
+        <EntityTypeShape EntityType="TimeTrackingModel.serviceCode" Width="1.5" PointX="7.375" PointY="3.875" />
+        <AssociationConnector Association="TimeTrackingModel.FK__TimeInOut__fk_se__29572725" />
+        <EntityTypeShape EntityType="TimeTrackingModel.planSection" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="TimeTrackingModel.status" Width="1.5" PointX="7.75" PointY="6.875" />
+        <AssociationConnector Association="TimeTrackingModel.FK__TimeSheet__fk_st__2C3393D0" />
+        <AssociationConnector Association="TimeTrackingModel.FK__TimeInOut__fk_pl__37A5467C" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

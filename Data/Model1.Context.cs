@@ -31,5 +31,10 @@ namespace Data
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<TimeInOut> TimeInOuts { get; set; }
+        public virtual DbSet<TimeSheet> TimeSheets { get; set; }
+        public virtual DbSet<serviceCode> serviceCodes { get; set; }
+        public virtual DbSet<planSection> planSections { get; set; }
+        public virtual DbSet<status> status { get; set; }
     }
 }
