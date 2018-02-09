@@ -26,6 +26,7 @@
         self.liveIn = ko.observable();
         self.empname = ko.observable();
         self.HasTime2 = ko.observable();
+        self.isViewOnly = ko.observable(false);
 
         self.moreTime = function (data) {
             timesheetKO.HasTime2(true);
@@ -64,6 +65,8 @@
                    // timesheetKO.liveIn(result.isLiveIn);
                     timesheetKO.empname(result.empName);
                     timesheetKO.HasTime2(result.HasTime2);
+                    timesheetKO.isViewOnly(result.isViewOnly);
+
 
                 },
                 error: function () {
@@ -111,10 +114,13 @@
                     contentType: 'application/json',
                     success: function (result) {
                         $("#Success").show();
+                        $("#successdive").html("Saved Sucessfully");
 
                     },
                     error: function () {
                         $("#Success").hide();
+                        $("#successdive").html("");
+
                     }
                 });
             }

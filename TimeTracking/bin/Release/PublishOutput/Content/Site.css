@@ -36,6 +36,7 @@ textarea {
     width: 100%;
     margin-top: 5%;
     align-self: center;
+    
 }
 
 
@@ -118,4 +119,4 @@ textarea {
         .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
             color: #333;
         }*/
-}
+/*}*/
