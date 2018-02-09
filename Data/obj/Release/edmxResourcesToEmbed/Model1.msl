@@ -79,6 +79,11 @@
     <EntitySetMapping Name="TimeInOuts">
       <EntityTypeMapping TypeName="TimeTrackingModel.TimeInOut">
         <MappingFragment StoreEntitySet="TimeInOut">
+          <ScalarProperty Name="isOutAM2" ColumnName="isOutAM2" />
+          <ScalarProperty Name="isInAM2" ColumnName="isInAM2" />
+          <ScalarProperty Name="TimeOut2" ColumnName="TimeOut2" />
+          <ScalarProperty Name="TimeIn2" ColumnName="TimeIn2" />
+          <ScalarProperty Name="dayDate" ColumnName="dayDate" />
           <ScalarProperty Name="fk_plansection" ColumnName="fk_plansection" />
           <ScalarProperty Name="fk_serviceCode" ColumnName="fk_serviceCode" />
           <ScalarProperty Name="isOutAM" ColumnName="isOutAM" />

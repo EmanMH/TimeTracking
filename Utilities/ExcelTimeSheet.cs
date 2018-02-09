@@ -8,29 +8,29 @@ using System.Reflection;
 
 namespace Save_DataToExcel
 {
-    class Time
+    public class TimeExcel
     {
         public int Hours { get; set; }
         public int Mins { get; set; }
         public string AmOrPm { get; set; }
     }
 
-    class TimeRecord
+    public class TimeRecordExcel
     {
         public int MonthNumber { get; set; }
         public int Day { get; set; }
         public string ServiceCode { get; set; }
         public string EnterPlan { get; set; }
         public char Backup { get; set; }
-        public Time TimeIn1 = new Time();
-        public Time TimeOut1 = new Time();
-        public Time TimeIn2 = new Time();
-        public Time TimeOut2 = new Time();
+        public TimeExcel TimeIn1 = new TimeExcel();
+        public TimeExcel TimeOut1 = new TimeExcel();
+        public TimeExcel TimeIn2 = new TimeExcel();
+        public TimeExcel TimeOut2 = new TimeExcel();
         public TimeSpan TotalWorkedHours { get; set; }
 
     }
 
-    class TimeSheet
+    public class TimeSheetExcel
     {
         public string EmployeeName { get; set; }
         public string EmployeeID { get; set; }
@@ -42,11 +42,11 @@ namespace Save_DataToExcel
         public string FromDay { get; set; }
         public string ToDay { get; set; }
         public bool LiveInEmployee { get; set; }
-        public List<TimeRecord> TimeRecordsLst = new List<TimeRecord>();
+        public List<TimeRecordExcel> TimeRecordsLst = new List<TimeRecordExcel>();
 
     }
 
-    class ExcelTimeSheet
+    public class ExcelTimeSheet
     {
         public string[] StringtoStringArray(string s)
         {
@@ -67,7 +67,7 @@ namespace Save_DataToExcel
             return leave - entry;
         }
 
-        public void FillSheet(TimeSheet ts)
+        public void FillSheet(TimeSheetExcel ts,string templatepath,string timesheetpath)
         {
             Application oXL;
             _Workbook oWB;
@@ -85,7 +85,7 @@ namespace Save_DataToExcel
                 //Skip the Exception of the Protection Excel Template File
                 oXL.FileValidation = MsoFileValidationMode.msoFileValidationSkip;
 
-                string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Template\Employee-Weekly-Timesheet.xls");
+                string path = templatepath;
 
                 //Open the Template Sheet
                 oWB = oXL.Workbooks._Open(path, Missing.Value,
@@ -102,11 +102,11 @@ namespace Save_DataToExcel
                 oSheet.get_Range("C2", "N2").Value = ts.EmployeeName;
                 oSheet.get_Range("U2", "Z2").Value2 = StringtoStringArray(ts.EmployeeID);
 
-                oSheet.get_Range("C3", "N3").Value = ts.ParticipantName;
-                oSheet.get_Range("T3", "Z3").Value2 = StringtoStringArray(ts.ParticipantID);
+               // oSheet.get_Range("C3", "N3").Value = ts.ParticipantName;
+                //oSheet.get_Range("T3", "Z3").Value2 = StringtoStringArray(ts.ParticipantID);
 
-                oSheet.get_Range("M4", "R4").Value = ts.Phone;
-                oSheet.get_Range("V4", "AF4").Value = ts.Email;
+              //  oSheet.get_Range("M4", "R4").Value = ts.Phone;
+               // oSheet.get_Range("V4", "AF4").Value = ts.Email;
 
                 oSheet.get_Range("C5", "F5").Value = ts.Year;
                 oSheet.get_Range("L5", "S5").Value = ts.FromDay;
@@ -125,7 +125,7 @@ namespace Save_DataToExcel
                 }
 
 
-                foreach (TimeRecord tr in ts.TimeRecordsLst ) {
+                foreach (TimeRecordExcel tr in ts.TimeRecordsLst ) {
                     oSheet.get_Range("A" + RowNum.ToString()).Value = tr.MonthNumber.ToString("00");
                     oSheet.get_Range("B" + RowNum.ToString()).Value = tr.Day.ToString("00");
                     oSheet.get_Range("C" + RowNum.ToString()).Value = tr.ServiceCode;
@@ -171,10 +171,10 @@ namespace Save_DataToExcel
                 oXL.ActiveWorkbook.Sheets[1].Activate();
                 oXL.UserControl = false;
 
-                string dirPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"TimeSheets\" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-"));
+                string dirPath = Path.Combine(timesheetpath+ @"/" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-"));
                 if (!Directory.Exists(dirPath))
                     Directory.CreateDirectory(dirPath);
-                fileName = dirPath + @"\" + ts.EmployeeName + "_" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-") + ".xls";
+                fileName = dirPath + @"/" + ts.EmployeeName + "_" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-") + ".xls";
                 oXL.DisplayAlerts = false;
                 oWB.SaveAs(fileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
                     false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
@@ -190,118 +190,118 @@ namespace Save_DataToExcel
 
         }
 
-        static void Main(string[] args)
-        {
-            ExcelTimeSheet p = new ExcelTimeSheet();
-            TimeSheet ts = new TimeSheet();
-            Time t = new Time();
-            TimeRecord tr = new TimeRecord();
-            TimeRecord tr2 = new TimeRecord();
-            TimeRecord tr3 = new TimeRecord();
+        //static void Main(string[] args)
+        //{
+        //    ExcelTimeSheet p = new ExcelTimeSheet();
+        //    TimeSheetExcel ts = new TimeSheetExcel();
+        //    TimeExcel t = new TimeExcel();
+        //    TimeRecordExcel tr = new TimeRecordExcel();
+        //    TimeRecordExcel tr2 = new TimeRecordExcel();
+        //    TimeRecordExcel tr3 = new TimeRecordExcel();
 
-            ts.EmployeeName = "Derricka Holliday";
-            ts.EmployeeID = "A13473";
-            ts.ParticipantName = "Donnell Redden";
-            ts.ParticipantID = "041668";
-            ts.Year = "2017";
-            ts.Phone = "407-221-2138";
-            ts.Email = "SDTRCONSULTING@GMAIL.COM";
-            ts.FromDay = "12/19";
-            ts.ToDay = "12/25";
+        //    ts.EmployeeName = "Derricka Holliday";
+        //    ts.EmployeeID = "A13473";
+        //    ts.ParticipantName = "Donnell Redden";
+        //    ts.ParticipantID = "041668";
+        //    ts.Year = "2017";
+        //    ts.Phone = "407-221-2138";
+        //    ts.Email = "SDTRCONSULTING@GMAIL.COM";
+        //    ts.FromDay = "12/19";
+        //    ts.ToDay = "12/25";
 
-            tr.MonthNumber = 1;
-            tr.Day = 3;
-            tr.ServiceCode = "032";
-            tr.EnterPlan = "R";
-            tr.Backup = 'Y';
-            t.Hours = 3;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr.TimeIn1.Hours = t.Hours;
-            tr.TimeIn1.Mins = t.Mins;
-            tr.TimeIn1.AmOrPm = t.AmOrPm;
-            t.Hours = 7;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr.TimeOut1.Hours = t.Hours;
-            tr.TimeOut1.Mins = t.Mins;
-            tr.TimeOut1.AmOrPm = t.AmOrPm;
+        //    tr.MonthNumber = 1;
+        //    tr.Day = 3;
+        //    tr.ServiceCode = "032";
+        //    tr.EnterPlan = "R";
+        //    tr.Backup = 'Y';
+        //    t.Hours = 3;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr.TimeIn1.Hours = t.Hours;
+        //    tr.TimeIn1.Mins = t.Mins;
+        //    tr.TimeIn1.AmOrPm = t.AmOrPm;
+        //    t.Hours = 7;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr.TimeOut1.Hours = t.Hours;
+        //    tr.TimeOut1.Mins = t.Mins;
+        //    tr.TimeOut1.AmOrPm = t.AmOrPm;
 
-            t.Hours = 7;
-            t.Mins = 0;
-            t.AmOrPm = "am";
-            tr.TimeIn2.Hours = t.Hours;
-            tr.TimeIn2.Mins = t.Mins;
-            tr.TimeIn2.AmOrPm = t.AmOrPm;
-            t.Hours = 2;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr.TimeOut2.Hours = t.Hours;
-            tr.TimeOut2.Mins = t.Mins;
-            tr.TimeOut2.AmOrPm = t.AmOrPm;
+        //    t.Hours = 7;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "am";
+        //    tr.TimeIn2.Hours = t.Hours;
+        //    tr.TimeIn2.Mins = t.Mins;
+        //    tr.TimeIn2.AmOrPm = t.AmOrPm;
+        //    t.Hours = 2;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr.TimeOut2.Hours = t.Hours;
+        //    tr.TimeOut2.Mins = t.Mins;
+        //    tr.TimeOut2.AmOrPm = t.AmOrPm;
 
-           // tr.TotalWorkedHours = 11;
-
-
-            tr2.MonthNumber = 1;
-            tr2.Day = 3;
-            tr2.ServiceCode = "011";
-            tr2.EnterPlan = "S";
-            tr2.Backup = 'Y';
-            t.Hours = 7;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr2.TimeIn1.Hours = t.Hours;
-            tr2.TimeIn1.Mins = t.Mins;
-            tr2.TimeIn1.AmOrPm = t.AmOrPm;
-            t.Hours = 8;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr2.TimeOut1.Hours = t.Hours;
-            tr2.TimeOut1.Mins = t.Mins;
-            tr2.TimeOut1.AmOrPm = t.AmOrPm;
-
-            tr3.MonthNumber = 1;
-            tr3.Day = 3;
-            tr3.ServiceCode = "032";
-            tr3.EnterPlan = "R";
-            tr3.Backup = 'Y';
-            t.Hours = 3;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr3.TimeIn1.Hours = t.Hours;
-            tr3.TimeIn1.Mins = t.Mins;
-            tr3.TimeIn1.AmOrPm = t.AmOrPm;
-            t.Hours = 7;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr3.TimeOut1.Hours = t.Hours;
-            tr3.TimeOut1.Mins = t.Mins;
-            tr3.TimeOut1.AmOrPm = t.AmOrPm;
-
-            t.Hours = 9;
-            t.Mins = 0;
-            t.AmOrPm = "am";
-            tr3.TimeIn2.Hours = t.Hours;
-            tr3.TimeIn2.Mins = t.Mins;
-            tr3.TimeIn2.AmOrPm = t.AmOrPm;
-            t.Hours = 3;
-            t.Mins = 0;
-            t.AmOrPm = "pm";
-            tr3.TimeOut2.Hours = t.Hours;
-            tr3.TimeOut2.Mins = t.Mins;
-            tr3.TimeOut2.AmOrPm = t.AmOrPm;
+        //   // tr.TotalWorkedHours = 11;
 
 
-            //tr2.TotalWorkedHours = 1;
-            ts.LiveInEmployee = true;
+        //    tr2.MonthNumber = 1;
+        //    tr2.Day = 3;
+        //    tr2.ServiceCode = "011";
+        //    tr2.EnterPlan = "S";
+        //    tr2.Backup = 'Y';
+        //    t.Hours = 7;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr2.TimeIn1.Hours = t.Hours;
+        //    tr2.TimeIn1.Mins = t.Mins;
+        //    tr2.TimeIn1.AmOrPm = t.AmOrPm;
+        //    t.Hours = 8;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr2.TimeOut1.Hours = t.Hours;
+        //    tr2.TimeOut1.Mins = t.Mins;
+        //    tr2.TimeOut1.AmOrPm = t.AmOrPm;
 
-            ts.TimeRecordsLst.Add(tr);
-            ts.TimeRecordsLst.Add(tr2);
-            ts.TimeRecordsLst.Add(tr3);
+        //    tr3.MonthNumber = 1;
+        //    tr3.Day = 3;
+        //    tr3.ServiceCode = "032";
+        //    tr3.EnterPlan = "R";
+        //    tr3.Backup = 'Y';
+        //    t.Hours = 3;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr3.TimeIn1.Hours = t.Hours;
+        //    tr3.TimeIn1.Mins = t.Mins;
+        //    tr3.TimeIn1.AmOrPm = t.AmOrPm;
+        //    t.Hours = 7;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr3.TimeOut1.Hours = t.Hours;
+        //    tr3.TimeOut1.Mins = t.Mins;
+        //    tr3.TimeOut1.AmOrPm = t.AmOrPm;
 
-            p.FillSheet(ts);
+        //    t.Hours = 9;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "am";
+        //    tr3.TimeIn2.Hours = t.Hours;
+        //    tr3.TimeIn2.Mins = t.Mins;
+        //    tr3.TimeIn2.AmOrPm = t.AmOrPm;
+        //    t.Hours = 3;
+        //    t.Mins = 0;
+        //    t.AmOrPm = "pm";
+        //    tr3.TimeOut2.Hours = t.Hours;
+        //    tr3.TimeOut2.Mins = t.Mins;
+        //    tr3.TimeOut2.AmOrPm = t.AmOrPm;
+
+
+        //    //tr2.TotalWorkedHours = 1;
+        //    ts.LiveInEmployee = true;
+
+        //    ts.TimeRecordsLst.Add(tr);
+        //    ts.TimeRecordsLst.Add(tr2);
+        //    ts.TimeRecordsLst.Add(tr3);
+
+        //    p.FillSheet(ts);
             
-        }
+        //}
     }
 }

@@ -24,17 +24,17 @@ namespace TimeTracking.Models
     public class TimeSheetItem
     {
         public string dayName { get; set; }
-        public DateTime dayDate { get; set; }
+        public string dayDate { get; set; }
         public int plansectionId { get; set; }
         public string Plan { get; set; }
         public string TimeIn { get; set; }
         public string TimeOut { get; set; }
-        public bool isAmIn { get; set; }
-        public bool isAmOut { get; set; }
+        public string isAmIn { get; set; }
+        public string isAmOut { get; set; }
         public string TimeIn2 { get; set; }
         public string TimeOut2 { get; set; }
-        public bool isAmIn2 { get; set; }
-        public bool isAmOut2 { get; set; }
+        public string isAmIn2 { get; set; }
+        public string isAmOut2 { get; set; }
         public int serviceCodeId { get; set; }
         public bool Time2 { get; set; }
 

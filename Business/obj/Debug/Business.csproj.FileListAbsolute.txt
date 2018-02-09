@@ -1,4 +1,3 @@
-D:\My Work\TC\TimeTracking\Business\obj\Debug\Business.csprojResolveAssemblyReference.cache
 D:\My Work\TC\TimeTracking\Business\bin\Debug\Business.dll
 D:\My Work\TC\TimeTracking\Business\bin\Debug\Business.pdb
 D:\My Work\TC\TimeTracking\Business\bin\Debug\Data.dll
@@ -36,3 +35,4 @@ D:\My Work\TC\TimeTracking\Business\bin\Debug\zh-Hans\System.ServiceModel.Domain
 D:\My Work\TC\TimeTracking\Business\bin\Debug\zh-Hant\System.ServiceModel.DomainServices.Server.resources.dll
 D:\My Work\TC\TimeTracking\Business\obj\Debug\Business.dll
 D:\My Work\TC\TimeTracking\Business\obj\Debug\Business.pdb
+D:\My Work\TC\TimeTracking\Business\obj\Debug\Business.csprojResolveAssemblyReference.cache

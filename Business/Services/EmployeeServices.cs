@@ -27,6 +27,11 @@ namespace Business.Services
             var plans = _ttContext.planSections.ToList();
             return plans;
         }
+        public void saveItems(TimeSheet ts)
+        {
+            _ttContext.TimeSheets.Add(ts);
+            _ttContext.SaveChanges();
+        }
 
         public TimeSheet getTimeSheet(DateTime startDate,string uname)
         {
@@ -39,6 +44,13 @@ namespace Business.Services
             var user = _ttContext.AspNetUsers.Where(u => u.UserName == username).FirstOrDefault();
             var details = user.UserDetails.FirstOrDefault();
             return details.FirstName + " " + details.LastName;
+        }
+
+        public string getUserId(string username)
+        {
+            var user = _ttContext.AspNetUsers.Where(u => u.UserName == username).FirstOrDefault();
+
+            return user.Id;
         }
 
         public List<DateTime> getLast5Weeks()

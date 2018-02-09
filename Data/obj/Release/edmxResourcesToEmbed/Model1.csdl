@@ -181,6 +181,11 @@
     <NavigationProperty Name="serviceCode" Relationship="TimeTrackingModel.FK__TimeInOut__fk_se__29572725" FromRole="TimeInOut" ToRole="serviceCode" />
     <Property Name="fk_plansection" Type="Int32" />
     <NavigationProperty Name="planSection" Relationship="TimeTrackingModel.FK__TimeInOut__fk_pl__37A5467C" FromRole="TimeInOut" ToRole="planSection" />
+    <Property Name="dayDate" Type="DateTime" Precision="3" />
+    <Property Name="TimeIn2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TimeOut2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="isInAM2" Type="Boolean" />
+    <Property Name="isOutAM2" Type="Boolean" />
   </EntityType>
   <EntityType Name="TimeSheet">
     <Key>

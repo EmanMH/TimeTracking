@@ -49,12 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Random.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Template\Employee-Weekly-Timesheet.xls" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TimeSheets\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>

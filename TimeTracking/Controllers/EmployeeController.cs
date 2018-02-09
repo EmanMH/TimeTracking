@@ -1,5 +1,6 @@
 ﻿using Business.Services;
 using Data;
+using Save_DataToExcel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TimeTracking.Models;
+using Utilities;
 
 namespace TimeTracking.Controllers
 {
@@ -68,7 +70,7 @@ namespace TimeTracking.Controllers
                 tsm.items = new List<TimeSheetItem>();
                 for (int i = 0; i < 7; i++)
                 {
-                    tItem.dayDate= day1;
+                    tItem.dayDate= day1.ToShortDateString();
                     tItem.dayName = day1.ToString("dddd");
                     day1=day1.AddDays(1);
                     tsm.items.Add(tItem);
@@ -85,22 +87,26 @@ namespace TimeTracking.Controllers
 
                 foreach (var item in timesheets.TimeInOuts)
                 {
-                    tItem.dayDate = item.dayDate.Value.Date;
+                    tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
                     tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
                     if(tsm.HasTime2 != true)
                     tsm.HasTime2 = item.TimeIn2 !=null;
-                    tItem.plansectionId = item.planSection.Id;
-                    tItem.isAmIn = item.isInAM.Value;
-                    tItem.isAmOut = item.isOutAM.Value;
-                    tItem.serviceCodeId = item.serviceCode.Id;
+                    tItem.plansectionId = item.fk_plansection.Value;
+                    tItem.isAmIn = item.isInAM.Value.ToString().ToLower();
+                    tItem.isAmOut = item.isOutAM.Value.ToString().ToLower();
+                    tItem.serviceCodeId = item.fk_serviceCode.Value;
                     //time.serviceCodes = svc;
                     tItem.TimeIn = item.TimeIn;
                     tItem.TimeOut = item.TimeOut; //format
-                    tItem.TimeIn2 = item.TimeIn2;
-                    tItem.TimeOut2 = item.TimeOut2;
-                    tItem.isAmIn2 = item.isInAM2.Value;
-                    tItem.isAmOut2 = item.isOutAM2.Value;
-                    tItem.serviceCodeId = item.serviceCode.Id;
+                    if (item.TimeIn2 != null)
+                    {
+                        tItem.TimeIn2 = item.TimeIn2;
+                        tItem.TimeOut2 = item.TimeOut2;
+                        tItem.isAmIn2 = item.isInAM2.Value.ToString().ToLower();
+                        tItem.isAmOut2 = item.isOutAM2.Value.ToString().ToLower();
+                        tItem.Time2 = true;
+                    }
+                   // tItem.serviceCodeId = item.serviceCode.Id;
                     timeItems.Add(tItem);
                     tItem = new TimeSheetItem();
                 }
@@ -125,18 +131,101 @@ namespace TimeTracking.Controllers
                 dateitem.Id = i + 1;
                 i++;
                 datestr.Add(dateitem);
+                dateitem = new dateItem();
             }
             return Json(datestr);
         }
 
         [HttpPost]
-        public JsonResult saveTimeSheet(string items)
+        public JsonResult saveTimeSheet(string items,string backup,string livein)
         {
-            JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
-            TimeSheetModel tsm= jsSerializer.Deserialize<TimeSheetModel>(items);
             //save in db
+            JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+            List<TimeSheetItem> tsm = jsSerializer.Deserialize<List<TimeSheetItem>>(items);
+
+            TimeSheet ts = new Data.TimeSheet();
+            ts.DayDate = DateTime.Parse(tsm[0].dayDate);
+            ts.fk_statusid = 1;
+            ts.fk_userId = es.getUserId(User.Identity.Name);
+            ts.isBackup = backup.ToLower() == "y";
+            ts.isLiveIn = livein.ToLower() == "y";
+            TimeInOut tm = new TimeInOut();
+            foreach (var item in tsm)
+            {
+                tm.dayDate= DateTime.Parse(item.dayDate);
+                tm.fk_plansection = item.plansectionId;
+                tm.fk_serviceCode = item.serviceCodeId;
+                tm.isInAM =bool.Parse( item.isAmIn);
+                tm.isOutAM =bool.Parse( item.isAmOut);
+                tm.TimeIn = item.TimeIn;
+                tm.TimeOut = item.TimeOut;
+                if(item.TimeIn2 != "-1")
+                {
+                    tm.isInAM2 = bool.Parse(item.isAmIn2);
+                    tm.isOutAM2 = bool.Parse(item.isAmOut2);
+                    tm.TimeIn2 = item.TimeIn2;
+                    tm.TimeOut2 = item.TimeOut2;
+                    ts.HasTime2 = true;
+
+                }
+                ts.TimeInOuts.Add(tm);
+                tm = new TimeInOut();
+            }
+            es.saveItems(ts);
             //save in excel
-            return null;
+            var svcs = es.getServiceCodes();
+            ExcelTimeSheet exs = new ExcelTimeSheet();
+            TimeSheetExcel tse = new TimeSheetExcel();
+            TimeRecordExcel tr = new TimeRecordExcel();
+            TimeExcel te = new TimeExcel();
+            List<TimeRecordExcel> timesExcel = new List<TimeRecordExcel>();
+
+            tse.EmployeeName = es.getUsername(User.Identity.Name);
+            tse.FromDay = ts.DayDate.Value.ToShortDateString();
+            tse.LiveInEmployee = ts.isLiveIn.Value;
+            tse.ToDay = tsm[tsm.Count - 1].dayDate;
+            tse.Year = "2018";
+
+            foreach (var item in tsm)
+            {
+                tr.Backup = ts.isBackup.Value == true ? 'Y' : 'N';
+                tr.Day= DateTime.Parse(item.dayDate).Day;
+                if (item.plansectionId == 1)
+                    tr.EnterPlan = "R";
+                else if (item.plansectionId == 2)
+                    tr.EnterPlan = "S";
+                else if (item.plansectionId == 3)
+                    tr.EnterPlan = "T";
+                tr.MonthNumber = DateTime.Parse(item.dayDate).Month;
+                tr.ServiceCode = svcs.Where(s => s.Id == item.serviceCodeId).FirstOrDefault().Name;
+                te.AmOrPm = item.isAmIn=="true" ? "AM" : "PM";
+                te.Hours =int.Parse( item.TimeIn);
+                tr.TimeIn1 = te;
+                te = new TimeExcel();
+                te.AmOrPm = item.isAmOut=="true" ? "AM" : "PM";
+                te.Hours = int.Parse(item.TimeOut);
+                tr.TimeOut1 = te;
+                if(item.TimeIn2!="-1")
+                {
+                    te = new TimeExcel();
+                    te.AmOrPm = item.isAmIn2=="true" ? "AM" : "PM";
+                    te.Hours = int.Parse(item.TimeIn2);
+                    tr.TimeIn2 = te;
+                }
+                if (item.TimeOut2 != null)
+                {
+                    te = new TimeExcel();
+                    te.AmOrPm = item.isAmOut2=="true" ? "AM" : "PM";
+                    te.Hours = int.Parse(item.TimeOut2);
+                    tr.TimeOut2 = te;
+                }
+                tse.TimeRecordsLst.Add(tr);
+                tr = new TimeRecordExcel();
+
+            }
+            exs.FillSheet(tse,Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xls"),Server.MapPath("~/TimeSheets"));
+
+                return Json(true);
         }
 
         public ActionResult TimeSheet()

@@ -1,8 +1,6 @@
 D:\My Work\TC\TimeTracking\Business\bin\Release\Business.dll
 D:\My Work\TC\TimeTracking\Business\bin\Release\Business.pdb
 D:\My Work\TC\TimeTracking\Business\bin\Release\Data.dll
-D:\My Work\TC\TimeTracking\Business\bin\Release\EntityFramework.dll
-D:\My Work\TC\TimeTracking\Business\bin\Release\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\My Work\TC\TimeTracking\Business\bin\Release\System.ServiceModel.DomainServices.EntityFramework.dll
 D:\My Work\TC\TimeTracking\Business\bin\Release\Utilities.dll
 D:\My Work\TC\TimeTracking\Business\bin\Release\Microsoft.AspNet.Identity.Core.dll

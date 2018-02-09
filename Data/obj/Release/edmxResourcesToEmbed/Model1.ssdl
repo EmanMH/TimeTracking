@@ -94,6 +94,11 @@
     <Property Name="isOutAM" Type="bit" />
     <Property Name="fk_serviceCode" Type="int" />
     <Property Name="fk_plansection" Type="int" />
+    <Property Name="dayDate" Type="datetime" />
+    <Property Name="TimeIn2" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimeOut2" Type="nvarchar" MaxLength="50" />
+    <Property Name="isInAM2" Type="bit" />
+    <Property Name="isOutAM2" Type="bit" />
   </EntityType>
   <EntityType Name="TimeSheet">
     <Key>

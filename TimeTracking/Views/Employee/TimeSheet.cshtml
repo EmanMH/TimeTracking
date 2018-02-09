@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/Moment.js"></script>
 
 <script src="~/Scripts/Knockout/TimeSheet.js"></script>
 
@@ -28,8 +29,12 @@
                     <select class="form-control" name="dateSelected" data-bind="value:dateSelected,options: dateItems,
                        optionsText: 'date',optionsValue: 'date', event:{change:showTime},optionsCaption: 'Select...'"></select>
                 </td>
-                <td><select name="backup" class="form-control" data-bind="value:backup,options: backuparr,optionsText: 'name',optionsValue: 'Id'"></select></td>
-                <td><select name="liveIn" class="form-control" data-bind="value:liveIn,options: liveInarr,optionsText: 'name',optionsValue: 'Id'"></select></td>
+                <td>
+                <input type="text" data-bind="value:backup" placeholder="Y/N" class="form-control" />
+                </td>
+                <td>
+                    <input type="text" data-bind="value:liveIn" placeholder="Y/N" class="form-control"/>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -60,19 +65,20 @@
             <tr>
                 <td ><label data-bind="text:dayName"></label>
                 <br/>
-                    <label data-bind="text: moment(dayDate).format('L')"></label>
+                    <label data-bind="text: dayDate"></label>
                 </td>
                 <td>
                     <select class="form-control" data-bind="value:serviceCodeId,options: $root.serviceCodes,
-                       optionsText: 'Name',optionsValue: 'Id'"></select>
+                       optionsText: 'Name',optionsValue: 'Id',optionsCaption: 'Select...'"></select>
 
                 </td>
                 <td>
                     <select class="form-control" data-bind="value:plansectionId,options: $root.PlanSections,
-                       optionsText: 'Name',optionsValue: 'Id'"></select>
+                       optionsText: 'Name',optionsValue: 'Id',optionsCaption: 'Select...'"></select>
                 </td>
                 <td>
                     <select data-bind="value:TimeIn" class="form-control">
+                        <option value="-1"></option>
                         <option value="1">01:00</option>
                         <option value="2">02:00</option>
                         <option value="3">03:00</option>
@@ -90,12 +96,14 @@
                 </td>
                 <td>
                     <select data-bind="value:isAmIn" class="form-control">
-                        <option>AM</option>
-                        <option>PM</option>
+                        <option value="-1"></option>
+                        <option value="true">AM</option>
+                        <option value="false">PM</option>
                     </select>
                 </td>
                 <td>
                     <select data-bind="value:TimeOut" class="form-control">
+                        <option value="-1"></option>
                         <option value="1">01:00</option>
                         <option value="2">02:00</option>
                         <option value="3">03:00</option>
@@ -113,8 +121,9 @@
                 </td>
                 <td>
                     <select data-bind="value:isAmOut" class="form-control">
-                        <option>AM</option>
-                        <option>PM</option>
+                        <option value="-1"></option>
+                        <option value="true">AM</option>
+                        <option value="false">PM</option>
                     </select>
                 </td>
 
@@ -122,6 +131,7 @@
                 <!-- ko if: $root.HasTime2 -->
                 <td>
                     <select data-bind="value:TimeIn2,visible:Time2" class="form-control">
+                        <option value="-1"></option>
                         <option value="1">01:00</option>
                         <option value="2">02:00</option>
                         <option value="3">03:00</option>
@@ -139,12 +149,14 @@
                 </td>
                 <td>
                     <select data-bind="value:isAmIn2,visible:Time2" class="form-control">
-                        <option>AM</option>
-                        <option>PM</option>
+                        <option value="-1"></option>
+                        <option value="true">AM</option>
+                        <option value="false">PM</option>
                     </select>
                 </td>
                 <td>
                     <select data-bind="value:TimeOut2,visible:Time2" class="form-control">
+                        <option value="-1"></option>
                         <option value="1">01:00</option>
                         <option value="2">02:00</option>
                         <option value="3">03:00</option>
@@ -162,21 +174,37 @@
                 </td>
                 <td>
                     <select data-bind="value:isAmOut2,visible:Time2" class="form-control">
-                        <option>AM</option>
-                        <option>PM</option>
+                        <option value="-1"></option>
+                        <option value="true">AM</option>
+                        <option value="false">PM</option>
                     </select>
                 </td>
                 <!--/ko-->
                 <td>
-                    <a href="#" data-bind="click:$root.moreTime">Add time</a> | <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
+                    <a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a>&nbsp; <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
                 </td>
             </tr>
 
 
         </tbody>
         <tfoot>
-            <tr>
+            <tr data-bind="visible:HasTime2()!=true">
                 <td colspan="8" align="right"><input type="button" value="save" data-bind="click:save" class="btn btn-default" /></td>
+            </tr >
+            <tr id="Success" style="display:none" data-bind="visible:HasTime2()!=true">
+                <td  colspan="8" align="right"><div class="text-success">Saved Sucessfully</div></td>
+            </tr>
+            <tr id="error" style="display:none" data-bind="visible:HasTime2()!=true">
+                <td colspan="8" align="right"><div id="errorDiv" class="text-danger"></div></td>
+            </tr>
+            <tr data-bind="visible:HasTime2()!=true">
+                <td colspan="11" align="right"><input type="button" value="save" data-bind="click:save" class="btn btn-default" /></td>
+            </tr>
+            <tr id="Success" style="display:none" data-bind="visible:HasTime2()!=true">
+                <td colspan="11" align="right"><div class="text-success">Saved Sucessfully</div></td>
+            </tr>
+            <tr id="error" style="display:none" data-bind="visible:HasTime2()!=true">
+                <td colspan="11" align="right"><div id="errorDiv" class="text-danger"></div></td>
             </tr>
         </tfoot>
     </table>
