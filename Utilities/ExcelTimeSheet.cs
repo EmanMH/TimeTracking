@@ -1,10 +1,10 @@
-﻿using Microsoft.Office.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.Office.Interop.Excel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using Microsoft.Office.Core;
 
 namespace Save_DataToExcel
 {
@@ -67,7 +67,7 @@ namespace Save_DataToExcel
             return leave - entry;
         }
 
-        public void FillSheet(TimeSheetExcel ts,string templatepath,string timesheetpath)
+        public string FillSheet(TimeSheetExcel ts,string templatepath,string timesheetpath)
         {
             Application oXL;
             _Workbook oWB;
@@ -100,7 +100,7 @@ namespace Save_DataToExcel
 
                 //Fill the sheet with data
                 oSheet.get_Range("C2", "N2").Value = ts.EmployeeName;
-                oSheet.get_Range("U2", "Z2").Value2 = StringtoStringArray(ts.EmployeeID);
+               // oSheet.get_Range("U2", "Z2").Value2 = StringtoStringArray(ts.EmployeeID);
 
                // oSheet.get_Range("C3", "N3").Value = ts.ParticipantName;
                 //oSheet.get_Range("T3", "Z3").Value2 = StringtoStringArray(ts.ParticipantID);
@@ -181,11 +181,11 @@ namespace Save_DataToExcel
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 
                 oWB.Close();
+                return "s";
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + e.StackTrace);
-                Console.Read();
+                return e.Message;
             }
 
         }

@@ -199,33 +199,40 @@ namespace TimeTracking.Controllers
                 tr.MonthNumber = DateTime.Parse(item.dayDate).Month;
                 tr.ServiceCode = svcs.Where(s => s.Id == item.serviceCodeId).FirstOrDefault().Name;
                 te.AmOrPm = item.isAmIn=="true" ? "AM" : "PM";
-                te.Hours =int.Parse( item.TimeIn);
+                te.Hours =int.Parse( item.TimeIn.Split('-')[0]);
+                te.Mins = int.Parse(item.TimeIn.Split('-')[1]);
                 tr.TimeIn1 = te;
                 te = new TimeExcel();
                 te.AmOrPm = item.isAmOut=="true" ? "AM" : "PM";
-                te.Hours = int.Parse(item.TimeOut);
+                te.Hours = int.Parse(item.TimeOut.Split('-')[0]);
+                te.Mins = int.Parse(item.TimeOut.Split('-')[1]);
+
                 tr.TimeOut1 = te;
                 if(item.TimeIn2!="-1")
                 {
                     te = new TimeExcel();
                     te.AmOrPm = item.isAmIn2=="true" ? "AM" : "PM";
-                    te.Hours = int.Parse(item.TimeIn2);
+                    te.Hours = int.Parse(item.TimeIn2.Split('-')[0]);
+                    te.Mins = int.Parse(item.TimeIn2.Split('-')[1]);
+
                     tr.TimeIn2 = te;
                 }
                 if (item.TimeOut2 != null)
                 {
                     te = new TimeExcel();
                     te.AmOrPm = item.isAmOut2=="true" ? "AM" : "PM";
-                    te.Hours = int.Parse(item.TimeOut2);
+                    te.Hours = int.Parse(item.TimeOut2.Split('-')[0]);
+                    te.Mins = int.Parse(item.TimeOut2.Split('-')[1]);
+
                     tr.TimeOut2 = te;
                 }
                 tse.TimeRecordsLst.Add(tr);
                 tr = new TimeRecordExcel();
 
             }
-            exs.FillSheet(tse,Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xls"),Server.MapPath("~/TimeSheets"));
+           string res= exs.FillSheet(tse,Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xls"),Server.MapPath("~/TimeSheets"));
 
-                return Json(true);
+                return Json(res);
         }
 
         public ActionResult TimeSheet()

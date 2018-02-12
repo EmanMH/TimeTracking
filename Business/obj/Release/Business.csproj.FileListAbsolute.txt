@@ -34,3 +34,5 @@ D:\My Work\TC\TimeTracking\Business\bin\Release\zh-Hant\System.ServiceModel.Doma
 D:\My Work\TC\TimeTracking\Business\obj\Release\Business.csprojResolveAssemblyReference.cache
 D:\My Work\TC\TimeTracking\Business\obj\Release\Business.dll
 D:\My Work\TC\TimeTracking\Business\obj\Release\Business.pdb
+D:\My Work\TC\TimeTracking\Business\bin\Release\EntityFramework.dll
+D:\My Work\TC\TimeTracking\Business\bin\Release\Microsoft.AspNet.Identity.EntityFramework.dll

@@ -189,25 +189,23 @@
         </tbody>
         <tfoot>
             <tr data-bind="visible:HasTime2()!=true">
-                <td colspan="8" align="right"><input type="button" value="save" data-bind="click:save" class="btn btn-default" /></td>
+                <td colspan="8" align="right"><input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" /></td>
             </tr >
-            <tr id="Success" style="display:none" data-bind="visible:HasTime2()!=true">
-                <td  colspan="8" align="right"><div class="text-success">Saved Sucessfully</div></td>
+          
+            <tr data-bind="visible:HasTime2()==true">
+                <td colspan="12" align="right"><input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" /></td>
             </tr>
-            <tr id="error" style="display:none" data-bind="visible:HasTime2()!=true">
-                <td colspan="8" align="right"><div id="errorDiv" class="text-danger"></div></td>
+            <tr id="Success" style="display:none" data-bind="visible:HasTime2()==true">
+                <td colspan="12" align="right"><div id="successdiv" class="text-success"></div></td>
             </tr>
-            <tr data-bind="visible:HasTime2()!=true">
-                <td colspan="11" align="right"><input type="button" value="save" data-bind="click:save" class="btn btn-default" /></td>
-            </tr>
-            <tr id="Success" style="display:none" data-bind="visible:HasTime2()!=true">
-                <td colspan="11" align="right"><div class="text-success">Saved Sucessfully</div></td>
-            </tr>
-            <tr id="error" style="display:none" data-bind="visible:HasTime2()!=true">
-                <td colspan="11" align="right"><div id="errorDiv" class="text-danger"></div></td>
+            <tr id="error" style="display:none" data-bind="visible:HasTime2()==true">
+                <td colspan="12" align="right"><div id="errorDiv" class="text-danger"></div></td>
             </tr>
         </tfoot>
     </table>
+          <div id="successdiv" style="display:none" class="text-success">Saved Successfully</div>
+          <div id="errorDiv" style="display:none" class="text-danger">
+      </div>
 </div>
 
 <script type="text/javascript">

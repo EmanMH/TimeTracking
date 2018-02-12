@@ -26,6 +26,7 @@
         self.liveIn = ko.observable();
         self.empname = ko.observable();
         self.HasTime2 = ko.observable();
+        self.isViewOnly = ko.observable(false);
 
         self.moreTime = function (data) {
             timesheetKO.HasTime2(true);
@@ -45,7 +46,7 @@
 
             dateSelected = JSON.stringify({ 'dateSelected': dateSelected });
             $.ajax({
-                url: "/Employee/getTimeSheet",
+                url: window.configLocation+"/Employee/getTimeSheet",
                 type: 'POST',
                 data: dateSelected,
                 contentType: 'application/json',
@@ -64,6 +65,8 @@
                    // timesheetKO.liveIn(result.isLiveIn);
                     timesheetKO.empname(result.empName);
                     timesheetKO.HasTime2(result.HasTime2);
+                    timesheetKO.isViewOnly(result.isViewOnly);
+
 
                 },
                 error: function () {
@@ -82,7 +85,7 @@
                     || value.isAmOut() == -1 || (value.Time2() == true && (value.TimeIn2() == -1 || value.TimeOut2 == -1))) {
                     str += "<p>All time sheet values must be submitted</p>";
                     $("#errorDiv").html(str);
-                    $("#error").show();
+                    $("#errorDiv").show();
                     return false;
                 }
 
@@ -92,9 +95,12 @@
             });
             if (str != "") {
                 $("#errorDiv").html(str);
-                $("#error").show();
+                $("#errorDiv").show();
                 return false;
             }
+            else
+                $("#errorDiv").hide();
+
             return true;
         }
         self.save = function (data) {
@@ -105,16 +111,19 @@
                 //var livein = ko.toJSON(data.liveIn());
                 var data = JSON.stringify({ 'items': items, 'backup': data.backup(), 'livein': data.liveIn() });
                 $.ajax({
-                    url: "/Employee/saveTimeSheet",
+                    url: window.configLocation+ "/Employee/saveTimeSheet",
                     type: 'POST',
                     data: data,
                     contentType: 'application/json',
                     success: function (result) {
-                        $("#Success").show();
+                        $("#successdiv").show();
+                        
 
                     },
-                    error: function () {
-                        $("#Success").hide();
+                    error: function (result) {
+                        $("#successdiv").hide();
+                        //error$("#successdive").html("");
+
                     }
                 });
             }
@@ -128,7 +137,7 @@
 
        // timesheetKO.showTime();
         $.ajax({
-            url: "/Employee/loadDates",
+            url: window.configLocation+"/Employee/loadDates",
             type: 'POST',
             contentType: 'application/json',
             success: function (result) {
