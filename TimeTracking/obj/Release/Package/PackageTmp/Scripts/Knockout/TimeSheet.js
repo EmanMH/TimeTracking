@@ -120,7 +120,7 @@
                         
 
                     },
-                    error: function () {
+                    error: function (result) {
                         $("#successdiv").hide();
                         //error$("#successdive").html("");
 

@@ -159,7 +159,7 @@ namespace TimeTracking.Controllers
                 tm.isOutAM =bool.Parse( item.isAmOut);
                 tm.TimeIn = item.TimeIn;
                 tm.TimeOut = item.TimeOut;
-                if(item.TimeIn2 != "-1")
+                if(item.TimeIn2 != "-1" && item.TimeIn2!=null)
                 {
                     tm.isInAM2 = bool.Parse(item.isAmIn2);
                     tm.isOutAM2 = bool.Parse(item.isAmOut2);
@@ -208,7 +208,7 @@ namespace TimeTracking.Controllers
                 te.Mins = int.Parse(item.TimeOut.Split('-')[1]);
 
                 tr.TimeOut1 = te;
-                if(item.TimeIn2!="-1")
+                if(item.TimeIn2!="-1" && item.TimeIn2!=null)
                 {
                     te = new TimeExcel();
                     te.AmOrPm = item.isAmIn2=="true" ? "AM" : "PM";
