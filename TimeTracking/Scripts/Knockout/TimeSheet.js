@@ -35,7 +35,28 @@
 
         self.moreService = function (data) {
             var index = timesheetKO.items.indexOf(data);
-            timesheetKO.items.splice(index, 0, data);
+            //copy the row
+            var newRow = ko.mapping.fromJS(ko.mapping.toJS(data));
+            //add the copy of the row as new row in the table
+            timesheetKO.items.splice(index, 0, newRow);
+
+            /* reset the values of the dropdowns of the old row as the new one appear upper of it 
+               in the table, so we reset it as it appear to the user as the new one */
+            data.serviceCodeId("");
+            data.plansectionId("");
+
+            data.TimeIn(-1);
+            data.isAmIn(-1);
+            data.TimeOut(-1);
+            data.isAmOut(-1);
+
+            data.TimeIn2(-1);
+            data.isAmIn2(-1);
+            data.TimeOut2(-1);
+            data.isAmOut2(-1);
+
+            // name the row not clicked by the "add time" link
+            data.Time2(false);
         }
 
         self.deleteRow = function (data) {

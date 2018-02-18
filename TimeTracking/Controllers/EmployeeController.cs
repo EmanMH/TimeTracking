@@ -217,7 +217,7 @@ namespace TimeTracking.Controllers
 
                     tr.TimeIn2 = te;
                 }
-                if (item.TimeOut2 != null)
+                if (item.TimeOut2 != "-1" && item.TimeOut2 != null)
                 {
                     te = new TimeExcel();
                     te.AmOrPm = item.isAmOut2=="true" ? "AM" : "PM";
