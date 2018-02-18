@@ -37,7 +37,11 @@
             var index = timesheetKO.items.indexOf(data);
             timesheetKO.items.splice(index, 0, data);
         }
-       
+
+        self.deleteRow = function (data) {
+            timesheetKO.items.remove(data);
+        }
+        
         self.showTime = function (data) {
             var dateSelected = timesheetKO.dateSelected();
             timesheetKO.items([]);
@@ -52,15 +56,18 @@
                 contentType: 'application/json',
                 success: function (result) {
                    // timesheetKO.items = ko.observableArray([]);
-                    $.each(result.items, function (key, value) {
-                        timesheetKO.items.push(new vm_form(value));
-                    });
                     $.each(result.serviceCodes, function (key, value) {
                         timesheetKO.serviceCodes.push(new vm_form(value));
                     });
+                    
                     $.each(result.PlanSections, function (key, value) {
                         timesheetKO.PlanSections.push(new vm_form(value));
                     });
+
+                    $.each(result.items, function (key, value) {
+                        timesheetKO.items.push(new vm_form(value));
+                    });
+                    
                   //  timesheetKO.backup(result.isBackup:'Y':'N');
                    // timesheetKO.liveIn(result.isLiveIn);
                     timesheetKO.empname(result.empName);
