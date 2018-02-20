@@ -4,7 +4,6 @@ using Microsoft.Office.Interop.Excel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using Microsoft.Office.Core;
 
 namespace Save_DataToExcel
 {
@@ -83,7 +82,7 @@ namespace Save_DataToExcel
                 oXL = new Microsoft.Office.Interop.Excel.Application();
 
                 //Skip the Exception of the Protection Excel Template File
-                oXL.FileValidation = MsoFileValidationMode.msoFileValidationSkip;
+               // oXL.FileValidation = MsoFileValidationMode.msoFileValidationSkip;
 
                 string path = templatepath;
 

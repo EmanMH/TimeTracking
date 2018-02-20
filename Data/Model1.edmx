@@ -104,6 +104,22 @@
           <Property Name="TimeOut2" Type="nvarchar" MaxLength="50" />
           <Property Name="isInAM2" Type="bit" />
           <Property Name="isOutAM2" Type="bit" />
+          <Property Name="TimeInH1" Type="int" />
+          <Property Name="TimeInH2" Type="int" />
+          <Property Name="TimeInM1" Type="int" />
+          <Property Name="TimeInM2" Type="int" />
+          <Property Name="TimeOutH1" Type="int" />
+          <Property Name="TimeOutH2" Type="int" />
+          <Property Name="TimeOutM1" Type="int" />
+          <Property Name="TimeOutM2" Type="int" />
+          <Property Name="TimeIn2H1" Type="int" />
+          <Property Name="TimeIn2H2" Type="int" />
+          <Property Name="TimeIn2M1" Type="int" />
+          <Property Name="TimeIn2M2" Type="int" />
+          <Property Name="TimeOut2H1" Type="int" />
+          <Property Name="TimeOut2H2" Type="int" />
+          <Property Name="TimeOut2M1" Type="int" />
+          <Property Name="TimeOut2M2" Type="int" />
         </EntityType>
         <EntityType Name="TimeSheet">
           <Key>
@@ -500,6 +516,22 @@
           <Property Name="TimeOut2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="isInAM2" Type="Boolean" />
           <Property Name="isOutAM2" Type="Boolean" />
+          <Property Name="TimeInH1" Type="Int32" />
+          <Property Name="TimeInH2" Type="Int32" />
+          <Property Name="TimeInM1" Type="Int32" />
+          <Property Name="TimeInM2" Type="Int32" />
+          <Property Name="TimeOutH1" Type="Int32" />
+          <Property Name="TimeOutH2" Type="Int32" />
+          <Property Name="TimeOutM1" Type="Int32" />
+          <Property Name="TimeOutM2" Type="Int32" />
+          <Property Name="TimeIn2H1" Type="Int32" />
+          <Property Name="TimeIn2H2" Type="Int32" />
+          <Property Name="TimeIn2M1" Type="Int32" />
+          <Property Name="TimeIn2M2" Type="Int32" />
+          <Property Name="TimeOut2H1" Type="Int32" />
+          <Property Name="TimeOut2H2" Type="Int32" />
+          <Property Name="TimeOut2M1" Type="Int32" />
+          <Property Name="TimeOut2M2" Type="Int32" />
         </EntityType>
         <EntityType Name="TimeSheet">
           <Key>
@@ -684,6 +716,22 @@
           <EntitySetMapping Name="TimeInOuts">
             <EntityTypeMapping TypeName="TimeTrackingModel.TimeInOut">
               <MappingFragment StoreEntitySet="TimeInOut">
+                <ScalarProperty Name="TimeOut2M2" ColumnName="TimeOut2M2" />
+                <ScalarProperty Name="TimeOut2M1" ColumnName="TimeOut2M1" />
+                <ScalarProperty Name="TimeOut2H2" ColumnName="TimeOut2H2" />
+                <ScalarProperty Name="TimeOut2H1" ColumnName="TimeOut2H1" />
+                <ScalarProperty Name="TimeIn2M2" ColumnName="TimeIn2M2" />
+                <ScalarProperty Name="TimeIn2M1" ColumnName="TimeIn2M1" />
+                <ScalarProperty Name="TimeIn2H2" ColumnName="TimeIn2H2" />
+                <ScalarProperty Name="TimeIn2H1" ColumnName="TimeIn2H1" />
+                <ScalarProperty Name="TimeOutM2" ColumnName="TimeOutM2" />
+                <ScalarProperty Name="TimeOutM1" ColumnName="TimeOutM1" />
+                <ScalarProperty Name="TimeOutH2" ColumnName="TimeOutH2" />
+                <ScalarProperty Name="TimeOutH1" ColumnName="TimeOutH1" />
+                <ScalarProperty Name="TimeInM2" ColumnName="TimeInM2" />
+                <ScalarProperty Name="TimeInM1" ColumnName="TimeInM1" />
+                <ScalarProperty Name="TimeInH2" ColumnName="TimeInH2" />
+                <ScalarProperty Name="TimeInH1" ColumnName="TimeInH1" />
                 <ScalarProperty Name="isOutAM2" ColumnName="isOutAM2" />
                 <ScalarProperty Name="isInAM2" ColumnName="isInAM2" />
                 <ScalarProperty Name="TimeOut2" ColumnName="TimeOut2" />

@@ -45,14 +45,23 @@
             data.serviceCodeId("");
             data.plansectionId("");
 
-            data.TimeIn(-1);
+            data.TimeInH1(-1);
+            data.TimeInM1(-1);
+
             data.isAmIn(-1);
-            data.TimeOut(-1);
+            data.TimeOutH1(-1);
+            data.TimeOutM1(-1);
+
+
             data.isAmOut(-1);
 
-            data.TimeIn2(-1);
+            data.TimeIn2H1(-1);
+            data.TimeIn2M1(-1);
+
             data.isAmIn2(-1);
-            data.TimeOut2(-1);
+            data.TimeOut2H1(-1);
+            data.TimeOut2M1(-1);
+
             data.isAmOut2(-1);
 
             // name the row not clicked by the "add time" link
@@ -109,8 +118,10 @@
                 str += "<p>Live-In must have value Y or N</p>";
             $.each(data.items(), function (key, value) {
                 if (value.serviceCodeId() == undefined || value.plansectionId() == undefined
-                    || value.TimeIn() == -1 || value.TimeOut() == -1 || value.isAmIn() == -1
-                    || value.isAmOut() == -1 || (value.Time2() == true && (value.TimeIn2() == -1 || value.TimeOut2 == -1))) {
+                    || value.TimeInH1() == -1  || value.TimeInM1() == -1 
+                    || value.TimeOutH1() == -1  || value.TimeOutM1() == -1 || value.isAmIn() == -1
+                    || value.isAmOut() == -1 || (value.Time2() == true && (value.TimeIn2H1() == -1 || value.TimeIn2M1() == -1
+                    || value.TimeOut2H1 == -1  || value.TimeOut2M1 == -1 ))) {
                     str += "<p>All time sheet values must be submitted</p>";
                     $("#errorDiv").html(str);
                     $("#errorDiv").show();

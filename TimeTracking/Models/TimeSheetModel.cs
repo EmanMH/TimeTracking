@@ -27,12 +27,28 @@ namespace TimeTracking.Models
         public string dayDate { get; set; }
         public int plansectionId { get; set; }
         public string Plan { get; set; }
-        public string TimeIn { get; set; }
-        public string TimeOut { get; set; }
+        public string TimeInH1 { get; set; }
+        public string TimeInH2 { get; set; }
+        public string TimeInM1 { get; set; }
+        public string TimeInM2 { get; set; }
+
+        public string TimeOutH1 { get; set; }
+        public string TimeOutH2 { get; set; }
+        public string TimeOutM1 { get; set; }
+        public string TimeOutM2 { get; set; }
+
         public string isAmIn { get; set; }
         public string isAmOut { get; set; }
-        public string TimeIn2 { get; set; }
-        public string TimeOut2 { get; set; }
+        public string TimeIn2H1 { get; set; }
+        public string TimeIn2H2 { get; set; }
+        public string TimeIn2M1 { get; set; }
+        public string TimeIn2M2 { get; set; }
+
+        public string TimeOut2H1 { get; set; }
+        public string TimeOut2H2 { get; set; }
+        public string TimeOut2M1 { get; set; }
+        public string TimeOut2M2 { get; set; }
+
         public string isAmIn2 { get; set; }
         public string isAmOut2 { get; set; }
         public int serviceCodeId { get; set; }

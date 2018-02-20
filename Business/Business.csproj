@@ -35,10 +35,10 @@
       <HintPath>..\Data\bin\Debug\Data.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
-      <HintPath>..\TimeTracking\bin\EntityFramework.dll</HintPath>
+      <HintPath>..\TimeTracking\bin\Release\PublishOutput\bin\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
-      <HintPath>..\TimeTracking\bin\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <HintPath>..\TimeTracking\bin\Release\PublishOutput\bin\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

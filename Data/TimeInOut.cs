@@ -27,6 +27,22 @@ namespace Data
         public string TimeOut2 { get; set; }
         public Nullable<bool> isInAM2 { get; set; }
         public Nullable<bool> isOutAM2 { get; set; }
+        public Nullable<int> TimeInH1 { get; set; }
+        public Nullable<int> TimeInH2 { get; set; }
+        public Nullable<int> TimeInM1 { get; set; }
+        public Nullable<int> TimeInM2 { get; set; }
+        public Nullable<int> TimeOutH1 { get; set; }
+        public Nullable<int> TimeOutH2 { get; set; }
+        public Nullable<int> TimeOutM1 { get; set; }
+        public Nullable<int> TimeOutM2 { get; set; }
+        public Nullable<int> TimeIn2H1 { get; set; }
+        public Nullable<int> TimeIn2H2 { get; set; }
+        public Nullable<int> TimeIn2M1 { get; set; }
+        public Nullable<int> TimeIn2M2 { get; set; }
+        public Nullable<int> TimeOut2H1 { get; set; }
+        public Nullable<int> TimeOut2H2 { get; set; }
+        public Nullable<int> TimeOut2M1 { get; set; }
+        public Nullable<int> TimeOut2M2 { get; set; }
     
         public virtual TimeSheet TimeSheet { get; set; }
         public virtual serviceCode serviceCode { get; set; }

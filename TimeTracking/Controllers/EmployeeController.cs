@@ -96,12 +96,19 @@ namespace TimeTracking.Controllers
                     tItem.isAmOut = item.isOutAM.Value.ToString().ToLower();
                     tItem.serviceCodeId = item.fk_serviceCode.Value;
                     //time.serviceCodes = svc;
-                    tItem.TimeIn = item.TimeIn;
-                    tItem.TimeOut = item.TimeOut; //format
+                    tItem.TimeInH1 = item.TimeInH1.ToString();
+                    tItem.TimeInM1 = item.TimeInM1.ToString();
+
+                    tItem.TimeOutH1 = item.TimeOutH1.ToString();
+                    tItem.TimeOutM1 = item.TimeOutM1.ToString();
+
                     if (item.TimeIn2 != null)
                     {
-                        tItem.TimeIn2 = item.TimeIn2;
-                        tItem.TimeOut2 = item.TimeOut2;
+                        tItem.TimeIn2H1 = item.TimeIn2H1.ToString();
+                        tItem.TimeIn2M1 = item.TimeIn2M1.ToString();
+
+                        tItem.TimeOut2H1 = item.TimeOut2H1.ToString();
+                        tItem.TimeOut2M1 = item.TimeOut2M1.ToString();
                         tItem.isAmIn2 = item.isInAM2.Value.ToString().ToLower();
                         tItem.isAmOut2 = item.isOutAM2.Value.ToString().ToLower();
                         tItem.Time2 = true;
@@ -157,14 +164,20 @@ namespace TimeTracking.Controllers
                 tm.fk_serviceCode = item.serviceCodeId;
                 tm.isInAM =bool.Parse( item.isAmIn);
                 tm.isOutAM =bool.Parse( item.isAmOut);
-                tm.TimeIn = item.TimeIn;
-                tm.TimeOut = item.TimeOut;
-                if(item.TimeIn2 != "-1" && item.TimeIn2!=null)
+                tm.TimeInH1 = int.Parse(item.TimeInH1);
+                tm.TimeInM1 = int.Parse(item.TimeInM1);
+
+                tm.TimeOutH1 = int.Parse(item.TimeOutH1);
+                tm.TimeOutM1 = int.Parse(item.TimeOutM1);
+
+                if(item.TimeIn2H1 != "-1" && item.TimeIn2H1!=null)
                 {
                     tm.isInAM2 = bool.Parse(item.isAmIn2);
                     tm.isOutAM2 = bool.Parse(item.isAmOut2);
-                    tm.TimeIn2 = item.TimeIn2;
-                    tm.TimeOut2 = item.TimeOut2;
+                    tm.TimeIn2H1 = int.Parse(item.TimeIn2H1);
+                    tm.TimeIn2M1 = int.Parse(item.TimeIn2M1);
+                    tm.TimeOut2H1 = int.Parse(item.TimeOut2H1);
+                    tm.TimeOut2M1 = int.Parse(item.TimeOut2M1);
                     ts.HasTime2 = true;
 
                 }
@@ -199,30 +212,30 @@ namespace TimeTracking.Controllers
                 tr.MonthNumber = DateTime.Parse(item.dayDate).Month;
                 tr.ServiceCode = svcs.Where(s => s.Id == item.serviceCodeId).FirstOrDefault().Name;
                 te.AmOrPm = item.isAmIn=="true" ? "AM" : "PM";
-                te.Hours =int.Parse( item.TimeIn.Split('-')[0]);
-                te.Mins = int.Parse(item.TimeIn.Split('-')[1]);
+                te.Hours =int.Parse( item.TimeInH1);
+                te.Mins = int.Parse(item.TimeInM1);
                 tr.TimeIn1 = te;
                 te = new TimeExcel();
                 te.AmOrPm = item.isAmOut=="true" ? "AM" : "PM";
-                te.Hours = int.Parse(item.TimeOut.Split('-')[0]);
-                te.Mins = int.Parse(item.TimeOut.Split('-')[1]);
+                te.Hours = int.Parse(item.TimeOutH1);
+                te.Mins = int.Parse(item.TimeOutM1);
 
                 tr.TimeOut1 = te;
-                if(item.TimeIn2!="-1" && item.TimeIn2!=null)
+                if(item.TimeIn2H1 !="-1" && item.TimeIn2H1 !=null)
                 {
                     te = new TimeExcel();
                     te.AmOrPm = item.isAmIn2=="true" ? "AM" : "PM";
-                    te.Hours = int.Parse(item.TimeIn2.Split('-')[0]);
-                    te.Mins = int.Parse(item.TimeIn2.Split('-')[1]);
+                    te.Hours = int.Parse(item.TimeIn2H1);
+                    te.Mins = int.Parse(item.TimeIn2M1);
 
                     tr.TimeIn2 = te;
                 }
-                if (item.TimeOut2 != "-1" && item.TimeOut2 != null)
+                if (item.TimeOut2H1 != "-1" && item.TimeOut2H1 != null)
                 {
                     te = new TimeExcel();
                     te.AmOrPm = item.isAmOut2=="true" ? "AM" : "PM";
-                    te.Hours = int.Parse(item.TimeOut2.Split('-')[0]);
-                    te.Mins = int.Parse(item.TimeOut2.Split('-')[1]);
+                    te.Hours = int.Parse(item.TimeOut2H1);
+                    te.Mins = int.Parse(item.TimeOut2M1 );
 
                     tr.TimeOut2 = te;
                 }
