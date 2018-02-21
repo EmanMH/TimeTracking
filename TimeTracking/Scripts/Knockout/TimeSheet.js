@@ -5,6 +5,8 @@
     }
     var timesheetKO;
     var url = "";
+    var deletedRows = [];
+    var numTimes2 = 0;
 
     var timesheetViewModel = function () {
         var self = this;
@@ -27,8 +29,28 @@
         self.empname = ko.observable();
         self.HasTime2 = ko.observable();
         self.isViewOnly = ko.observable(false);
+        self.canUndo = ko.observable(false);
+
+        self.lessTime = function (data) {
+            numTimes2--; // decrease the number rows with time2 part
+
+            data.Time2(false);
+
+            //reset dropdowns of time 2
+            data.TimeIn2H1(-1);
+            data.TimeIn2M1(-1);
+            data.isAmIn2(-1);
+            data.TimeOut2H1(-1);
+            data.TimeOut2M1(-1);
+            data.isAmOut2(-1);
+
+            //if no more time2 part in any rows the stop display its columns
+            if (numTimes2 == 0)
+                timesheetKO.HasTime2(false);
+        }
 
         self.moreTime = function (data) {
+            numTimes2++; // increase the number rows with time2 part
             timesheetKO.HasTime2(true);
             data.Time2(true);
         }
@@ -69,6 +91,19 @@
         }
 
         self.deleteRow = function (data) {
+            var index = timesheetKO.items.indexOf(data);
+            deletedRows.push({ index, data });
+            timesheetKO.canUndo(true); //enable undo button
+
+            //if the deleted row has a time2 part then decrease the number rows with time2 part
+            if (data.Time2() == true) 
+                numTimes2--;
+
+            //if that was the last row with time2 part then stop display its column
+            if (numTimes2 == 0) {
+                timesheetKO.HasTime2(false);
+            }
+
             timesheetKO.items.remove(data);
         }
         
@@ -96,6 +131,9 @@
 
                     $.each(result.items, function (key, value) {
                         timesheetKO.items.push(new vm_form(value));
+                        //count the number of rows with time2 part
+                        if (value.Time2 == true)
+                            numTimes2++;
                     });
                     
                   //  timesheetKO.backup(result.isBackup:'Y':'N');
@@ -142,6 +180,24 @@
 
             return true;
         }
+
+        self.undo = function (data) {
+            var row = deletedRows.pop();
+            timesheetKO.items.splice(row.index, 0, row.data);
+
+            //check flog of Time 2 part to display it
+            if (row.data.Time2() == true)
+                numTimes2++;
+
+            if (numTimes2 > 0) {
+                timesheetKO.HasTime2(true);
+            }
+
+            //if no more row to undo then disable the undo button
+            if (deletedRows.length == 0)
+                timesheetKO.canUndo(false);
+        }
+
         self.save = function (data) {
             debugger;
             if (timesheetKO.validate(data)) {

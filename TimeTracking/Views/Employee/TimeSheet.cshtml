@@ -222,7 +222,7 @@
                       </td>
                       <!--/ko-->
                       <td>
-                          <a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a>&nbsp; <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
+                          <a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a><a href="#" data-bind="click:$root.lessTime,visible:Time2()==true">Delete time</a>&nbsp; <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
                           &nbsp; <a href="#" data-bind="click:$root.deleteRow">Delete</a>
                       </td>
                   </tr>
@@ -231,11 +231,17 @@
               </tbody>
               <tfoot>
                   <tr data-bind="visible:HasTime2()!=true">
-                      <td colspan="8" align="right"><input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" /></td>
+                      <td colspan="8" align="right">
+                          <input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
+                          <input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />
+                      </td>
                   </tr>
 
                   <tr data-bind="visible:HasTime2()==true">
-                      <td colspan="12" align="right"><input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" /></td>
+                      <td colspan="12" align="right">
+                          <input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
+                          <input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />
+                      </td>
                   </tr>
               </tfoot>
           </table>
