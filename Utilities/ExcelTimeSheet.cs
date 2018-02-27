@@ -41,6 +41,8 @@ namespace Save_DataToExcel
         public string FromDay { get; set; }
         public string ToDay { get; set; }
         public bool LiveInEmployee { get; set; }
+        public TimeSpan Total032WorkedHours { get; set; }
+        public TimeSpan Total011WorkedHours { get; set; }
         public List<TimeRecordExcel> TimeRecordsLst = new List<TimeRecordExcel>();
 
     }
@@ -162,10 +164,21 @@ namespace Save_DataToExcel
 
                     if (RowNum > 22) {
                         RowNum = 8;
+						/*oSheet.get_Range("AA26","AD26").Value = string.Format("{0}.{1:D2}", ts.Total032WorkedHours.Hours + (ts.Total032WorkedHours.Days * 24), ts.Total032WorkedHours.Minutes);
+                        oSheet.get_Range("AF26").Value = string.Format("{0}.{1:D2}", ts.Total011WorkedHours.Hours + (ts.Total011WorkedHours.Days * 24), ts.Total011WorkedHours.Minutes);
+                        ts.Total011WorkedHours = new TimeSpan();
+                        ts.Total032WorkedHours = new TimeSpan();*/
+                        
                         oSheet = oSheet.Next;
                     }
 
                 }
+				
+				/*if (RowNum <= 22)
+                {
+                    oSheet.get_Range("AA26","AD26").Value = string.Format("{0}.{1:D2}", ts.Total032WorkedHours.Hours + (ts.Total032WorkedHours.Days * 24), ts.Total032WorkedHours.Minutes);
+                    oSheet.get_Range("AF26").Value = string.Format("{0}.{1:D2}", ts.Total011WorkedHours.Hours + (ts.Total011WorkedHours.Days * 24), ts.Total011WorkedHours.Minutes);
+                }*/
 
                 oXL.ActiveWorkbook.Sheets[1].Activate();
                 oXL.UserControl = false;
