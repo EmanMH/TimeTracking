@@ -4,6 +4,9 @@ using Microsoft.Office.Interop.Excel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using Microsoft.Office.Core;
+using System.Globalization;
+
 
 namespace Save_DataToExcel
 {
@@ -47,6 +50,7 @@ namespace Save_DataToExcel
 
     public class ExcelTimeSheet
     {
+        public CultureInfo oldCI { get; set; }
         public string[] StringtoStringArray(string s)
         {
             string[] strArr = new string[7];
@@ -66,6 +70,17 @@ namespace Save_DataToExcel
             return leave - entry;
         }
 
+        void SetNewCurrentCulture()
+        {
+            oldCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+        }
+
+        void ResetCurrentCulture()
+        {
+            System.Threading.Thread.CurrentThread.CurrentCulture = oldCI;
+        }
+
         public string FillSheet(TimeSheetExcel ts,string templatepath,string timesheetpath)
         {
             Application oXL;
@@ -74,27 +89,31 @@ namespace Save_DataToExcel
             object misvalue = System.Reflection.Missing.Value;
             int RowNum = 8;
             string fileName = "";
+            string result = "";
 
             try
             {
+                SetNewCurrentCulture();
 
                 //Start Excel and get Application object.
                 oXL = new Microsoft.Office.Interop.Excel.Application();
 
                 //Skip the Exception of the Protection Excel Template File
-               // oXL.FileValidation = MsoFileValidationMode.msoFileValidationSkip;
+                oXL.FileValidation = MsoFileValidationMode.msoFileValidationSkip;
 
                 string path = templatepath;
+                result += " before open";
 
                 //Open the Template Sheet
-                oWB = oXL.Workbooks._Open(path, Missing.Value,
+                oWB = oXL.Workbooks.Open(path, Missing.Value,
                        Missing.Value, Missing.Value, Missing.Value,
                        Missing.Value, Missing.Value, Missing.Value,
                        Missing.Value, Missing.Value, Missing.Value,
-                       Missing.Value, Missing.Value); 
-
+                       Missing.Value, Missing.Value);
+                result += " ,1";
                 //oXL.Visible = true;
                 oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
+                result += " ,2";
 
 
                 //Fill the sheet with data
@@ -106,22 +125,31 @@ namespace Save_DataToExcel
 
               //  oSheet.get_Range("M4", "R4").Value = ts.Phone;
                // oSheet.get_Range("V4", "AF4").Value = ts.Email;
+                result += " ,3";
 
                 oSheet.get_Range("C5", "F5").Value = ts.Year;
+                result += " ,4";
+
                 oSheet.get_Range("L5", "S5").Value = ts.FromDay;
+                result += " ,5";
+
                 oSheet.get_Range("Z5", "AF5").Value = ts.ToDay;
+                result += " ,6";
+
 
                 if (ts.LiveInEmployee)
                     oSheet.get_Range("S28").Value = "X";
                 else
                     oSheet.get_Range("W28").Value = "X";
 
+                result += " ,7";
 
 
                 for (int i = 1; i < ts.TimeRecordsLst.Count / 15; i++)
                 {
                     oSheet.Copy(oXL.ActiveWorkbook.Worksheets[i+1]);
                 }
+                result += " ,8";
 
 
                 foreach (TimeRecordExcel tr in ts.TimeRecordsLst ) {
@@ -166,9 +194,14 @@ namespace Save_DataToExcel
                     }
 
                 }
+                result += " ,9";
+
 
                 oXL.ActiveWorkbook.Sheets[1].Activate();
+                result += " ,10";
+
                 oXL.UserControl = false;
+                result += " ,11";
 
                 string dirPath = Path.Combine(timesheetpath+ @"/" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-"));
                 if (!Directory.Exists(dirPath))
@@ -178,13 +211,18 @@ namespace Save_DataToExcel
                 oWB.SaveAs(fileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
                     false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                result += " ,12";
 
                 oWB.Close();
-                return "s";
+                return result;
             }
             catch (Exception e)
             {
-                return e.Message;
+                return result+" error:"+e.Message;
+            }
+            finally
+            {
+                ResetCurrentCulture();
             }
 
         }
