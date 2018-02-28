@@ -70,7 +70,6 @@ D:\My Work\TC\TimeTracking\TimeTracking\bin\WebActivatorEx.dll
 D:\My Work\TC\TimeTracking\TimeTracking\bin\WebGrease.dll
 D:\My Work\TC\TimeTracking\TimeTracking\bin\Business.pdb
 D:\My Work\TC\TimeTracking\TimeTracking\bin\Data.pdb
-D:\My Work\TC\TimeTracking\TimeTracking\bin\Data.dll.config
 D:\My Work\TC\TimeTracking\TimeTracking\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\My Work\TC\TimeTracking\TimeTracking\bin\Microsoft.Practices.ServiceLocation.pdb
 D:\My Work\TC\TimeTracking\TimeTracking\bin\Microsoft.Practices.ServiceLocation.xml

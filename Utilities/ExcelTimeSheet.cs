@@ -44,6 +44,8 @@ namespace Save_DataToExcel
         public string FromDay { get; set; }
         public string ToDay { get; set; }
         public bool LiveInEmployee { get; set; }
+        public TimeSpan Total032WorkedHours { get; set; }
+        public TimeSpan Total011WorkedHours { get; set; }
         public List<TimeRecordExcel> TimeRecordsLst = new List<TimeRecordExcel>();
 
     }
@@ -109,7 +111,7 @@ namespace Save_DataToExcel
                        Missing.Value, Missing.Value, Missing.Value,
                        Missing.Value, Missing.Value, Missing.Value,
                        Missing.Value, Missing.Value, Missing.Value,
-                       Missing.Value, Missing.Value);
+                       Missing.Value, Missing.Value); 
                 result += " ,1";
                 //oXL.Visible = true;
                 oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
@@ -183,6 +185,17 @@ namespace Save_DataToExcel
                                                                        , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm);
 
                     }
+					
+					// Calculate total working hours per each Service Code
+					if (tr.ServiceCode.Equals("032"))
+                    {
+                        ts.Total032WorkedHours = ts.Total032WorkedHours + tr.TotalWorkedHours;
+                    }
+                    else if (tr.ServiceCode.Equals("011"))
+                    {
+                        ts.Total011WorkedHours = ts.Total011WorkedHours + tr.TotalWorkedHours;
+                    }
+					
                     oSheet.get_Range("AF" + RowNum.ToString()).Value = string.Format("{0}.{1:D2}", tr.TotalWorkedHours.Hours, tr.TotalWorkedHours.Minutes); 
 
                     RowNum++;
@@ -190,9 +203,37 @@ namespace Save_DataToExcel
 
                     if (RowNum > 22) {
                         RowNum = 8;
+                        
+						// save before go to the next sheet the total working hours per each Service Code after change the read only cells to be editable
+                        oSheet.get_Range("AA26", "AD26").Locked = false; // not test because of the protection error
+                        oSheet.get_Range("AA26","AD26").Value = string.Format("{0}.{1:D2}", ts.Total032WorkedHours.Hours + (ts.Total032WorkedHours.Days * 24), ts.Total032WorkedHours.Minutes);
+                        oSheet.get_Range("AF26").Locked = false; // not test because of the protection error
+                        oSheet.get_Range("AF26").Value = string.Format("{0}.{1:D2}", ts.Total011WorkedHours.Hours + (ts.Total011WorkedHours.Days * 24), ts.Total011WorkedHours.Minutes);
+                        // change the cells to be read only again
+						oSheet.get_Range("AA26", "AD26").Locked = true; // not test because of the protection error
+                        oSheet.get_Range("AF26").Locked = true; // not test because of the protection error
+                        
+                        ts.Total011WorkedHours = new TimeSpan();
+                        ts.Total032WorkedHours = new TimeSpan();
                         oSheet = oSheet.Next;
                     }
 
+                }
+				
+				if (RowNum <= 22)
+                {
+                    
+					// save in the last sheet the total working hours per each Service Code after change the read only cells to be editable
+                    oSheet.get_Range("AA26", "AD26").Locked = false; // not test because of the protection error
+                    oSheet.get_Range("AA26", "AD26").Value = string.Format("{0}.{1:D2}", ts.Total032WorkedHours.Hours + (ts.Total032WorkedHours.Days * 24), ts.Total032WorkedHours.Minutes);
+                    oSheet.get_Range("AA26", "AD26").Locked = false; // not test because of the protection error
+                    oSheet.get_Range("AF26").Value = string.Format("{0}.{1:D2}", ts.Total011WorkedHours.Hours + (ts.Total011WorkedHours.Days * 24), ts.Total011WorkedHours.Minutes);
+					// change the cells to be read only again
+                    oSheet.get_Range("AA26", "AD26").Locked = true; // not test because of the protection error
+                    oSheet.get_Range("AF26").Locked = true; // not test because of the protection error
+                    
+                    ts.Total011WorkedHours = new TimeSpan();
+                    ts.Total032WorkedHours = new TimeSpan();
                 }
                 result += " ,9";
 

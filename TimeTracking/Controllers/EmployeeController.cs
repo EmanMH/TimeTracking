@@ -211,6 +211,7 @@ namespace TimeTracking.Controllers
                     tr.EnterPlan = "T";
                 tr.MonthNumber = DateTime.Parse(item.dayDate).Month;
                 tr.ServiceCode = svcs.Where(s => s.Id == item.serviceCodeId).FirstOrDefault().Name;
+                te = new TimeExcel();
                 te.AmOrPm = item.isAmIn=="true" ? "AM" : "PM";
                 te.Hours =int.Parse( item.TimeInH1);
                 te.Mins = int.Parse(item.TimeInM1);
