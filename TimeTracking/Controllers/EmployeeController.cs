@@ -73,6 +73,7 @@ namespace TimeTracking.Controllers
                     tItem.dayDate= day1.ToShortDateString();
                     tItem.dayName = day1.ToString("dddd");
                     day1=day1.AddDays(1);
+                    tItem.dates = dates;
                     tsm.items.Add(tItem);
                     tItem = new TimeSheetItem();
                 }
@@ -194,9 +195,9 @@ namespace TimeTracking.Controllers
             List<TimeRecordExcel> timesExcel = new List<TimeRecordExcel>();
 
             tse.EmployeeName = es.getUsername(User.Identity.Name);
-            tse.FromDay = ts.DayDate.Value.ToShortDateString();
+            tse.FromDay = tsm[0].dates[0];
             tse.LiveInEmployee = ts.isLiveIn.Value;
-            tse.ToDay = tsm[tsm.Count - 1].dayDate;
+            tse.ToDay = tsm[0].dates[1];
             tse.Year = "2018";
 
             foreach (var item in tsm)

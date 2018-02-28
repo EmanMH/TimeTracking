@@ -28,6 +28,7 @@
         self.liveIn = ko.observable();
         self.empname = ko.observable();
         self.HasTime2 = ko.observable();
+
         self.isViewOnly = ko.observable(false);
         self.canUndo = ko.observable(false);
 
@@ -141,7 +142,7 @@
                     timesheetKO.empname(result.empName);
                     timesheetKO.HasTime2(result.HasTime2);
                     timesheetKO.isViewOnly(result.isViewOnly);
-
+                  //  timesheetKO.dates(result.dates);
 
                 },
                 error: function () {

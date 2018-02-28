@@ -23,6 +23,7 @@ namespace TimeTracking.Models
 
     public class TimeSheetItem
     {
+        public string[] dates { get; set; }
         public string dayName { get; set; }
         public string dayDate { get; set; }
         public int plansectionId { get; set; }
