@@ -245,7 +245,7 @@ namespace TimeTracking.Controllers
                 tr = new TimeRecordExcel();
 
             }
-           string res= exs.FillSheet(tse,Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xlsx"),Server.MapPath("~/TimeSheets"));
+           string res= exs.FillSheet(tse,Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xls"),Server.MapPath("~/TimeSheets"));
 
                 return Json(res);
         }
