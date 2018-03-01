@@ -93,7 +93,7 @@
 
         self.deleteRow = function (data) {
             var index = timesheetKO.items.indexOf(data);
-            deletedRows.push({ index, data });
+            deletedRows.push({ 'index':index,'data': data });
             timesheetKO.canUndo(true); //enable undo button
 
             //if the deleted row has a time2 part then decrease the number rows with time2 part
@@ -109,6 +109,8 @@
         }
         
         self.showTime = function (data) {
+            $("#errorDiv").hide();
+            $("#successdiv").hide();
             var dateSelected = timesheetKO.dateSelected();
             timesheetKO.items([]);
             timesheetKO.serviceCodes([]);
@@ -150,6 +152,9 @@
             });
         }
         self.validate = function (data) {
+            $("#errorDiv").hide();
+            $("#successdiv").hide();
+
             var str = "";
             if (data.backup() != "Y" && data.backup() != 'N')
                 str += "<p>Backup must have value Y or N</p>";
@@ -201,6 +206,8 @@
 
         self.save = function (data) {
             debugger;
+            $("#successdiv").hide();
+
             if (timesheetKO.validate(data)) {
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());

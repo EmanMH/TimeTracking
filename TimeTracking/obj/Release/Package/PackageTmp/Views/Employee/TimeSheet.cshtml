@@ -9,392 +9,305 @@
 
 <script src="~/Scripts/Knockout/TimeSheet.js"></script>
 
-<h2>Employee</h2>
-
-
-  <div>
-    <table class="table table-bordered table-responsive">
-        <thead>
-            <tr>
-                <th>Employee</th>
-                <th>Date Selection</th>
-                <th>Backup (Y/N)</th>
-                <th>Live-In (Y/N)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@ViewBag.empName</td>
-                <td>
-                    <select class="form-control" name="dateSelected" data-bind="value:dateSelected,options: dateItems,
+<div class="container">
+    <br />
+    <div>
+        <table class="table table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Date Selection</th>
+                    <th>Backup (Y/N)</th>
+                    <th>Live-In (Y/N)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@ViewBag.empName</td>
+                    <td>
+                        <select class="form-control" name="dateSelected" data-bind="value:dateSelected,options: dateItems,
                        optionsText: 'date',optionsValue: 'date', event:{change:showTime},optionsCaption: 'Select...'"></select>
-                </td>
-                <td>
-                <input type="text" data-bind="value:backup" placeholder="Y/N" class="form-control" />
-                </td>
-                <td>
-                    <input type="text" data-bind="value:liveIn" placeholder="Y/N" class="form-control"/>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <hr />
-    <table class="table table-bordered table-responsive" data-bind="visble:items.length>0">
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value:backup" placeholder="Y/N" class="form-control" />
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value:liveIn" placeholder="Y/N" class="form-control" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <div class=" table-responsive">
+            <table class="table table-bordered " data-bind="visble:items.length>0" style="font-size:12px !important;">
 
-        <thead>
-            <tr>
-                <th>Day</th>
-                <th>Service Code</th>
-                <th>Plan Section</th>
-                <th>Time In</th>
-                <th>AM/PM</th>
-                <th>Time Out</th>
-                <th>AM/PM</th>
-                <!-- ko if: HasTime2 -->
-                <th>Time In</th>
-                <th>AM/PM</th>
-                <th>Time Out</th>
-                <th>AM/PM</th>
-                <!-- /ko -->
-                <th>Action</th>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Service<br />Code</th>
+                        <th>Plan<br />Section</th>
+                        <th>Time In</th>
+                        <th>AM/PM</th>
+                        <th>Time Out</th>
+                        <th>AM/PM</th>
+                        <!-- ko if: HasTime2 -->
+                        <th >Time In</th>
+                        <th>AM/PM</th>
+                        <th >Time Out</th>
+                        <th>AM/PM</th>
+                        <!-- /ko -->
+                        <th style="width:8%">Action</th>
 
-            </tr>
-        </thead>
-        <tbody data-bind="foreach:items">
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach:items">
 
-            <tr>
-                <td ><label data-bind="text:dayName"></label>
-                <br/>
-                    <label data-bind="text: dayDate"></label>
-                </td>
-                <td>
-                    <select class="form-control" data-bind="value:serviceCodeId,options: $root.serviceCodes,
-                       optionsText: 'Name',optionsValue: 'Id',optionsCaption: 'Select...'"></select>
+                    <tr>
+                        <td>
+                            <label data-bind="text:dayName"></label>
+                            <br />
+                            <label data-bind="text: dayDate"></label>
+                        </td>
+                        <td>
+                            <select  data-bind="value:serviceCodeId,options: $root.serviceCodes,
+                       optionsText: 'Name',optionsValue: 'Id',optionsCaption: '.'" style="width:45px"></select>
 
-                </td>
-                <td>
-                    <select class="form-control" data-bind="value:plansectionId,options: $root.PlanSections,
-                       optionsText: 'Name',optionsValue: 'Id',optionsCaption: 'Select...'"></select>
-                </td>
-                <td>
-                    <select data-bind="value:TimeIn" class="form-control">
-                        <option value="-1"></option>
-                        <option value="1-0">01:00</option>
-                        <option value="1-15">01:15</option>
-                        <option value="1-30">01:30</option>
-                        <option value="1-45">01:45</option>
+                        </td>
+                        <td>
+                            <select  data-bind="value:plansectionId,options: $root.PlanSections,
+                       optionsText: 'Name',optionsValue: 'Id',optionsCaption: '.'" style="width:40px"></select>
+                        </td>
+                        <td>
+                            <select data-bind="value:TimeInH1"  style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        <option value="2-0">02:00</option>
-                        <option value="2-15">02:15</option>
-                        <option value="2-30">02:30</option>
-                        <option value="2-45">02:45</option>
+                            </select> :
+                            <select data-bind="value:TimeInM1"  style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                                @*<option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>*@
+                            </select>
+                        </td>
+                        <td>
+                            <select data-bind="value:isAmIn"  style="width:45px">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-bind="value:TimeOutH1"  style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        <option value="3-0">03:00</option>
-                        <option value="3-15">03:15</option>
-                        <option value="3-30">03:30</option>
-                        <option value="3-45">03:45</option>
+                            </select> :
+                            <select data-bind="value:TimeOutM1"  style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
 
-                        <option value="4-0">04:00</option>
-                        <option value="4-15">04:15</option>
-                        <option value="4-30">04:30</option>
-                        <option value="4-45">04:45</option>
-
-                        <option value="5-0">05:00</option>
-                        <option value="5-15">05:15</option>
-                        <option value="5-30">05:30</option>
-                        <option value="5-45">05:45</option>
-
-                        <option value="6-0">06:00</option>
-                        <option value="6-15">06:15</option>
-                        <option value="6-30">06:30</option>
-                        <option value="6-45">06:45</option>
-
-                        <option value="7-0">07:00</option>
-                        <option value="7-15">07:15</option>
-                        <option value="7-30">07:30</option>
-                        <option value="7-45">07:45</option>
-
-                        <option value="8-0">08:00</option>
-                        <option value="8-15">08:15</option>
-                        <option value="8-30">08:30</option>
-                        <option value="8-45">08:45</option>
-
-                        <option value="9-0">09:00</option>
-                        <option value="9-15">09:15</option>
-                        <option value="9-30">09:30</option>
-                        <option value="9-30">09:30</option>
-
-                        <option value="10-0">10:00</option>
-                        <option value="10-15">10:15</option>
-                        <option value="10-30">10:30</option>
-                        <option value="10-45">10:45</option>
-
-                        <option value="11-0">11:00</option>
-                        <option value="11-15">11:15</option>
-                        <option value="11-30">11:30</option>
-                        <option value="11-45">11:45</option>
-
-                        <option value="12-0">12:00</option>
-                        <option value="12-15">12:15</option>
-                        <option value="12-30">12:30</option>
-                        <option value="12-45">12:45</option>
-
-
-                    </select>
-                </td>
-                <td>
-                    <select data-bind="value:isAmIn" class="form-control">
-                        <option value="-1"></option>
-                        <option value="true">AM</option>
-                        <option value="false">PM</option>
-                    </select>
-                </td>
-                <td>
-                    <select data-bind="value:TimeOut" class="form-control">
-                        <option value="-1"></option>
-                        <option value="1-0">01:00</option>
-                        <option value="1-15">01:15</option>
-                        <option value="1-30">01:30</option>
-                        <option value="1-45">01:45</option>
-
-                        <option value="2-0">02:00</option>
-                        <option value="2-15">02:15</option>
-                        <option value="2-30">02:30</option>
-                        <option value="2-45">02:45</option>
-
-                        <option value="3-0">03:00</option>
-                        <option value="3-15">03:15</option>
-                        <option value="3-30">03:30</option>
-                        <option value="3-45">03:45</option>
-
-                        <option value="4-0">04:00</option>
-                        <option value="4-15">04:15</option>
-                        <option value="4-30">04:30</option>
-                        <option value="4-45">04:45</option>
-
-                        <option value="5-0">05:00</option>
-                        <option value="5-15">05:15</option>
-                        <option value="5-30">05:30</option>
-                        <option value="5-45">05:45</option>
-
-                        <option value="6-0">06:00</option>
-                        <option value="6-15">06:15</option>
-                        <option value="6-30">06:30</option>
-                        <option value="6-45">06:45</option>
-
-                        <option value="7-0">07:00</option>
-                        <option value="7-15">07:15</option>
-                        <option value="7-30">07:30</option>
-                        <option value="7-45">07:45</option>
-
-                        <option value="8-0">08:00</option>
-                        <option value="8-15">08:15</option>
-                        <option value="8-30">08:30</option>
-                        <option value="8-45">08:45</option>
-
-                        <option value="9-0">09:00</option>
-                        <option value="9-15">09:15</option>
-                        <option value="9-30">09:30</option>
-                        <option value="9-30">09:30</option>
-
-                        <option value="10-0">10:00</option>
-                        <option value="10-15">10:15</option>
-                        <option value="10-30">10:30</option>
-                        <option value="10-45">10:45</option>
-
-                        <option value="11-0">11:00</option>
-                        <option value="11-15">11:15</option>
-                        <option value="11-30">11:30</option>
-                        <option value="11-45">11:45</option>
-
-                        <option value="12-0">12:00</option>
-                        <option value="12-15">12:15</option>
-                        <option value="12-30">12:30</option>
-                        <option value="12-45">12:45</option>
-
-                    </select>
-                </td>
-                <td>
-                    <select data-bind="value:isAmOut" class="form-control">
-                        <option value="-1"></option>
-                        <option value="true">AM</option>
-                        <option value="false">PM</option>
-                    </select>
-                </td>
+                        </td>
+                        <td>
+                            <select data-bind="value:isAmOut"  style="width:45px">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                        </td>
+                        <!-- ko if: $root.HasTime2 -->
 
 
-                <!-- ko if: $root.HasTime2 -->
-                <td>
-                    <select data-bind="value:TimeIn2,visible:Time2" class="form-control">
-                        <option value="-1"></option>
-                        <option value="1-0">01:00</option>
-                        <option value="1-15">01:15</option>
-                        <option value="1-30">01:30</option>
-                        <option value="1-45">01:45</option>
+                        <td>
+                            <!-- ko if: Time2 -->
+                            <select data-bind="value:TimeIn2H1"  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        <option value="2-0">02:00</option>
-                        <option value="2-15">02:15</option>
-                        <option value="2-30">02:30</option>
-                        <option value="2-45">02:45</option>
+                            </select> :
+                            <select data-bind="value:TimeIn2M1"  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
 
-                        <option value="3-0">03:00</option>
-                        <option value="3-15">03:15</option>
-                        <option value="3-30">03:30</option>
-                        <option value="3-45">03:45</option>
+                            <!-- ko if: !Time2 -->
+                            <select data-bind="value:TimeIn2H1 "  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        <option value="4-0">04:00</option>
-                        <option value="4-15">04:15</option>
-                        <option value="4-30">04:30</option>
-                        <option value="4-45">04:45</option>
+                            </select> :
+                            <select data-bind="value:TimeIn2M1"  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
 
-                        <option value="5-0">05:00</option>
-                        <option value="5-15">05:15</option>
-                        <option value="5-30">05:30</option>
-                        <option value="5-45">05:45</option>
+                        </td>
+                        <td>
+                            <select data-bind="value:isAmIn2,visible:Time2"  style="width:45px">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                        </td>
+                        <td>
+                            <!-- ko if: Time2 -->
+                            <select data-bind="value:TimeOut2H1"  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        <option value="6-0">06:00</option>
-                        <option value="6-15">06:15</option>
-                        <option value="6-30">06:30</option>
-                        <option value="6-45">06:45</option>
+                            </select> :
+                            <select data-bind="value:TimeOut2M1"  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
+                            <!-- ko if: !Time2 -->
+                            <select data-bind="value:TimeOut2H1"  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        <option value="7-0">07:00</option>
-                        <option value="7-15">07:15</option>
-                        <option value="7-30">07:30</option>
-                        <option value="7-45">07:45</option>
-
-                        <option value="8-0">08:00</option>
-                        <option value="8-15">08:15</option>
-                        <option value="8-30">08:30</option>
-                        <option value="8-45">08:45</option>
-
-                        <option value="9-0">09:00</option>
-                        <option value="9-15">09:15</option>
-                        <option value="9-30">09:30</option>
-                        <option value="9-30">09:30</option>
-
-                        <option value="10-0">10:00</option>
-                        <option value="10-15">10:15</option>
-                        <option value="10-30">10:30</option>
-                        <option value="10-45">10:45</option>
-
-                        <option value="11-0">11:00</option>
-                        <option value="11-15">11:15</option>
-                        <option value="11-30">11:30</option>
-                        <option value="11-45">11:45</option>
-
-                        <option value="12-0">12:00</option>
-                        <option value="12-15">12:15</option>
-                        <option value="12-30">12:30</option>
-                        <option value="12-45">12:45</option>
-
-                    </select>
-                </td>
-                <td>
-                    <select data-bind="value:isAmIn2,visible:Time2" class="form-control">
-                        <option value="-1"></option>
-                        <option value="true">AM</option>
-                        <option value="false">PM</option>
-                    </select>
-                </td>
-                <td>
-                    <select data-bind="value:TimeOut2,visible:Time2" class="form-control">
-                        <option value="-1"></option>
-                        <option value="1-0">01:00</option>
-                        <option value="1-15">01:15</option>
-                        <option value="1-30">01:30</option>
-                        <option value="1-45">01:45</option>
-
-                        <option value="2-0">02:00</option>
-                        <option value="2-15">02:15</option>
-                        <option value="2-30">02:30</option>
-                        <option value="2-45">02:45</option>
-
-                        <option value="3-0">03:00</option>
-                        <option value="3-15">03:15</option>
-                        <option value="3-30">03:30</option>
-                        <option value="3-45">03:45</option>
-
-                        <option value="4-0">04:00</option>
-                        <option value="4-15">04:15</option>
-                        <option value="4-30">04:30</option>
-                        <option value="4-45">04:45</option>
-
-                        <option value="5-0">05:00</option>
-                        <option value="5-15">05:15</option>
-                        <option value="5-30">05:30</option>
-                        <option value="5-45">05:45</option>
-
-                        <option value="6-0">06:00</option>
-                        <option value="6-15">06:15</option>
-                        <option value="6-30">06:30</option>
-                        <option value="6-45">06:45</option>
-
-                        <option value="7-0">07:00</option>
-                        <option value="7-15">07:15</option>
-                        <option value="7-30">07:30</option>
-                        <option value="7-45">07:45</option>
-
-                        <option value="8-0">08:00</option>
-                        <option value="8-15">08:15</option>
-                        <option value="8-30">08:30</option>
-                        <option value="8-45">08:45</option>
-
-                        <option value="9-0">09:00</option>
-                        <option value="9-15">09:15</option>
-                        <option value="9-30">09:30</option>
-                        <option value="9-30">09:30</option>
-
-                        <option value="10-0">10:00</option>
-                        <option value="10-15">10:15</option>
-                        <option value="10-30">10:30</option>
-                        <option value="10-45">10:45</option>
-
-                        <option value="11-0">11:00</option>
-                        <option value="11-15">11:15</option>
-                        <option value="11-30">11:30</option>
-                        <option value="11-45">11:45</option>
-
-                        <option value="12-0">12:00</option>
-                        <option value="12-15">12:15</option>
-                        <option value="12-30">12:30</option>
-                        <option value="12-45">12:45</option>
-
-                    </select>
-                </td>
-                <td>
-                    <select data-bind="value:isAmOut2,visible:Time2" class="form-control">
-                        <option value="-1"></option>
-                        <option value="true">AM</option>
-                        <option value="false">PM</option>
-                    </select>
-                </td>
-                <!--/ko-->
-                <td>
-                    <a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a>&nbsp; <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
-                </td>
-            </tr>
+                            </select> :
+                            <select data-bind="value:TimeOut2M1"  style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
 
 
-        </tbody>
-        <tfoot>
-            <tr data-bind="visible:HasTime2()!=true">
-                <td colspan="8" align="right"><input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" /></td>
-            </tr >
-          
-            <tr data-bind="visible:HasTime2()==true">
-                <td colspan="12" align="right"><input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" /></td>
-            </tr>
-            <tr id="Success" style="display:none" data-bind="visible:HasTime2()==true">
-                <td colspan="12" align="right"><div id="successdiv" class="text-success"></div></td>
-            </tr>
-            <tr id="error" style="display:none" data-bind="visible:HasTime2()==true">
-                <td colspan="12" align="right"><div id="errorDiv" class="text-danger"></div></td>
-            </tr>
-        </tfoot>
-    </table>
-          <div id="successdiv" style="display:none" class="text-success">Saved Successfully</div>
-          <div id="errorDiv" style="display:none" class="text-danger">
-      </div>
+                        </td>
+                        <td>
+                            <select data-bind="value:isAmOut2,visible:Time2"  style="width:45px">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                        </td>
+                        <!--/ko-->
+                        <td>
+                            <a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a><a href="#" data-bind="click:$root.lessTime,visible:Time2()==true">Delete time</a><br /> <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
+                           <br /> <a href="#" data-bind="click:$root.deleteRow">Delete</a>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+                <tfoot>
+                    <tr data-bind="visible:HasTime2()!=true">
+                        <td colspan="8" align="right">
+                            <input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
+                            <input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />
+                        </td>
+                    </tr>
+
+                    <tr data-bind="visible:HasTime2()==true">
+                        <td colspan="12" align="right">
+                            <input type="button" value="save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
+                            <input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div id="successdiv" style="display:none" class="text-success">Saved Successfully</div>
+        <div id="errorDiv" style="display:none" class="text-danger">
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript">

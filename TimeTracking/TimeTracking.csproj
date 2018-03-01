@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -237,6 +238,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\logot.png" />
+    <Content Include="Images\picture_logo.png" />
     <Content Include="Images\sdtrlogo.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

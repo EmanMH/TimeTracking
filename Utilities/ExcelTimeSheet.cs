@@ -168,7 +168,7 @@ namespace Save_DataToExcel
                     oSheet.get_Range("P" + RowNum.ToString(), "Q" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"));
                     oSheet.get_Range("R" + RowNum.ToString(), "S" + RowNum.ToString()).Value = tr.TimeOut1.AmOrPm.ToUpper();
 
-                   
+
                     tr.TotalWorkedHours = tr.TotalWorkedHours + CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
                                                                        , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
 
@@ -184,19 +184,33 @@ namespace Save_DataToExcel
                         tr.TotalWorkedHours = tr.TotalWorkedHours + CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
                                                                        , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm);
 
+                        if (tr.ServiceCode.Equals("032"))
+                        {
+                            ts.Total032WorkedHours += CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
+                                                                       , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm);
+                        }
+                        else if (tr.ServiceCode.Equals("011"))
+                        {
+                            ts.Total011WorkedHours += CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
+                                                                       , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm);
+                        }
+
                     }
-					
-					// Calculate total working hours per each Service Code
-					if (tr.ServiceCode.Equals("032"))
+
+                    // Calculate total working hours per each Service Code
+                    if (tr.ServiceCode.Equals("032"))
                     {
-                        ts.Total032WorkedHours = ts.Total032WorkedHours + tr.TotalWorkedHours;
+                        ts.Total032WorkedHours += CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
+                                                                       , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
                     }
                     else if (tr.ServiceCode.Equals("011"))
                     {
-                        ts.Total011WorkedHours = ts.Total011WorkedHours + tr.TotalWorkedHours;
+                        ts.Total011WorkedHours += CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
+                                                                       , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
                     }
-					
-                    oSheet.get_Range("AF" + RowNum.ToString()).Value = tr.TotalWorkedHours.TotalHours; 
+                    oSheet.get_Range("AF" + RowNum.ToString()).Value = tr.TotalWorkedHours.TotalHours;
+
+
 
                     RowNum++;
                     

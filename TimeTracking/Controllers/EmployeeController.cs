@@ -197,8 +197,8 @@ namespace TimeTracking.Controllers
             tse.EmployeeName = es.getUsername(User.Identity.Name);
             tse.FromDay = tsm[0].dates[0];
             tse.LiveInEmployee = ts.isLiveIn.Value;
-            tse.ToDay = tsm[0].dates[1];
-            tse.Year = "2018";
+            tse.ToDay = tsm[0].dates[4];
+            tse.Year = ts.DayDate.Value.Year.ToString();
 
             foreach (var item in tsm)
             {

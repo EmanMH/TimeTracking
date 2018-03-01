@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script>
-        window.configLocation = "";
+        window.configLocation = "/tracking";
     </script>
 
 </head>
@@ -22,7 +22,7 @@
                 </button>
 
 
-                <div class="navbar-brand"> <img src="~/Images/logot.png" width="106" height="45"> &nbsp; &nbsp; <b style="color:white">SDTR<i>Care</i></b> </div>
+                <div class="navbar-brand"> <img src="~/Images/picture_logo.png" width="106" height="45"> &nbsp; &nbsp; <b style="color:white">SDTR<i>Care</i></b> </div>
 
 
             </div>
@@ -38,12 +38,23 @@
     </div>
     <div id="sidebar-wrapper" class="sidebar-toggle">
         <ul class="sidebar-nav">
+
+            <li>
+                <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
+            </li>
+            <li>
+                <a href="#">Independant Contractor</a>
+            </li>
+            <li>
+                <a href="#">Vendor</a>
+            </li>
             <li>
                 <a href="@Url.Action("AddUser", "Admin")">Admin</a>
             </li>
             <li>
-                <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
+                <a href="#">Reporting</a>
             </li>
+           
         </ul>
     </div>
     <div class="container body-content">
