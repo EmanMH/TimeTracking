@@ -31,35 +31,37 @@
                         <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
 
 
-                    </ul>*@
+                 </ul>*@
                 @Html.Partial("_LoginPartial")
+            </div>
+            <div>
+                <ul class="nav nav-tabs" >
+                    <li class="active" id="lihome">
+                        <a href="#" >Home</a>
+                    </li>
+                    <li id="liemp">
+                        <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
+                    </li>
+                    <li id="licontractor">
+                        <a href="#">Contractor</a>
+                    </li>
+                    <li id="livendor">
+                        <a href="#">Vendor</a>
+                    </li>
+                    <li id="liadmin">
+                        <a href="@Url.Action("AddUser", "Admin")">Admin</a>
+                    </li>
+                    <li id="lireporting">
+                        <a href="#">Reporting</a>
+                    </li>
+
+                </ul>
             </div>
         </div>
     </div>
-    <div id="sidebar-wrapper" class="sidebar-toggle">
-        <ul class="sidebar-nav">
-
-            <li>
-                <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
-            </li>
-            <li>
-                <a href="#">Independant Contractor</a>
-            </li>
-            <li>
-                <a href="#">Vendor</a>
-            </li>
-            <li>
-                <a href="@Url.Action("AddUser", "Admin")">Admin</a>
-            </li>
-            <li>
-                <a href="#">Reporting</a>
-            </li>
-           
-        </ul>
-    </div>
     <div class="container body-content">
-            <br/>
-            @RenderBody()
+        <br/>
+        @RenderBody()
     </div>
 
     @Scripts.Render("~/bundles/jquery")
@@ -68,6 +70,67 @@
     <script src="~/Scripts/knockout-3.4.2.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+    <script>
+        $(document).ready(function () {
+            //$("#nav1").find("ul.mastermenu li").each(function () {
+            //    $(this).removeClass("active");
+            //});
 
+            setNav();
+
+        });
+        function setNav() {
+            var url = window.location.href;
+            var menuitem = "";
+            $('#lihome').addClass("active");
+            if (url.toLowerCase().indexOf("employee") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#liemp').addClass("active");
+                $('#liadmin').removeClass("active");
+                $('#lireporting').removeClass("active");
+                $('#livenodr').removeClass("active");
+                $('#licontractor').removeClass("active");
+            }
+
+            else if (url.toLowerCase().indexOf("admin") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#liemp').removeClass("active");
+                $('#liadmin').addClass("active");
+                $('#lireporting').removeClass("active");
+                $('#livenodr').removeClass("active");
+                $('#licontractor').removeClass("active");
+            }
+
+            else if (url.toLowerCase().indexOf("venodr") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#liemp').removeClass("active");
+                $('#liadmin').removeClass("active");
+                $('#lireporting').removeClass("active");
+                $('#livenodr').addClass("active");
+                $('#licontractor').removeClass("active");
+            }
+
+            else if (url.toLowerCase().indexOf("reporting") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#liemp').removeClass("active");
+                $('#liadmin').removeClass("active");
+                $('#lireporting').addClass("active");
+                $('#livenodr').removeClass("active");
+                $('#licontractor').removeClass("active");
+            }
+
+            else if (url.toLowerCase().indexOf("contractor") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#liemp').removeClass("active");
+                $('#liadmin').removeClass("active");
+                $('#lireporting').removeClass("active");
+                $('#livenodr').removeClass("active");
+                $('#licontractor').addClass("active");
+            }
+           
+           
+
+        }
+    </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script>
-        window.configLocation = "/tracking";
+        window.configLocation = "";
     </script>
 
 </head>
@@ -28,46 +28,192 @@
             </div>
             <div class="navbar-collapse collapse">
                 @*<ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
+                   <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
 
 
-                 </ul>*@
+            </ul>*@
                 @Html.Partial("_LoginPartial")
             </div>
-            <div>
-                <ul class="nav nav-pills">
-
-                    <li>
+            <div style="float:right">
+                <ul class="nav nav-tabs">
+                    <li class="tabs" id="lihome">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="tabs" id="liemp">
                         <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
                     </li>
-                    <li>
-                        <a href="#">Independant Contractor</a>
+                    <li class="tabs" id="licontractor">
+                        <a href="#">Contractor</a>
                     </li>
-                    <li>
+                    <li class="tabs" id="livendor">
                         <a href="#">Vendor</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("AddUser", "Admin")">Admin</a>
-                    </li>
-                    <li>
+
+                    <li class="tabs" id="lireporting">
                         <a href="#">Reporting</a>
+                    </li>
+                    <li class="tabs" id="liadmin">
+                        <a href="@Url.Action("AddUser", "Admin")">Admin</a>
                     </li>
 
                 </ul>
             </div>
+
         </div>
-    </div>
-    <div class="container body-content">
-        <br/>
-        @RenderBody()
-    </div>
+        @*<div class="navbar navbar-default  ">
+            <div class="container">
+            </div>
+        </div>*@
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <script src="~/Scripts/knockout-3.4.2.js"></script>
-    <script src="~/Scripts/knockout.mapping-latest.js"></script>
-    <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
 
+    </div>
+            <div class="container body-content">
+                <br />
+                @RenderBody()
+            </div>
+
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+            <script src="~/Scripts/knockout-3.4.2.js"></script>
+            <script src="~/Scripts/knockout.mapping-latest.js"></script>
+            <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+            <script>
+                $(document).ready(function () {
+                    //$("#nav1").find("ul.mastermenu li").each(function () {
+                    //    $(this).removeClass("active");
+                    //});
+
+                      setNav();
+
+                });
+                function setNav() {
+                    var url = window.location.href;
+                    var menuitem = "";
+                    $('#lihome').addClass("active");
+                    $('#lihome').removeClass("tabs");
+                    $('#liemp').removeClass("active");
+                    $('#liemp').addClass("tabs");
+
+                    $('#liadmin').removeClass("active");
+                    $('#liadmin').addClass("tabs");
+
+                    $('#lireporting').removeClass("active");
+                    $('#lireporting').addClass("tabs");
+
+                    $('#livenodr').removeClass("active");
+                    $('#livenodr').addClass("tabs");
+
+                    $('#licontractor').removeClass("active");
+                    $('#licontractor').addClass("tabs");
+                    if (url.toLowerCase().indexOf("employee") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').addClass("active");
+                        $('#liemp').removeClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("admin") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').addClass("active");
+                        $('#liadmin').removeClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("venodr") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').addClass("active");
+                        $('#livenodr').removeClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("reporting") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').addClass("active");
+                        $('#lireporting').removeClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("contractor") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').addClass("active");
+                        $('#licontractor').removeClass("tabs");
+
+                    }
+
+
+
+                }
+            </script>
 </body>
 </html>
