@@ -79,6 +79,22 @@
     <EntitySetMapping Name="TimeInOuts">
       <EntityTypeMapping TypeName="TimeTrackingModel.TimeInOut">
         <MappingFragment StoreEntitySet="TimeInOut">
+          <ScalarProperty Name="TimeOut2M2" ColumnName="TimeOut2M2" />
+          <ScalarProperty Name="TimeOut2M1" ColumnName="TimeOut2M1" />
+          <ScalarProperty Name="TimeOut2H2" ColumnName="TimeOut2H2" />
+          <ScalarProperty Name="TimeOut2H1" ColumnName="TimeOut2H1" />
+          <ScalarProperty Name="TimeIn2M2" ColumnName="TimeIn2M2" />
+          <ScalarProperty Name="TimeIn2M1" ColumnName="TimeIn2M1" />
+          <ScalarProperty Name="TimeIn2H2" ColumnName="TimeIn2H2" />
+          <ScalarProperty Name="TimeIn2H1" ColumnName="TimeIn2H1" />
+          <ScalarProperty Name="TimeOutM2" ColumnName="TimeOutM2" />
+          <ScalarProperty Name="TimeOutM1" ColumnName="TimeOutM1" />
+          <ScalarProperty Name="TimeOutH2" ColumnName="TimeOutH2" />
+          <ScalarProperty Name="TimeOutH1" ColumnName="TimeOutH1" />
+          <ScalarProperty Name="TimeInM2" ColumnName="TimeInM2" />
+          <ScalarProperty Name="TimeInM1" ColumnName="TimeInM1" />
+          <ScalarProperty Name="TimeInH2" ColumnName="TimeInH2" />
+          <ScalarProperty Name="TimeInH1" ColumnName="TimeInH1" />
           <ScalarProperty Name="isOutAM2" ColumnName="isOutAM2" />
           <ScalarProperty Name="isInAM2" ColumnName="isInAM2" />
           <ScalarProperty Name="TimeOut2" ColumnName="TimeOut2" />
@@ -98,6 +114,7 @@
     <EntitySetMapping Name="TimeSheets">
       <EntityTypeMapping TypeName="TimeTrackingModel.TimeSheet">
         <MappingFragment StoreEntitySet="TimeSheet">
+          <ScalarProperty Name="isDraft" ColumnName="isDraft" />
           <ScalarProperty Name="HasTime2" ColumnName="HasTime2" />
           <ScalarProperty Name="fk_statusid" ColumnName="fk_statusid" />
           <ScalarProperty Name="isLiveIn" ColumnName="isLiveIn" />

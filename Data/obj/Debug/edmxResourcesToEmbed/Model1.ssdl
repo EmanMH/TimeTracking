@@ -99,6 +99,22 @@
     <Property Name="TimeOut2" Type="nvarchar" MaxLength="50" />
     <Property Name="isInAM2" Type="bit" />
     <Property Name="isOutAM2" Type="bit" />
+    <Property Name="TimeInH1" Type="int" />
+    <Property Name="TimeInH2" Type="int" />
+    <Property Name="TimeInM1" Type="int" />
+    <Property Name="TimeInM2" Type="int" />
+    <Property Name="TimeOutH1" Type="int" />
+    <Property Name="TimeOutH2" Type="int" />
+    <Property Name="TimeOutM1" Type="int" />
+    <Property Name="TimeOutM2" Type="int" />
+    <Property Name="TimeIn2H1" Type="int" />
+    <Property Name="TimeIn2H2" Type="int" />
+    <Property Name="TimeIn2M1" Type="int" />
+    <Property Name="TimeIn2M2" Type="int" />
+    <Property Name="TimeOut2H1" Type="int" />
+    <Property Name="TimeOut2H2" Type="int" />
+    <Property Name="TimeOut2M1" Type="int" />
+    <Property Name="TimeOut2M2" Type="int" />
   </EntityType>
   <EntityType Name="TimeSheet">
     <Key>
@@ -111,6 +127,7 @@
     <Property Name="isLiveIn" Type="bit" />
     <Property Name="fk_statusid" Type="int" />
     <Property Name="HasTime2" Type="bit" />
+    <Property Name="isDraft" Type="bit" />
   </EntityType>
   <EntityType Name="UserDetails">
     <Key>

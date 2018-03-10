@@ -11,7 +11,6 @@
 }
 
 .nav-tabs > li.tabs > a,
-.nav-tabs > li.tabs > a:hover,
 .nav-tabs > li.tabs > a:focus {
     color: #555555;
     background-color: #ffffff;
@@ -19,13 +18,22 @@
     border-bottom-color: transparent;
 }
 
+    .nav-tabs > li.tabs > a:hover {
+        color: #FFFFFF;
+        background-color: darkgreen;
+        border: 1px solid #dddddd;
+        border-bottom-color: transparent;
+        font-weight: bold;
+    }
+
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-    color: #555555;
+    color: white;
     cursor: default;
-    background-color: lightblue;
+    background-color: navy;
+    font-weight:bold;
     border: 1px solid #dddddd;
     border-bottom-color: transparent;
 }

@@ -27,6 +27,8 @@
         self.backup = ko.observable();
         self.liveIn = ko.observable();
         self.empname = ko.observable();
+        self.Id = ko.observable();
+
         self.HasTime2 = ko.observable();
 
         self.isViewOnly = ko.observable(false);
@@ -115,7 +117,7 @@
             timesheetKO.items([]);
             timesheetKO.serviceCodes([]);
             timesheetKO.PlanSections([]);
-
+            deletedRows = [];
             dateSelected = JSON.stringify({ 'dateSelected': dateSelected });
             $.ajax({
                 url: window.configLocation+"/Employee/getTimeSheet",
@@ -142,6 +144,7 @@
                   //  timesheetKO.backup(result.isBackup:'Y':'N');
                    // timesheetKO.liveIn(result.isLiveIn);
                     timesheetKO.empname(result.empName);
+                    timesheetKO.Id(result.Id);
                     timesheetKO.HasTime2(result.HasTime2);
                     timesheetKO.isViewOnly(result.isViewOnly);
                   //  timesheetKO.dates(result.dates);
@@ -203,16 +206,43 @@
             if (deletedRows.length == 0)
                 timesheetKO.canUndo(false);
         }
-
-        self.save = function (data) {
-            debugger;
+        self.saveDraft = function (data) {
             $("#successdiv").hide();
 
+                var items = ko.toJSON(data.items());
+                //var backup = ko.toJSON(data.backup());
+                //var livein = ko.toJSON(data.liveIn());
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup(), 'livein': data.liveIn(),'draft':true,'id':data.Id() });
+                $.ajax({
+                    url: window.configLocation + "/Employee/saveTimeSheet",
+                    type: 'POST',
+                    data: data,
+                    contentType: 'application/json',
+                    success: function (result) {
+                        $("#successdiv").show();
+                        $("#successModal").modal('show');
+
+                    },
+                    error: function (result) {
+                        $("#successdiv").hide();
+                        $("#successModal").modal('hide');
+
+                        //error$("#successdive").html("");
+
+                    }
+                });
+        }
+
+        self.save = function (data) {
+            $("#successdiv").hide();
+            $("#successModal").modal('hide');
+
+            deletedRows = [];
             if (timesheetKO.validate(data)) {
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
-                var data = JSON.stringify({ 'items': items, 'backup': data.backup(), 'livein': data.liveIn() });
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup(), 'livein': data.liveIn(), 'draft': false, 'id': data.Id() });
                 $.ajax({
                     url: window.configLocation+ "/Employee/saveTimeSheet",
                     type: 'POST',
@@ -220,11 +250,15 @@
                     contentType: 'application/json',
                     success: function (result) {
                         $("#successdiv").show();
+                        $("#successModal").modal('show');
+
                         
 
                     },
                     error: function (result) {
                         $("#successdiv").hide();
+                        $("#successModal").modal('hide');
+
                         //error$("#successdive").html("");
 
                     }

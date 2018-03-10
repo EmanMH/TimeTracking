@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>SDTR Consulting LLC</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script>
-        window.configLocation = "/tracking";
+        window.configLocation = "";
     </script>
 
 </head>
@@ -22,115 +23,198 @@
                 </button>
 
 
-                <div class="navbar-brand"> <img src="~/Images/picture_logo.png" width="106" height="45"> &nbsp; &nbsp; <b style="color:white">SDTR<i>Care</i></b> </div>
+                <div class="navbar-brand"> <img src="~/Images/picture_logo.png" width="90" height="40"> &nbsp; &nbsp; <b style="color:white">SDTR<i>Care</i></b> </div>
 
 
             </div>
             <div class="navbar-collapse collapse">
                 @*<ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
+                   <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
 
 
-                 </ul>*@
+            </ul>*@
                 @Html.Partial("_LoginPartial")
             </div>
-            <div>
-                <ul class="nav nav-tabs" >
-                    <li class="active" id="lihome">
-                        <a href="#" >Home</a>
+            <div style="float:right">
+                <ul class="nav nav-tabs">
+                    <li class="tabs" id="lihome">
+                        <a href="#">Home</a>
                     </li>
-                    <li id="liemp">
+                    <li class="tabs" id="liemp">
                         <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
                     </li>
-                    <li id="licontractor">
+                    <li class="tabs" id="licontractor">
                         <a href="#">Contractor</a>
                     </li>
-                    <li id="livendor">
+                    <li class="tabs" id="livendor">
                         <a href="#">Vendor</a>
                     </li>
-                    <li id="liadmin">
-                        <a href="@Url.Action("AddUser", "Admin")">Admin</a>
-                    </li>
-                    <li id="lireporting">
+
+                    <li class="tabs" id="lireporting">
                         <a href="#">Reporting</a>
+                    </li>
+                    <li class="tabs" id="liadmin">
+                        <a href="@Url.Action("AddUser", "Admin")">Admin</a>
                     </li>
 
                 </ul>
             </div>
+
         </div>
+        @*<div class="navbar navbar-default  ">
+            <div class="container">
+            </div>
+        </div>*@
+
+
     </div>
-    <div class="container body-content">
-        <br/>
-        @RenderBody()
-    </div>
+            <div class="container body-content">
+                <br />
+                @RenderBody()
+            </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <script src="~/Scripts/knockout-3.4.2.js"></script>
-    <script src="~/Scripts/knockout.mapping-latest.js"></script>
-    <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
-    <script>
-        $(document).ready(function () {
-            //$("#nav1").find("ul.mastermenu li").each(function () {
-            //    $(this).removeClass("active");
-            //});
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+            <script src="~/Scripts/knockout-3.4.2.js"></script>
+            <script src="~/Scripts/knockout.mapping-latest.js"></script>
+            <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+            <script>
+                $(document).ready(function () {
+                    //$("#nav1").find("ul.mastermenu li").each(function () {
+                    //    $(this).removeClass("active");
+                    //});
 
-            setNav();
+                      setNav();
 
-        });
-        function setNav() {
-            var url = window.location.href;
-            var menuitem = "";
-            $('#lihome').addClass("active");
-            if (url.toLowerCase().indexOf("employee") != "-1") {
-                $('#lihome').removeClass("active");
-                $('#liemp').addClass("active");
-                $('#liadmin').removeClass("active");
-                $('#lireporting').removeClass("active");
-                $('#livenodr').removeClass("active");
-                $('#licontractor').removeClass("active");
-            }
+                });
+                function setNav() {
+                    var url = window.location.href;
+                    var menuitem = "";
+                    $('#lihome').addClass("active");
+                    $('#lihome').removeClass("tabs");
+                    $('#liemp').removeClass("active");
+                    $('#liemp').addClass("tabs");
 
-            else if (url.toLowerCase().indexOf("admin") != "-1") {
-                $('#lihome').removeClass("active");
-                $('#liemp').removeClass("active");
-                $('#liadmin').addClass("active");
-                $('#lireporting').removeClass("active");
-                $('#livenodr').removeClass("active");
-                $('#licontractor').removeClass("active");
-            }
+                    $('#liadmin').removeClass("active");
+                    $('#liadmin').addClass("tabs");
 
-            else if (url.toLowerCase().indexOf("venodr") != "-1") {
-                $('#lihome').removeClass("active");
-                $('#liemp').removeClass("active");
-                $('#liadmin').removeClass("active");
-                $('#lireporting').removeClass("active");
-                $('#livenodr').addClass("active");
-                $('#licontractor').removeClass("active");
-            }
+                    $('#lireporting').removeClass("active");
+                    $('#lireporting').addClass("tabs");
 
-            else if (url.toLowerCase().indexOf("reporting") != "-1") {
-                $('#lihome').removeClass("active");
-                $('#liemp').removeClass("active");
-                $('#liadmin').removeClass("active");
-                $('#lireporting').addClass("active");
-                $('#livenodr').removeClass("active");
-                $('#licontractor').removeClass("active");
-            }
+                    $('#livenodr').removeClass("active");
+                    $('#livenodr').addClass("tabs");
 
-            else if (url.toLowerCase().indexOf("contractor") != "-1") {
-                $('#lihome').removeClass("active");
-                $('#liemp').removeClass("active");
-                $('#liadmin').removeClass("active");
-                $('#lireporting').removeClass("active");
-                $('#livenodr').removeClass("active");
-                $('#licontractor').addClass("active");
-            }
-           
-           
+                    $('#licontractor').removeClass("active");
+                    $('#licontractor').addClass("tabs");
+                    if (url.toLowerCase().indexOf("employee") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
 
-        }
-    </script>
+                        $('#liemp').addClass("active");
+                        $('#liemp').removeClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("admin") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').addClass("active");
+                        $('#liadmin').removeClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("venodr") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').addClass("active");
+                        $('#livenodr').removeClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("reporting") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').addClass("active");
+                        $('#lireporting').removeClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').removeClass("active");
+                        $('#licontractor').addClass("tabs");
+
+                    }
+
+                    else if (url.toLowerCase().indexOf("contractor") != "-1") {
+                        $('#lihome').removeClass("active");
+                        $('#lihome').addClass("tabs");
+
+                        $('#liemp').removeClass("active");
+                        $('#liemp').addClass("tabs");
+
+                        $('#liadmin').removeClass("active");
+                        $('#liadmin').addClass("tabs");
+
+                        $('#lireporting').removeClass("active");
+                        $('#lireporting').addClass("tabs");
+
+                        $('#livenodr').removeClass("active");
+                        $('#livenodr').addClass("tabs");
+
+                        $('#licontractor').addClass("active");
+                        $('#licontractor').removeClass("tabs");
+
+                    }
+
+
+
+                }
+            </script>
 </body>
 </html>

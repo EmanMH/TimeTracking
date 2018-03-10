@@ -7,6 +7,7 @@ namespace TimeTracking.Models
 {
     public class TimeSheetModel
     {
+        public int Id { get; set; }
         public string empName { get; set; }
         public bool isBackup { get; set; }
         public bool isLiveIn { get; set; }
@@ -17,7 +18,7 @@ namespace TimeTracking.Models
         public List<plan> PlanSections { get; set; }
         public List<svc> serviceCodes { get; set; }
         public bool HasTime2 { get; set; }
-
+        public bool isDraft { get; set; }
 
     }
 

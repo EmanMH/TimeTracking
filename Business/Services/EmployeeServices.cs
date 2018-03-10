@@ -22,6 +22,20 @@ namespace Business.Services
             return svc;
         }
 
+        public void TimeSheetdeleteById(int id)
+
+        {
+            var ts= _ttContext.TimeSheets.Where(x => x.Id == id).FirstOrDefault();
+            for (int i = 0; i < ts.TimeInOuts.Count; i++)
+            {
+                ts.TimeInOuts.Remove(ts.TimeInOuts.ToList()[i]);
+            }
+            _ttContext.TimeSheets.Remove(ts);
+            _ttContext.SaveChanges();
+
+        }
+
+
         public List<planSection> getPlans()
         {
             var plans = _ttContext.planSections.ToList();

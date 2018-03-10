@@ -132,6 +132,7 @@
           <Property Name="isLiveIn" Type="bit" />
           <Property Name="fk_statusid" Type="int" />
           <Property Name="HasTime2" Type="bit" />
+          <Property Name="isDraft" Type="bit" />
         </EntityType>
         <EntityType Name="UserDetails">
           <Key>
@@ -547,6 +548,7 @@
           <Property Name="fk_statusid" Type="Int32" />
           <Property Name="HasTime2" Type="Boolean" />
           <NavigationProperty Name="status" Relationship="TimeTrackingModel.FK__TimeSheet__fk_st__2C3393D0" FromRole="TimeSheet" ToRole="status" />
+          <Property Name="isDraft" Type="Boolean" />
         </EntityType>
         <Association Name="FK__TimeSheet__fk_us__239E4DCF">
           <End Type="TimeTrackingModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -751,6 +753,7 @@
           <EntitySetMapping Name="TimeSheets">
             <EntityTypeMapping TypeName="TimeTrackingModel.TimeSheet">
               <MappingFragment StoreEntitySet="TimeSheet">
+                <ScalarProperty Name="isDraft" ColumnName="isDraft" />
                 <ScalarProperty Name="HasTime2" ColumnName="HasTime2" />
                 <ScalarProperty Name="fk_statusid" ColumnName="fk_statusid" />
                 <ScalarProperty Name="isLiveIn" ColumnName="isLiveIn" />

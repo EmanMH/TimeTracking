@@ -27,6 +27,7 @@ namespace Data
         public Nullable<bool> isLiveIn { get; set; }
         public Nullable<int> fk_statusid { get; set; }
         public Nullable<bool> HasTime2 { get; set; }
+        public Nullable<bool> isDraft { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

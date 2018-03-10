@@ -186,6 +186,22 @@
     <Property Name="TimeOut2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="isInAM2" Type="Boolean" />
     <Property Name="isOutAM2" Type="Boolean" />
+    <Property Name="TimeInH1" Type="Int32" />
+    <Property Name="TimeInH2" Type="Int32" />
+    <Property Name="TimeInM1" Type="Int32" />
+    <Property Name="TimeInM2" Type="Int32" />
+    <Property Name="TimeOutH1" Type="Int32" />
+    <Property Name="TimeOutH2" Type="Int32" />
+    <Property Name="TimeOutM1" Type="Int32" />
+    <Property Name="TimeOutM2" Type="Int32" />
+    <Property Name="TimeIn2H1" Type="Int32" />
+    <Property Name="TimeIn2H2" Type="Int32" />
+    <Property Name="TimeIn2M1" Type="Int32" />
+    <Property Name="TimeIn2M2" Type="Int32" />
+    <Property Name="TimeOut2H1" Type="Int32" />
+    <Property Name="TimeOut2H2" Type="Int32" />
+    <Property Name="TimeOut2M1" Type="Int32" />
+    <Property Name="TimeOut2M2" Type="Int32" />
   </EntityType>
   <EntityType Name="TimeSheet">
     <Key>
@@ -201,6 +217,7 @@
     <Property Name="fk_statusid" Type="Int32" />
     <Property Name="HasTime2" Type="Boolean" />
     <NavigationProperty Name="status" Relationship="TimeTrackingModel.FK__TimeSheet__fk_st__2C3393D0" FromRole="TimeSheet" ToRole="status" />
+    <Property Name="isDraft" Type="Boolean" />
   </EntityType>
   <Association Name="FK__TimeSheet__fk_us__239E4DCF">
     <End Type="TimeTrackingModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />

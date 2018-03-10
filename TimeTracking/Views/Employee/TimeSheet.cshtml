@@ -24,337 +24,370 @@
 </style>
 <div class="container">
     <br />
-    <div>
-            <div class="row" data-bind="visible:HasTime2()!=true">
-                <div class="col-sm-12" colspan="8" align="right">
-                    <input type="button" value="Save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
-                    <input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />
-                </div>
-            </div>
-            <div class="row" data-bind="visible:HasTime2()==true">
-                <div class="col-sm-12" colspan="12" align="right">
-                    <input type="button" value="Save" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
-                    <input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />
-                </div>
-            </div>
-       <br/>
-        <table class="table table-bordered table-responsive">
-            <thead>
-                <tr>
-                    <th>Employee</th>
-                    <th>Date Selection</th>
-                    <th>Backup (Y/N)</th>
-                    <th>Live-In (Y/N)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@ViewBag.empName</td>
-                    <td>
-                        <select class="form-control" name="dateSelected" data-bind="value:dateSelected,options: dateItems,
-                       optionsText: 'date',optionsValue: 'date', event:{change:showTime},optionsCaption: 'Select...'"></select>
-                    </td>
-                    <td>
-                        <input type="text" data-bind="value:backup" placeholder="Y/N" class="form-control" />
-                    </td>
-                    <td>
-                        <input type="text" data-bind="value:liveIn" placeholder="Y/N" class="form-control" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <hr />
-        <div class=" table-responsive">
-            <table class="table table-bordered " data-bind="visble:items.length>0" style="font-size:12px !important;">
+    <br />
 
+    <div class="row" data-bind="visible:HasTime2()!=true">
+        <div class="col-sm-12" colspan="8" align="right">
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default">
+                <i class="fa fa-undo"></i> Undo
+            </button>
+            @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
+            @*<input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
+        </div>
+    </div>
+    <div class="row" data-bind="visible:HasTime2()==true">
+        <div class="col-sm-12" colspan="12" align="right">
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default">
+                <i class="fa fa-undo"></i> Undo
+            </button>
+            @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
+            @*<input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
+        </div>
+    </div>
+    <div class="panel panel-default" style="border:1px solid navy !important;">
+        <div class="panel-heading" style="border:1px solid navy !important;"><h4>Employee</h4></div>
+        <div class="panel-body" style="border:1px solid navy !important;">
+
+
+            <table class="table table-bordered table-responsive">
                 <thead>
                     <tr>
-                        <th>Day</th>
-                        <th>Service<br />Code</th>
-                        <th>Plan<br />Section</th>
-                        <th>Time In</th>
-                        <th>AM/PM</th>
-                        <th>Time Out</th>
-                        <th>AM/PM</th>
-                        <!-- ko if: HasTime2 -->
-                        <th>Time In</th>
-                        <th>AM/PM</th>
-                        <th>Time Out</th>
-                        <th>AM/PM</th>
-                        <!-- /ko -->
-                        <th style="width:8%">Action</th>
-
+                        <th>Employee</th>
+                        <th>Date Selection</th>
+                        <th>Backup (Y/N)</th>
+                        <th>Live-In (Y/N)</th>
                     </tr>
                 </thead>
-                <tbody data-bind="foreach:items">
-
+                <tbody>
                     <tr>
+                        <td>@ViewBag.empName</td>
                         <td>
-                            <label data-bind="text:dayName"></label>
-                            <br />
-                            <label data-bind="text: dayDate"></label>
+                            <select class="form-control" name="dateSelected" data-bind="value:dateSelected,options: dateItems,
+                       optionsText: 'date',optionsValue: 'date', event:{change:showTime},optionsCaption: 'Select...'"></select>
                         </td>
                         <td>
-                            <select data-bind="value:serviceCodeId,options: $root.serviceCodes,
+                            <input type="text" data-bind="value:backup" placeholder="Y/N" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" data-bind="value:liveIn" placeholder="Y/N" class="form-control" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <div class=" table-responsive">
+                <table class="table table-bordered " data-bind="visble:items.length>0" style="font-size:12px !important;">
+
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Service<br />Code</th>
+                            <th>Plan<br />Section</th>
+                            <th>Time In</th>
+                            <th>AM/PM</th>
+                            <th>Time Out</th>
+                            <th>AM/PM</th>
+                            <!-- ko if: HasTime2 -->
+                            <th>Time In</th>
+                            <th>AM/PM</th>
+                            <th>Time Out</th>
+                            <th>AM/PM</th>
+                            <!-- /ko -->
+                            <th style="width:8%">Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach:items">
+
+                        <tr>
+                            <td>
+                                <label data-bind="text:dayName"></label>
+                                <br />
+                                <label data-bind="text: dayDate"></label>
+                            </td>
+                            <td>
+                                <select data-bind="value:serviceCodeId,options: $root.serviceCodes,
                        optionsText: 'Name',optionsValue: 'Id',optionsCaption: '.'" style="width:45px"></select>
 
-                        </td>
-                        <td>
-                            <select data-bind="value:plansectionId,options: $root.PlanSections,
+                            </td>
+                            <td>
+                                <select data-bind="value:plansectionId,options: $root.PlanSections,
                        optionsText: 'Name',optionsValue: 'Id',optionsCaption: '.'" style="width:40px"></select>
-                        </td>
-                        <td>
-                            <select data-bind="value:TimeInH1" style="display:inline-block;width:40px;">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                                <option value="6">06</option>
-                                <option value="7">07</option>
-                                <option value="8">08</option>
-                                <option value="9">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
+                            </td>
+                            <td>
+                                <select data-bind="value:TimeInH1" style="display:inline-block;width:40px;">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
 
-                            </select> :
-                            <select data-bind="value:TimeInM1" style="display:inline-block;width:40px;">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                                @*<option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>*@
-                            </select>
-                        </td>
-                        <td>
-                            <select data-bind="value:isAmIn" style="width:45px">
-                                <option value="-1"></option>
-                                <option value="true">AM</option>
-                                <option value="false">PM</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select data-bind="value:TimeOutH1" style="display:inline-block;width:40px;">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                                <option value="6">06</option>
-                                <option value="7">07</option>
-                                <option value="8">08</option>
-                                <option value="9">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
+                                </select> :
+                                <select data-bind="value:TimeInM1" style="display:inline-block;width:40px;">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                    @*<option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>*@
+                                </select>
+                            </td>
+                            <td>
+                                <select data-bind="value:isAmIn" style="width:45px">
+                                    <option value="-1"></option>
+                                    <option value="true">AM</option>
+                                    <option value="false">PM</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select data-bind="value:TimeOutH1" style="display:inline-block;width:40px;">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
 
-                            </select> :
-                            <select data-bind="value:TimeOutM1" style="display:inline-block;width:40px;">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                            </select>
+                                </select> :
+                                <select data-bind="value:TimeOutM1" style="display:inline-block;width:40px;">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
 
-                        </td>
-                        <td>
-                            <select data-bind="value:isAmOut" style="width:45px">
-                                <option value="-1"></option>
-                                <option value="true">AM</option>
-                                <option value="false">PM</option>
-                            </select>
-                        </td>
-                        <!-- ko if: $root.HasTime2 -->
+                            </td>
+                            <td>
+                                <select data-bind="value:isAmOut" style="width:45px">
+                                    <option value="-1"></option>
+                                    <option value="true">AM</option>
+                                    <option value="false">PM</option>
+                                </select>
+                            </td>
+                            <!-- ko if: $root.HasTime2 -->
 
 
-                        <td>
-                            <!-- ko if: Time2 -->
-                            <select data-bind="value:TimeIn2H1" style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                                <option value="6">06</option>
-                                <option value="7">07</option>
-                                <option value="8">08</option>
-                                <option value="9">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
+                            <td>
+                                <!-- ko if: Time2 -->
+                                <select data-bind="value:TimeIn2H1" style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
 
-                            </select> :
-                            <select data-bind="value:TimeIn2M1" style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                            </select>
+                                </select> :
+                                <select data-bind="value:TimeIn2M1" style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <!--/ko-->
+                                <!-- ko if: !Time2 -->
+                                <select data-bind="value:TimeIn2H1 " style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+
+                                </select> :
+                                <select data-bind="value:TimeIn2M1" style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <!--/ko-->
+
+                            </td>
+                            <td>
+                                <select data-bind="value:isAmIn2,visible:Time2" style="width:45px">
+                                    <option value="-1"></option>
+                                    <option value="true">AM</option>
+                                    <option value="false">PM</option>
+                                </select>
+                            </td>
+                            <td>
+                                <!-- ko if: Time2 -->
+                                <select data-bind="value:TimeOut2H1" style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+
+                                </select> :
+                                <select data-bind="value:TimeOut2M1" style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <!--/ko-->
+                                <!-- ko if: !Time2 -->
+                                <select data-bind="value:TimeOut2H1" style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+
+                                </select> :
+                                <select data-bind="value:TimeOut2M1" style="width: 40px;display:inline-block">
+                                    <option value="-1"></option>
+                                    <option value="0">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <!--/ko-->
+
+
+                            </td>
+                            <td>
+                                <select data-bind="value:isAmOut2,visible:Time2" style="width:45px">
+                                    <option value="-1"></option>
+                                    <option value="true">AM</option>
+                                    <option value="false">PM</option>
+                                </select>
+                            </td>
                             <!--/ko-->
-                            <!-- ko if: !Time2 -->
-                            <select data-bind="value:TimeIn2H1 " style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                                <option value="6">06</option>
-                                <option value="7">07</option>
-                                <option value="8">08</option>
-                                <option value="9">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-
-                            </select> :
-                            <select data-bind="value:TimeIn2M1" style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                            </select>
-                            <!--/ko-->
-
-                        </td>
-                        <td>
-                            <select data-bind="value:isAmIn2,visible:Time2" style="width:45px">
-                                <option value="-1"></option>
-                                <option value="true">AM</option>
-                                <option value="false">PM</option>
-                            </select>
-                        </td>
-                        <td>
-                            <!-- ko if: Time2 -->
-                            <select data-bind="value:TimeOut2H1" style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                                <option value="6">06</option>
-                                <option value="7">07</option>
-                                <option value="8">08</option>
-                                <option value="9">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-
-                            </select> :
-                            <select data-bind="value:TimeOut2M1" style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                            </select>
-                            <!--/ko-->
-                            <!-- ko if: !Time2 -->
-                            <select data-bind="value:TimeOut2H1" style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                                <option value="6">06</option>
-                                <option value="7">07</option>
-                                <option value="8">08</option>
-                                <option value="9">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-
-                            </select> :
-                            <select data-bind="value:TimeOut2M1" style="width: 40px;display:inline-block">
-                                <option value="-1"></option>
-                                <option value="0">00</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                            </select>
-                            <!--/ko-->
-
-
-                        </td>
-                        <td>
-                            <select data-bind="value:isAmOut2,visible:Time2" style="width:45px">
-                                <option value="-1"></option>
-                                <option value="true">AM</option>
-                                <option value="false">PM</option>
-                            </select>
-                        </td>
-                        <!--/ko-->
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Select Action
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <ul style="list-style:none">
-                                        <li>
-                                            <a class="dropdown-item" href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#" data-bind="click:$root.lessTime,visible:Time2()==true">Delete time</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#" data-bind="click:$root.moreService">Add Service Code</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#" data-bind="click:$root.deleteRow">Delete Service Code</a>
-                                        </li>
-                                    </ul>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select Action
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <ul style="list-style:none;padding:0px !important;margin:0px !important;color:navy">
+                                            <li>
+                                                <a class="dropdown-item" href="#" data-bind="click:$root.moreTime,visible:Time2()!=true" style="color:navy">Add Time</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#" data-bind="click:$root.lessTime,visible:Time2()==true" style="color:navy">Delete Time</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#" data-bind="click:$root.moreService" style="color:navy">Add Service Code</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#" data-bind="click:$root.deleteRow" style="color:navy">Delete Service Code</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                           
-                            @*<a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a><a href="#" data-bind="click:$root.lessTime,visible:Time2()==true">Delete time</a><br /> <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
-        <br /> <a href="#" data-bind="click:$root.deleteRow">Delete</a>*@
-                        </td>
-                    </tr>
+
+                                @*<a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a><a href="#" data-bind="click:$root.lessTime,visible:Time2()==true">Delete time</a><br /> <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
+                                    <br /> <a href="#" data-bind="click:$root.deleteRow">Delete</a>*@
+                            </td>
+                        </tr>
 
 
-                </tbody>
-                <tfoot>
-                    <tr data-bind="visible:HasTime2()!=true">
-                        <td colspan="8" align="right">
-                            <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
-                            @*<input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
-                        </td>
-                    </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr data-bind="visible:HasTime2()!=true">
+                            <td colspan="8" align="right">
+                                <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
+                                @*<input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
+                            </td>
+                        </tr>
 
-                    <tr data-bind="visible:HasTime2()==true">
-                        <td colspan="12" align="right">
-                            <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
-                            @*<input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div id="successdiv" style="display:none" class="text-success">Saved Successfully</div>
-        <div id="errorDiv" style="display:none" class="text-danger">
+                        <tr data-bind="visible:HasTime2()==true">
+                            <td colspan="12" align="right">
+                                <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
+                                @*<input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div id="successdiv" style="display:none" class="alert alert-success">Saved Successfully</div>
+            <div id="errorDiv" style="display:none" class="alert alert-danger">
+            </div>
         </div>
     </div>
 
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="successModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div  class="alert alert-success">Saved Successfully</div>
+            </div>
+          
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
