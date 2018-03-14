@@ -233,9 +233,9 @@ namespace Save_DataToExcel
                         
 						// save before go to the next sheet the total working hours per each Service Code
                         oSheet.get_Range("F24", "G24").Value = "032";
-                        oSheet.get_Range("H24","J24").Value =  ts.Total032WorkedHours.TotalHours + (ts.Total032WorkedHours.Days * 24);
+                        oSheet.get_Range("H24","J24").Value =  ts.Total032WorkedHours.TotalHours;
                         oSheet.get_Range("F26", "G26").Value = "011";
-                        oSheet.get_Range("H26", "J26").Value =  ts.Total011WorkedHours.TotalHours + (ts.Total011WorkedHours.Days * 24);
+                        oSheet.get_Range("H26", "J26").Value =  ts.Total011WorkedHours.TotalHours;
                         ts.Total011WorkedHours = new TimeSpan();
                         ts.Total032WorkedHours = new TimeSpan();
 						
@@ -248,9 +248,9 @@ namespace Save_DataToExcel
                 {
                     // save in the last sheet the total working hours per each Service Code
                     oSheet.get_Range("F24", "G24").Value = "032";
-                    oSheet.get_Range("H24", "J24").Value = ts.Total032WorkedHours.TotalHours + (ts.Total032WorkedHours.Days * 24);
+                    oSheet.get_Range("H24", "J24").Value = ts.Total032WorkedHours.TotalHours;
                     oSheet.get_Range("F26", "G26").Value = "011";
-                    oSheet.get_Range("H26", "J26").Value = ts.Total011WorkedHours.TotalHours + (ts.Total011WorkedHours.Days * 24);
+                    oSheet.get_Range("H26", "J26").Value = ts.Total011WorkedHours.TotalHours;
                     ts.Total011WorkedHours = new TimeSpan();
                     ts.Total032WorkedHours = new TimeSpan();
                 }
