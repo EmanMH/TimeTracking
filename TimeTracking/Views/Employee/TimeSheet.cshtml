@@ -9,6 +9,18 @@
 
 <script src="~/Scripts/Knockout/TimeSheet.js"></script>
 <style>
+    
+
+    .table-fixed tbody {
+        height: 230px;
+        overflow-y: auto;
+    }
+
+    .table-fixed thead, .table-fixed tbody, .table-fixed tr {
+        display: block;
+    }
+
+       
     .nav-tabs > li > a {
         margin-right: 2px;
         line-height: 1.428571429;
@@ -24,11 +36,10 @@
 </style>
 <div class="container">
     <br />
-    <br />
 
     <div class="row" data-bind="visible:HasTime2()!=true">
         <div class="col-sm-12" colspan="8" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default">
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default">
                 <i class="fa fa-save"></i> Save
             </button>
             <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default">
@@ -40,7 +51,7 @@
     </div>
     <div class="row" data-bind="visible:HasTime2()==true">
         <div class="col-sm-12" colspan="12" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default">
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default">
                 <i class="fa fa-save"></i> Save
             </button>
             <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default">
@@ -51,11 +62,10 @@
         </div>
     </div>
     <div class="panel panel-default" style="border:1px solid navy !important;">
-        <div class="panel-heading" style="border:1px solid navy !important;"><h4>Employee</h4></div>
-        <div class="panel-body" style="border:1px solid navy !important;">
-
-
+        @*<div class="panel-heading" style="border:1px solid navy !important;"><h4>Employee</h4></div>*@
+        <div class="panel-body" style="border:1px solid navy !important;padding: 10px !important;">
             <table class="table table-bordered table-responsive">
+                @*style="display:none" id="sheet"*@
                 <thead>
                     <tr>
                         <th>Employee</th>
@@ -81,8 +91,8 @@
                 </tbody>
             </table>
             <hr />
-            <div class=" table-responsive">
-                <table class="table table-bordered " data-bind="visble:items.length>0" style="font-size:12px !important;">
+            <div class=" table-responsive " style="height:250px;overflow-y:scroll">
+                <table class="table table-bordered" data-bind="visble:items.length>0" style="font-size:12px !important;">
 
                     <thead>
                         <tr>
@@ -99,7 +109,7 @@
                             <th>Time Out</th>
                             <th>AM/PM</th>
                             <!-- /ko -->
-                            <th style="width:8%">Action</th>
+                            <th>Action</th>
 
                         </tr>
                     </thead>
@@ -145,9 +155,9 @@
                                     <option value="30">30</option>
                                     <option value="45">45</option>
                                     @*<option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>*@
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>*@
                                 </select>
                             </td>
                             <td>
@@ -326,7 +336,7 @@
                                         Select Action
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <ul style="list-style:none;padding:0px !important;margin:0px !important;color:navy">
+                                        <ul style="list-style:none;padding:0px !important;margin:8px !important;color:navy">
                                             <li>
                                                 <a class="dropdown-item" href="#" data-bind="click:$root.moreTime,visible:Time2()!=true" style="color:navy">Add Time</a>
                                             </li>
@@ -344,29 +354,28 @@
                                 </div>
 
                                 @*<a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a><a href="#" data-bind="click:$root.lessTime,visible:Time2()==true">Delete time</a><br /> <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
-                                    <br /> <a href="#" data-bind="click:$root.deleteRow">Delete</a>*@
+                            <br /> <a href="#" data-bind="click:$root.deleteRow">Delete</a>*@
                             </td>
                         </tr>
 
 
                     </tbody>
-                    <tfoot>
-                        <tr data-bind="visible:HasTime2()!=true">
-                            <td colspan="8" align="right">
-                                <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
-                                @*<input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
-                            </td>
-                        </tr>
-
-                        <tr data-bind="visible:HasTime2()==true">
-                            <td colspan="12" align="right">
-                                <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true" class="btn btn-default" />
-                                @*<input type="button" value="undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
-                            </td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
+            <br />
+            <div class="row" data-bind="visible:HasTime2()!=true">
+                <div class="col-sm-12" colspan="8" align="right">
+                    <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default" />
+                </div>
+            </div>
+            <div class="row" data-bind="visible:HasTime2()==true">
+                <div class="col-sm-12" colspan="12" align="right">
+                    <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default" />
+
+                </div>
+            </div>
+            <div id="loading" class="row" align="right" style="margin-right:2px;display:none;">Saving...</div>
+
             <div id="successdiv" style="display:none" class="alert alert-success">Saved Successfully</div>
             <div id="errorDiv" style="display:none" class="alert alert-danger">
             </div>

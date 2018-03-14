@@ -147,9 +147,22 @@ namespace Save_DataToExcel
                 result += " ,7";
 
 
-                for (int i = 1; i < ts.TimeRecordsLst.Count / 15; i++)
+                double cnt = (double)ts.TimeRecordsLst.Count / (double)15;
+                int count = 0;
+                if ((cnt % 1) > 0)
                 {
-                    oSheet.Copy(oXL.ActiveWorkbook.Worksheets[i+1]);
+                    count = (int)cnt;
+                    count++;
+                }
+                else
+                {
+                    count = (int)cnt;
+                }
+
+
+                for (int i = 1; i < count; i++)
+                {
+                    oSheet.Copy(oXL.ActiveWorkbook.Worksheets[i + 1]);
                 }
                 result += " ,8";
 

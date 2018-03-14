@@ -30,7 +30,7 @@
         self.Id = ko.observable();
 
         self.HasTime2 = ko.observable();
-
+        self.isSubmitted = ko.observable(false);
         self.isViewOnly = ko.observable(false);
         self.canUndo = ko.observable(false);
 
@@ -117,7 +117,11 @@
             timesheetKO.items([]);
             timesheetKO.serviceCodes([]);
             timesheetKO.PlanSections([]);
-            deletedRows = [];
+            while (deletedRows.length != 0) {
+                deletedRows.pop();
+            }
+            timesheetKO.canUndo(false);
+            
             dateSelected = JSON.stringify({ 'dateSelected': dateSelected });
             $.ajax({
                 url: window.configLocation+"/Employee/getTimeSheet",
@@ -147,6 +151,7 @@
                     timesheetKO.Id(result.Id);
                     timesheetKO.HasTime2(result.HasTime2);
                     timesheetKO.isViewOnly(result.isViewOnly);
+                   // $("#sheet").show();
                   //  timesheetKO.dates(result.dates);
 
                 },
@@ -208,6 +213,7 @@
         }
         self.saveDraft = function (data) {
             $("#successdiv").hide();
+            $("#loading").show();
 
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
@@ -221,11 +227,13 @@
                     success: function (result) {
                         $("#successdiv").show();
                         $("#successModal").modal('show');
+                        $("#loading").hide();
 
                     },
                     error: function (result) {
                         $("#successdiv").hide();
                         $("#successModal").modal('hide');
+                        $("#loading").hide();
 
                         //error$("#successdive").html("");
 
@@ -237,8 +245,14 @@
             $("#successdiv").hide();
             $("#successModal").modal('hide');
 
-            deletedRows = [];
+            while (deletedRows.length != 0) {
+                deletedRows.pop();
+            }
+            timesheetKO.canUndo(false);
+
             if (timesheetKO.validate(data)) {
+                $("#loading").show();
+
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
@@ -251,13 +265,14 @@
                     success: function (result) {
                         $("#successdiv").show();
                         $("#successModal").modal('show');
-
-                        
+                        $("#loading").hide();
+                        timesheetKO.isSubmitted(true);
 
                     },
                     error: function (result) {
                         $("#successdiv").hide();
                         $("#successModal").modal('hide');
+                        $("#loading").show();
 
                         //error$("#successdive").html("");
 
