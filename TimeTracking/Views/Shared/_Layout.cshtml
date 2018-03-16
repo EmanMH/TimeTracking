@@ -29,192 +29,194 @@
             </div>
             <div class="navbar-collapse collapse">
                 @*<ul class="nav navbar-nav">
-                   <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
+                           <li>@Html.ActionLink("Add User", "AddUser", "Admin")</li>
 
 
-            </ul>*@
+                    </ul>*@
                 @Html.Partial("_LoginPartial")
-            </div>
-            <div style="float:right">
-                <ul class="nav nav-tabs">
-                    <li class="tabs" id="lihome">
-                        <a href="#">Home</a>
-                    </li>
-                    <li class="tabs" id="liemp">
-                        <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
-                    </li>
-                    <li class="tabs" id="licontractor">
-                        <a href="#">Contractor</a>
-                    </li>
-                    <li class="tabs" id="livendor">
-                        <a href="#">Vendor</a>
-                    </li>
-
-                    <li class="tabs" id="lireporting">
-                        <a href="#">Reporting</a>
-                    </li>
-                    <li class="tabs" id="liadmin">
-                        <a href="@Url.Action("AddUser", "Admin")">Admin</a>
-                    </li>
-
-                </ul>
             </div>
 
         </div>
         @*<div class="navbar navbar-default  ">
-            <div class="container">
-            </div>
-        </div>*@
+                <div class="container">
+                </div>
+            </div>*@
 
 
     </div>
-            <div class="container body-content">
-                <br />
-                @RenderBody()
-            </div>
+  
+    <div class="sidebar-toggle" style="width:10%;height:100%">
+            <ul class=" nav-tabs flex-column" style="list-style:none;text-align:right !important;align-items:flex-end !important;padding-top:1px !important">
+                <li class="tabs" id="lihome" style="margin-top:18px !important;float:right !important">
+                    <a href="#">Home</a>
+                </li>
+                <li class="tabs" id="liemp" style="margin-top:3px !important;float:right !important">
+                    <a href="@Url.Action("Timesheet", "Employee")">Employee</a>
+                </li>
+                <li class="tabs" id="licontractor" style="margin-top:3px !important;float:right !important">
+                    <a href="#">Contractor</a>
+                </li>
+                <li class="tabs" id="livendor" style="margin-top:3px !important;float:right !important">
+                    <a href="#">Vendor</a>
+                </li>
 
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/bootstrap")
-            @RenderSection("scripts", required: false)
-            <script src="~/Scripts/knockout-3.4.2.js"></script>
-            <script src="~/Scripts/knockout.mapping-latest.js"></script>
-            <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
-            <script>
-                $(document).ready(function () {
-                    //$("#nav1").find("ul.mastermenu li").each(function () {
-                    //    $(this).removeClass("active");
-                    //});
+                <li class="tabs" id="lireporting" style="margin-top:3px !important;float:right !important">
+                    <a href="#">Reporting</a>
+                </li>
+                <li class="tabs" id="liadmin" style="margin-top:3px !important;float:right !important">
+                    <a href="@Url.Action("AddUser", "Admin")">Admin</a>
+                </li>
 
-                      setNav();
-
-                });
-                function setNav() {
-                    var url = window.location.href;
-                    var menuitem = "";
-                    $('#lihome').addClass("active");
-                    $('#lihome').removeClass("tabs");
-                    $('#liemp').removeClass("active");
-                    $('#liemp').addClass("tabs");
-
-                    $('#liadmin').removeClass("active");
-                    $('#liadmin').addClass("tabs");
-
-                    $('#lireporting').removeClass("active");
-                    $('#lireporting').addClass("tabs");
-
-                    $('#livenodr').removeClass("active");
-                    $('#livenodr').addClass("tabs");
-
-                    $('#licontractor').removeClass("active");
-                    $('#licontractor').addClass("tabs");
-                    if (url.toLowerCase().indexOf("employee") != "-1") {
-                        $('#lihome').removeClass("active");
-                        $('#lihome').addClass("tabs");
-
-                        $('#liemp').addClass("active");
-                        $('#liemp').removeClass("tabs");
-
-                        $('#liadmin').removeClass("active");
-                        $('#liadmin').addClass("tabs");
-
-                        $('#lireporting').removeClass("active");
-                        $('#lireporting').addClass("tabs");
-
-                        $('#livenodr').removeClass("active");
-                        $('#livenodr').addClass("tabs");
-
-                        $('#licontractor').removeClass("active");
-                        $('#licontractor').addClass("tabs");
-
-                    }
-
-                    else if (url.toLowerCase().indexOf("admin") != "-1") {
-                        $('#lihome').removeClass("active");
-                        $('#lihome').addClass("tabs");
-
-                        $('#liemp').removeClass("active");
-                        $('#liemp').addClass("tabs");
-
-                        $('#liadmin').addClass("active");
-                        $('#liadmin').removeClass("tabs");
-
-                        $('#lireporting').removeClass("active");
-                        $('#lireporting').addClass("tabs");
-
-                        $('#livenodr').removeClass("active");
-                        $('#livenodr').addClass("tabs");
-
-                        $('#licontractor').removeClass("active");
-                        $('#licontractor').addClass("tabs");
-
-                    }
-
-                    else if (url.toLowerCase().indexOf("venodr") != "-1") {
-                        $('#lihome').removeClass("active");
-                        $('#lihome').addClass("tabs");
-
-                        $('#liemp').removeClass("active");
-                        $('#liemp').addClass("tabs");
-
-                        $('#liadmin').removeClass("active");
-                        $('#liadmin').addClass("tabs");
-
-                        $('#lireporting').removeClass("active");
-                        $('#lireporting').addClass("tabs");
-
-                        $('#livenodr').addClass("active");
-                        $('#livenodr').removeClass("tabs");
-
-                        $('#licontractor').removeClass("active");
-                        $('#licontractor').addClass("tabs");
-
-                    }
-
-                    else if (url.toLowerCase().indexOf("reporting") != "-1") {
-                        $('#lihome').removeClass("active");
-                        $('#lihome').addClass("tabs");
-
-                        $('#liemp').removeClass("active");
-                        $('#liemp').addClass("tabs");
-
-                        $('#liadmin').removeClass("active");
-                        $('#liadmin').addClass("tabs");
-
-                        $('#lireporting').addClass("active");
-                        $('#lireporting').removeClass("tabs");
-
-                        $('#livenodr').removeClass("active");
-                        $('#livenodr').addClass("tabs");
-
-                        $('#licontractor').removeClass("active");
-                        $('#licontractor').addClass("tabs");
-
-                    }
-
-                    else if (url.toLowerCase().indexOf("contractor") != "-1") {
-                        $('#lihome').removeClass("active");
-                        $('#lihome').addClass("tabs");
-
-                        $('#liemp').removeClass("active");
-                        $('#liemp').addClass("tabs");
-
-                        $('#liadmin').removeClass("active");
-                        $('#liadmin').addClass("tabs");
-
-                        $('#lireporting').removeClass("active");
-                        $('#lireporting').addClass("tabs");
-
-                        $('#livenodr').removeClass("active");
-                        $('#livenodr').addClass("tabs");
-
-                        $('#licontractor').addClass("active");
-                        $('#licontractor').removeClass("tabs");
-
-                    }
+            </ul>
+    </div>
 
 
+    <div class="container body-content">
+        @RenderBody()
+    </div>
 
-                }
-            </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+    <script>
+        $(document).ready(function () {
+            //$("#nav1").find("ul.mastermenu li").each(function () {
+            //    $(this).removeClass("active");
+            //});
+
+            setNav();
+
+        });
+        function setNav() {
+            var url = window.location.href;
+            var menuitem = "";
+            $('#lihome').addClass("active");
+            $('#lihome').removeClass("tabs");
+            $('#liemp').removeClass("active");
+            $('#liemp').addClass("tabs");
+
+            $('#liadmin').removeClass("active");
+            $('#liadmin').addClass("tabs");
+
+            $('#lireporting').removeClass("active");
+            $('#lireporting').addClass("tabs");
+
+            $('#livenodr').removeClass("active");
+            $('#livenodr').addClass("tabs");
+
+            $('#licontractor').removeClass("active");
+            $('#licontractor').addClass("tabs");
+            if (url.toLowerCase().indexOf("employee") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#lihome').addClass("tabs");
+
+                $('#liemp').addClass("active");
+                $('#liemp').removeClass("tabs");
+
+                $('#liadmin').removeClass("active");
+                $('#liadmin').addClass("tabs");
+
+                $('#lireporting').removeClass("active");
+                $('#lireporting').addClass("tabs");
+
+                $('#livenodr').removeClass("active");
+                $('#livenodr').addClass("tabs");
+
+                $('#licontractor').removeClass("active");
+                $('#licontractor').addClass("tabs");
+
+            }
+
+            else if (url.toLowerCase().indexOf("admin") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#lihome').addClass("tabs");
+
+                $('#liemp').removeClass("active");
+                $('#liemp').addClass("tabs");
+
+                $('#liadmin').addClass("active");
+                $('#liadmin').removeClass("tabs");
+
+                $('#lireporting').removeClass("active");
+                $('#lireporting').addClass("tabs");
+
+                $('#livenodr').removeClass("active");
+                $('#livenodr').addClass("tabs");
+
+                $('#licontractor').removeClass("active");
+                $('#licontractor').addClass("tabs");
+
+            }
+
+            else if (url.toLowerCase().indexOf("venodr") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#lihome').addClass("tabs");
+
+                $('#liemp').removeClass("active");
+                $('#liemp').addClass("tabs");
+
+                $('#liadmin').removeClass("active");
+                $('#liadmin').addClass("tabs");
+
+                $('#lireporting').removeClass("active");
+                $('#lireporting').addClass("tabs");
+
+                $('#livenodr').addClass("active");
+                $('#livenodr').removeClass("tabs");
+
+                $('#licontractor').removeClass("active");
+                $('#licontractor').addClass("tabs");
+
+            }
+
+            else if (url.toLowerCase().indexOf("reporting") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#lihome').addClass("tabs");
+
+                $('#liemp').removeClass("active");
+                $('#liemp').addClass("tabs");
+
+                $('#liadmin').removeClass("active");
+                $('#liadmin').addClass("tabs");
+
+                $('#lireporting').addClass("active");
+                $('#lireporting').removeClass("tabs");
+
+                $('#livenodr').removeClass("active");
+                $('#livenodr').addClass("tabs");
+
+                $('#licontractor').removeClass("active");
+                $('#licontractor').addClass("tabs");
+
+            }
+
+            else if (url.toLowerCase().indexOf("contractor") != "-1") {
+                $('#lihome').removeClass("active");
+                $('#lihome').addClass("tabs");
+
+                $('#liemp').removeClass("active");
+                $('#liemp').addClass("tabs");
+
+                $('#liadmin').removeClass("active");
+                $('#liadmin').addClass("tabs");
+
+                $('#lireporting').removeClass("active");
+                $('#lireporting').addClass("tabs");
+
+                $('#livenodr').removeClass("active");
+                $('#livenodr').addClass("tabs");
+
+                $('#licontractor').addClass("active");
+                $('#licontractor').removeClass("tabs");
+
+            }
+
+
+
+        }
+    </script>
 </body>
 </html>

@@ -164,9 +164,9 @@
             $("#successdiv").hide();
 
             var str = "";
-            if (data.backup() != "Y" && data.backup() != 'N')
+            if (data.backup() != "Y" && data.backup() != 'N' && data.backup() != "y" && data.backup() != 'n')
                 str += "<p>Backup must have value Y or N</p>";
-            if (data.liveIn() != "Y" && data.liveIn() != 'N')
+            if (data.liveIn() != "Y" && data.liveIn() != 'N' && data.backup() != "y" && data.backup() != 'n')
                 str += "<p>Live-In must have value Y or N</p>";
             $.each(data.items(), function (key, value) {
                 if (value.serviceCodeId() == undefined || value.plansectionId() == undefined

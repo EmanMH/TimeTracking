@@ -30,7 +30,7 @@ color:white !important;
     padding: 5px 0;
     margin: 2px 0 0;
     min-width: 110px;
-    font-size: 10px;
+    font-size: 12px;
     list-style: none;
     background-color: #ffffff;
     border: 1px solid #cccccc;
@@ -41,37 +41,41 @@ color:white !important;
     background-clip: padding-box;
 }
 
+
+
 .nav-tabs > li > a {
     position: relative;
     display: block;
     padding: 2px 5px !important;
 }
 
+
+
 .nav-tabs > li.tabs > a,
 .nav-tabs > li.tabs > a:focus {
-    color: white;
-    background-color: navy;
-    border: 1px solid #dddddd;
+    color: white !important;
+    background-color: navy !important;
+    border: 1px solid #dddddd !important;
     border-bottom-color: transparent;
 }
 
     .nav-tabs > li.tabs > a:hover {
-        color: #FFFFFF;
-        background-color: #012f01;
-        border: 1px solid #dddddd;
+        color: #FFFFFF !important;
+        background-color: #012f01 !important;
+        border: 1px solid #dddddd !important;
         border-bottom-color: transparent;
-        font-weight: bold;
+        font-weight: bold !important;
     }
 
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-    color: white;
-    cursor: default;
-    background-color: #012f01;
-    font-weight: bold;
-    border: 1px solid #dddddd;
+    color: white !important;
+    cursor: default !important;
+    background-color: #012f01 !important;
+    font-weight: bold !important;
+    border: 1px solid #dddddd !important;
     border-bottom-color: transparent;
 }
 
@@ -206,4 +210,17 @@ textarea {
     background-color: #004492;
     color: white;
     text-decoration: none;
+}
+
+.sidebar-toggle {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #004492; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }

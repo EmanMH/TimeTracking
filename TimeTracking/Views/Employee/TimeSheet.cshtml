@@ -35,7 +35,6 @@
         }
 </style>
 <div class="container">
-    <br />
 
     <div class="row" data-bind="visible:HasTime2()!=true">
         <div class="col-sm-12" colspan="8" align="right">
@@ -90,8 +89,7 @@
                     </tr>
                 </tbody>
             </table>
-            <hr />
-            <div class=" table-responsive " style="height:250px;overflow-y:scroll">
+            <div class=" table-responsive " style="height:310px;overflow-y:scroll">
                 <table class="table table-bordered" data-bind="visble:items.length>0" style="font-size:12px !important;">
 
                     <thead>
@@ -333,10 +331,10 @@
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Select Action
+                                        Action
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <ul style="list-style:none;padding:0px !important;margin:8px !important;color:navy">
+                                        <ul style="list-style:none;padding:0px !important;margin:1px !important;color:navy">
                                             <li>
                                                 <a class="dropdown-item" href="#" data-bind="click:$root.moreTime,visible:Time2()!=true" style="color:navy">Add Time</a>
                                             </li>
