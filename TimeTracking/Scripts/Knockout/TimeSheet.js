@@ -213,6 +213,7 @@
         }
         self.saveDraft = function (data) {
             $("#successdiv").hide();
+            $("#loading").html("Saving...");
             $("#loading").show();
 
                 var items = ko.toJSON(data.items());
@@ -225,8 +226,12 @@
                     data: data,
                     contentType: 'application/json',
                     success: function (result) {
+                        $("#successdiv").html("Saved Successfully");
+
                         $("#successdiv").show();
                         $("#successModal").modal('show');
+                        $("#containerBody").html("Saved Successfully");
+
                         $("#loading").hide();
 
                     },
@@ -251,6 +256,8 @@
             timesheetKO.canUndo(false);
 
             if (timesheetKO.validate(data)) {
+                $("#loading").html("Submitting...");
+
                 $("#loading").show();
 
                 var items = ko.toJSON(data.items());
@@ -263,8 +270,11 @@
                     data: data,
                     contentType: 'application/json',
                     success: function (result) {
+                        $("#successdiv").html("Submitted Successfully");
+
                         $("#successdiv").show();
                         $("#successModal").modal('show');
+                        $("#containerBody").html("Submitted Successfully");
                         $("#loading").hide();
                         timesheetKO.isSubmitted(true);
 
