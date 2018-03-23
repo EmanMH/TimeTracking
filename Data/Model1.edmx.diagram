@@ -25,6 +25,17 @@
         <EntityTypeShape EntityType="TimeTrackingModel.status" Width="1.5" PointX="7.75" PointY="6.875" />
         <AssociationConnector Association="TimeTrackingModel.FK__TimeSheet__fk_st__2C3393D0" />
         <AssociationConnector Association="TimeTrackingModel.FK__TimeInOut__fk_pl__37A5467C" />
+        <EntityTypeShape EntityType="TimeTrackingModel.DaysOfWeek" Width="1.5" PointX="11.875" PointY="15.125" />
+        <EntityTypeShape EntityType="TimeTrackingModel.LogsItem" Width="1.5" PointX="14.125" PointY="17.5" />
+        <EntityTypeShape EntityType="TimeTrackingModel.LogsLkp" Width="1.5" PointX="11.875" PointY="17.875" />
+        <EntityTypeShape EntityType="TimeTrackingModel.LogsType" Width="1.5" PointX="9.625" PointY="17.875" />
+        <EntityTypeShape EntityType="TimeTrackingModel.UserLog" Width="1.5" PointX="16.375" PointY="10.625" />
+        <AssociationConnector Association="TimeTrackingModel.FK_AspNetUsers_Logs" />
+        <AssociationConnector Association="TimeTrackingModel.FK_Days_LogsItems" />
+        <AssociationConnector Association="TimeTrackingModel.FK_LogsLkp_LogsItems" />
+        <AssociationConnector Association="TimeTrackingModel.FK_UserLogs_LogsItems" />
+        <AssociationConnector Association="TimeTrackingModel.FK_LogesTypes_LogsLkp" />
+        <AssociationConnector Association="TimeTrackingModel.FK_SC_LogsTypes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
