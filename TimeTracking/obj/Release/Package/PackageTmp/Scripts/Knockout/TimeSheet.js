@@ -164,26 +164,26 @@
             $("#successdiv").hide();
 
             var str = "";
-            if (data.backup() != "Y" && data.backup() != 'N')
+            if (data.backup() != "Y" && data.backup() != 'N' && data.backup() != "y" && data.backup() != 'n')
                 str += "<p>Backup must have value Y or N</p>";
-            if (data.liveIn() != "Y" && data.liveIn() != 'N')
+            if (data.liveIn() != "Y" && data.liveIn() != 'N' && data.backup() != "y" && data.backup() != 'n')
                 str += "<p>Live-In must have value Y or N</p>";
-            $.each(data.items(), function (key, value) {
-                if (value.serviceCodeId() == undefined || value.plansectionId() == undefined
-                    || value.TimeInH1() == -1  || value.TimeInM1() == -1 
-                    || value.TimeOutH1() == -1  || value.TimeOutM1() == -1 || value.isAmIn() == -1
-                    || value.isAmOut() == -1 || (value.Time2() == true && (value.TimeIn2H1() == -1 || value.TimeIn2M1() == -1
-                    || value.TimeOut2H1 == -1  || value.TimeOut2M1 == -1 ))) {
-                    str += "<p>All time sheet values must be submitted</p>";
-                    $("#errorDiv").html(str);
-                    $("#errorDiv").show();
-                    return false;
-                }
+            //$.each(data.items(), function (key, value) {
+            //    if (value.serviceCodeId() == undefined || value.plansectionId() == undefined
+            //        || value.TimeInH1() == -1  || value.TimeInM1() == -1 
+            //        || value.TimeOutH1() == -1  || value.TimeOutM1() == -1 || value.isAmIn() == -1
+            //        || value.isAmOut() == -1 || (value.Time2() == true && (value.TimeIn2H1() == -1 || value.TimeIn2M1() == -1
+            //        || value.TimeOut2H1 == -1  || value.TimeOut2M1 == -1 ))) {
+            //        str += "<p>All time sheet values must be submitted</p>";
+            //        $("#errorDiv").html(str);
+            //        $("#errorDiv").show();
+            //        return false;
+            //    }
 
-                //if ((value.TimeIn() > value.TimeOut() && value.isAmIn() == true && (value.isAmOut==true || )))
-                //    str += "<p>All time in values must be less than or equal time out</p>";
+            //    //if ((value.TimeIn() > value.TimeOut() && value.isAmIn() == true && (value.isAmOut==true || )))
+            //    //    str += "<p>All time in values must be less than or equal time out</p>";
 
-            });
+            //});
             if (str != "") {
                 $("#errorDiv").html(str);
                 $("#errorDiv").show();
@@ -213,6 +213,7 @@
         }
         self.saveDraft = function (data) {
             $("#successdiv").hide();
+            $("#loading").html("Saving...");
             $("#loading").show();
 
                 var items = ko.toJSON(data.items());
@@ -225,8 +226,12 @@
                     data: data,
                     contentType: 'application/json',
                     success: function (result) {
+                        $("#successdiv").html("Saved Successfully");
+
                         $("#successdiv").show();
                         $("#successModal").modal('show');
+                        $("#containerBody").html("Saved Successfully");
+
                         $("#loading").hide();
 
                     },
@@ -251,6 +256,8 @@
             timesheetKO.canUndo(false);
 
             if (timesheetKO.validate(data)) {
+                $("#loading").html("Submitting...");
+
                 $("#loading").show();
 
                 var items = ko.toJSON(data.items());
@@ -263,8 +270,11 @@
                     data: data,
                     contentType: 'application/json',
                     success: function (result) {
+                        $("#successdiv").html("Submitted Successfully");
+
                         $("#successdiv").show();
                         $("#successModal").modal('show');
+                        $("#containerBody").html("Submitted Successfully");
                         $("#loading").hide();
                         timesheetKO.isSubmitted(true);
 

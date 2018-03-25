@@ -89,7 +89,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class=" table-responsive " style="height:350px;overflow-y:scroll">
+            <div class=" table-responsive " style="height:300px;overflow-y:scroll">
                 <table class="table table-bordered" data-bind="visble:items.length>0" style="font-size:12px !important;">
 
                     <thead>
@@ -159,7 +159,7 @@
                                 </select>
                             </td>
                             <td>
-                                <select data-bind="value:isAmIn" style="width:45px">
+                                <select data-bind="value:isAmIn" style="width:35px">
                                     <option value="-1"></option>
                                     <option value="true">AM</option>
                                     <option value="false">PM</option>
@@ -193,7 +193,7 @@
 
                             </td>
                             <td>
-                                <select data-bind="value:isAmOut" style="width:45px">
+                                <select data-bind="value:isAmOut" style="width:35px">
                                     <option value="-1"></option>
                                     <option value="true">AM</option>
                                     <option value="false">PM</option>
@@ -258,7 +258,7 @@
 
                             </td>
                             <td>
-                                <select data-bind="value:isAmIn2,visible:Time2" style="width:45px">
+                                <select data-bind="value:isAmIn2,visible:Time2" style="width:35px;padding:0px!important;margin:0px!important">
                                     <option value="-1"></option>
                                     <option value="true">AM</option>
                                     <option value="false">PM</option>
@@ -321,7 +321,7 @@
 
                             </td>
                             <td>
-                                <select data-bind="value:isAmOut2,visible:Time2" style="width:45px">
+                                <select data-bind="value:isAmOut2,visible:Time2" style="width:35px;padding:0px!important;margin:0px!important">
                                     <option value="-1"></option>
                                     <option value="true">AM</option>
                                     <option value="false">PM</option>
@@ -329,27 +329,27 @@
                             </td>
                             <!--/ko-->
                             <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @*<div class="dropdown">
+                                    @*<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Action
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    </button>*@
+                                    @*<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">*@
                                         <ul style="list-style:none;padding:0px !important;margin:1px !important;color:navy">
                                             <li>
-                                                <a class="dropdown-item" href="#" data-bind="click:$root.moreTime,visible:Time2()!=true" style="color:navy">Add Time</a>
+                                                <a  href="#" data-bind="click:$root.moreTime,visible:Time2()!=true" style="color:navy">Add Time</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" href="#" data-bind="click:$root.lessTime,visible:Time2()==true" style="color:navy">Delete Time</a>
+                                                <a  href="#" data-bind="click:$root.lessTime,visible:Time2()==true" style="color:navy">Delete Time</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" href="#" data-bind="click:$root.moreService" style="color:navy">Add Service Code</a>
+                                                <a  href="#" data-bind="click:$root.moreService" style="color:navy">Add Service Code</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" href="#" data-bind="click:$root.deleteRow" style="color:navy">Delete Service Code</a>
+                                                <a  href="#" data-bind="click:$root.deleteRow" style="color:navy">Delete Service Code</a>
                                             </li>
                                         </ul>
-                                    </div>
-                                </div>
+                                    @*</div>*@
+                                @*</div>*@
 
                                 @*<a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true">Add time</a><a href="#" data-bind="click:$root.lessTime,visible:Time2()==true">Delete time</a><br /> <a href="#" data-bind="click:$root.moreService">Add Service Code</a>
                             <br /> <a href="#" data-bind="click:$root.deleteRow">Delete</a>*@

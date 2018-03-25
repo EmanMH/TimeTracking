@@ -26,15 +26,18 @@ namespace Business.Services
 
         {
             var ts= _ttContext.TimeSheets.Where(x => x.Id == id).FirstOrDefault();
-            if(ts.TimeInOuts!=null)
+            if (ts != null)
             {
-                for (int i = 0; i < ts.TimeInOuts.Count; i++)
+                if (ts.TimeInOuts != null)
                 {
-                    ts.TimeInOuts.Remove(ts.TimeInOuts.ToList()[i]);
+                    for (int i = 0; i < ts.TimeInOuts.Count; i++)
+                    {
+                        ts.TimeInOuts.Remove(ts.TimeInOuts.ToList()[i]);
+                    }
                 }
+                _ttContext.TimeSheets.Remove(ts);
+                _ttContext.SaveChanges();
             }
-            _ttContext.TimeSheets.Remove(ts);
-            _ttContext.SaveChanges();
 
         }
 

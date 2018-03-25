@@ -261,49 +261,53 @@ namespace TimeTracking.Controllers
                 tse.LiveInEmployee = ts.isLiveIn.Value;
                 tse.ToDay = tsm[0].dates[4];
                 tse.Year = ts.DayDate.Value.Year.ToString();
-
-                foreach (var item in tsm)
+                var itsm = ts.TimeInOuts.ToList();
+                foreach (var item in itsm)
                 {
                     tr.Backup = ts.isBackup.Value == true ? 'Y' : 'N';
-                    tr.Day = DateTime.Parse(item.dayDate).Day;
-                    if (item.plansectionId == 1)
+                    tr.Day = item.dayDate.Value.Day;
+                    if (item.fk_plansection == 1)
                         tr.EnterPlan = "R";
-                    else if (item.plansectionId == 2)
+                    else if (item.fk_plansection == 2)
                         tr.EnterPlan = "S";
-                    else if (item.plansectionId == 3)
+                    else if (item.fk_plansection == 3)
                         tr.EnterPlan = "T";
-                    tr.MonthNumber = DateTime.Parse(item.dayDate).Month;
-                    tr.ServiceCode = svcs.Where(s => s.Id == item.serviceCodeId).FirstOrDefault().Name;
-                    te = new TimeExcel();
-                    te.AmOrPm = item.isAmIn == "true" ? "AM" : "PM";
-                    te.Hours = int.Parse(item.TimeInH1);
-                    te.Mins = int.Parse(item.TimeInM1);
-                    tr.TimeIn1 = te;
-                    te = new TimeExcel();
-                    te.AmOrPm = item.isAmOut == "true" ? "AM" : "PM";
-                    te.Hours = int.Parse(item.TimeOutH1);
-                    te.Mins = int.Parse(item.TimeOutM1);
 
-                    tr.TimeOut1 = te;
-                    if (item.TimeIn2H1 != "-1" && item.TimeIn2H1 != null)
+                    tr.MonthNumber = item.dayDate.Value.Month;
+                    if (item.fk_serviceCode != null)
                     {
+                        tr.ServiceCode = svcs.Where(s => s.Id == item.fk_serviceCode).FirstOrDefault().Name;
                         te = new TimeExcel();
-                        te.AmOrPm = item.isAmIn2 == "true" ? "AM" : "PM";
-                        te.Hours = int.Parse(item.TimeIn2H1);
-                        te.Mins = int.Parse(item.TimeIn2M1);
-
-                        tr.TimeIn2 = te;
-                    }
-                    if (item.TimeOut2H1 != "-1" && item.TimeOut2H1 != null)
-                    {
+                        te.AmOrPm = item.isInAM == true ? "AM" : "PM";
+                        te.Hours = item.TimeInH1.Value;
+                        te.Mins = item.TimeInM1.Value;
+                        tr.TimeIn1 = te;
                         te = new TimeExcel();
-                        te.AmOrPm = item.isAmOut2 == "true" ? "AM" : "PM";
-                        te.Hours = int.Parse(item.TimeOut2H1);
-                        te.Mins = int.Parse(item.TimeOut2M1);
+                        te.AmOrPm = item.isOutAM == true ? "AM" : "PM";
+                        te.Hours =item.TimeOutH1.Value;
+                        te.Mins = item.TimeOutM1.Value;
 
-                        tr.TimeOut2 = te;
+                        tr.TimeOut1 = te;
+                        if ( item.TimeIn2H1 != null)
+                        {
+                            te = new TimeExcel();
+                            te.AmOrPm = item.isInAM2 == true ? "AM" : "PM";
+                            te.Hours = item.TimeIn2H1.Value;
+                            te.Mins = item.TimeIn2M1.Value;
+
+                            tr.TimeIn2 = te;
+                        }
+                        if ( item.TimeOut2H1 != null)
+                        {
+                            te = new TimeExcel();
+                            te.AmOrPm = item.isOutAM2 == true ? "AM" : "PM";
+                            te.Hours = item.TimeOut2H1.Value;
+                            te.Mins =item.TimeOut2M1.Value;
+
+                            tr.TimeOut2 = te;
+                        }
+                        tse.TimeRecordsLst.Add(tr);
                     }
-                    tse.TimeRecordsLst.Add(tr);
                     tr = new TimeRecordExcel();
 
                 }
