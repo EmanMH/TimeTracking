@@ -47,10 +47,62 @@ namespace Business.Services
             var plans = _ttContext.planSections.ToList();
             return plans;
         }
+
         public void saveItems(TimeSheet ts)
         {
             _ttContext.TimeSheets.Add(ts);
             _ttContext.SaveChanges();
+        }
+
+        public void saveLogs(List<UserLog> uls,string empID)
+        {
+            var uLog = _ttContext.UserLogs.Where(x => x.empID == empID).ToList();
+            if (uLog != null)
+            {
+                foreach (UserLog ul in uLog)
+                {
+                    _ttContext.UserLogs.Remove(ul);
+                }
+            }
+
+            foreach (UserLog ul in uls)
+                _ttContext.UserLogs.Add(ul);
+            _ttContext.SaveChanges();
+        }
+
+        public List<int> getSelecedLogs(string empID)
+        {
+            var logID = _ttContext.UserLogs.Where(x => x.empID.Equals(empID)).Select(c => c.logItemID).ToList<int>();
+            return logID;
+        }
+
+        public int getLogID(string logName)
+        {
+            var logID = _ttContext.LogsLkps.Where(x => x.LogName.Equals(logName)).Select(c => c.ID).FirstOrDefault();
+            return logID;
+        }
+
+        public List<int> getLogsItemsIDslst(int logID, string timePart) {
+            List<int> logsItemsIDslst = new List<int>();
+
+            if (timePart.Equals("m"))
+            {
+                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID && x.Morning == true).Select(c => c.ID).ToList();
+            }
+            else if (timePart.Equals("a"))
+            {
+                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID && x.Afternoon == true).Select(c => c.ID).ToList();
+            }
+            else if (timePart.Equals("e"))
+            {
+                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID && x.Evening == true).Select(c => c.ID).ToList();
+            }
+            else
+            {
+                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID).Select(c => c.ID).ToList();
+            }
+
+            return logsItemsIDslst;
         }
 
         public TimeSheet getTimeSheet(DateTime startDate,string uname)
@@ -71,6 +123,13 @@ namespace Business.Services
             var user = _ttContext.AspNetUsers.Where(u => u.UserName == username).FirstOrDefault();
 
             return user.Id;
+        }
+
+        public int getServiceCodeId(string serviceCode)
+        {
+            var servicecode = _ttContext.serviceCodes.Where(sc => sc.Name == serviceCode).FirstOrDefault();
+
+            return servicecode.Id;
         }
 
         public List<DateTime> getLast5Weeks()

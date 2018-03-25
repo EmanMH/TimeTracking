@@ -327,6 +327,129 @@ namespace TimeTracking.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult saveLogs(string checkedItems)
+        {
+            JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+            List<int> sblst = jsSerializer.Deserialize<List<int>>(checkedItems);
+
+            string empID = es.getUserId(User.Identity.Name); 
+
+            List<UserLog> logs = new List<UserLog>();
+           
+            foreach (int i in sblst) {
+                UserLog ul = new UserLog();
+                ul.empID = empID;
+                ul.logItemID = i;
+                logs.Add(ul);
+            }
+           
+            es.saveLogs(logs,empID);
+            
+            return Json("");
+        }
+
+        [HttpPost]
+        public JsonResult loadLogItems()
+        {
+            LogsModel lms = new LogsModel();
+
+            string empID = es.getUserId(User.Identity.Name);
+
+            lms.selectedLogs = es.getSelecedLogs(empID);
+
+            //Activities of Daily Living
+            int logID = es.getLogID("Shower/Bathing");
+            lms.DLActivities.ShowerBathingMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.DLActivities.ShowerBathingAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.DLActivities.ShowerBathingEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            logID = es.getLogID("Oral Hygeine");
+            lms.DLActivities.OralHygeineMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.DLActivities.OralHygeineAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.DLActivities.OralHygeineEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            logID = es.getLogID("Dressing");
+            lms.DLActivities.DressingMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.DLActivities.DressingAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.DLActivities.DressingEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            logID = es.getLogID("Hair Cut");
+            lms.DLActivities.HairCutMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.DLActivities.HairCutAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.DLActivities.HairCutEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            //Food Prep
+            logID = es.getLogID("Meal Prep");
+            lms.FPActivities.MealPrepMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.FPActivities.MealPrepAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.FPActivities.MealPrepEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+
+            logID = es.getLogID("Snacks");
+            lms.FPActivities.SnacksMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.FPActivities.SnacksAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.FPActivities.SnacksEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+
+            logID = es.getLogID("Drinks");
+            lms.FPActivities.DrinksMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.FPActivities.DrinksAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.FPActivities.DrinksEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            //Activities
+            logID = es.getLogID("Events");
+            lms.Activities.Eventslst = es.getLogsItemsIDslst(logID, "");
+
+            logID = es.getLogID("Weigh In-Publix");
+            lms.Activities.WeighInPublixlst = es.getLogsItemsIDslst(logID, "");
+
+            logID = es.getLogID("Ipad");
+            lms.Activities.Ipadlst = es.getLogsItemsIDslst(logID, "");
+
+            logID = es.getLogID("Reading");
+            lms.Activities.Readinglst = es.getLogsItemsIDslst(logID, "");
+
+            logID = es.getLogID("Exercise");
+            lms.Activities.Exerciselst = es.getLogsItemsIDslst(logID, "");
+       
+            logID = es.getLogID("DVD/TV");
+            lms.Activities.DVDTVlst = es.getLogsItemsIDslst(logID, "");
+
+            //Light Chores/HouseKeeping
+            logID = es.getLogID("Cleaning Spills/Mop");
+            lms.LcHk.CleaningSpillsMopMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.LcHk.CleaningSpillsMopAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.LcHk.CleaningSpillsMopEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            logID = es.getLogID("Change Bed Linens");
+            lms.LcHk.ChangeBedLinensMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.LcHk.ChangeBedLinensAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.LcHk.ChangeBedLinensEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            logID = es.getLogID("Laundry");
+            lms.LcHk.LaundryMorninglst = es.getLogsItemsIDslst(logID, "m");
+            lms.LcHk.LaundryAfternoonlst = es.getLogsItemsIDslst(logID, "a");
+            lms.LcHk.LaundryEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            logID = es.getLogID("Clean Room");
+            lms.LcHk.CleanRoomlst = es.getLogsItemsIDslst(logID, "");
+
+            logID = es.getLogID("Clean Bathroom");
+            lms.LcHk.CleanPathRoomlst = es.getLogsItemsIDslst(logID, "");
+
+            return Json(lms);
+        }
+
+        public ActionResult Logs()
+        {
+
+            ViewBag.empName = es.getUsername(User.Identity.Name);
+
+
+            return View();
+        }
+
         // GET: Employee/Details/5
         public ActionResult Details(int id)
         {

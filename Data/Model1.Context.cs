@@ -36,5 +36,10 @@ namespace Data
         public virtual DbSet<serviceCode> serviceCodes { get; set; }
         public virtual DbSet<planSection> planSections { get; set; }
         public virtual DbSet<status> status { get; set; }
+        public virtual DbSet<DaysOfWeek> DaysOfWeeks { get; set; }
+        public virtual DbSet<LogsItem> LogsItems { get; set; }
+        public virtual DbSet<LogsLkp> LogsLkps { get; set; }
+        public virtual DbSet<LogsType> LogsTypes { get; set; }
+        public virtual DbSet<UserLog> UserLogs { get; set; }
     }
 }

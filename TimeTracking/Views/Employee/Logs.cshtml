@@ -1,0 +1,565 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/Knockout/Logs.js"></script>
+
+<style>
+
+    .table-fixed tbody {
+        height: 230px;
+        overflow-y: auto;
+    }
+
+    .table-fixed thead, .table-fixed tbody, .table-fixed tr {
+        display: block;
+    }
+</style>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-12" colspan="8" align="right">
+            <button type="button" class="btn btn-default" data-bind="click:saveLogs">
+                <i class="fa fa-save"></i> Save
+            </button>
+        </div>
+    </div>
+
+    <div class="panel panel-default" style="border:1px solid navy !important;">
+
+        <div class="panel-body" style="border:1px solid navy !important;padding: 10px !important;">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th colspan="2" style="text-align:center">Personal Care Services</th>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align:center">Activities of Daily Living</th>
+                        <th style="text-align:center">Food Prep</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2"></th>
+                                        <th>Sun</th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">Shower/Bathing</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isSBMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isSBALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isSBELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Oral Hygeine</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isOHMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isOHALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isOHELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Dressing</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isDMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isDALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isDELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Hair Cut</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isHCMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isHCALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isHCELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2"></th>
+                                        <th>Sun</th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">Meal Prep</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isMPMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isMPALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isMPELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Snacks</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isSMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isSALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isSELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Drinks</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isDrnkMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isDrnkALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isDrnkELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br /><br /><br />
+
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th colspan="2" style="text-align:center">Companion Services</th>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align:center">Activities</th>
+                        <th style="text-align:center">Light Chores/House Keeping</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2"></th>
+                                        <th>Sun</th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">Community</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Events</th>
+                                        <!-- ko foreach: isELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Weigh In-Publix</th>
+                                        <!-- ko foreach: isWIPLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Residential/Facility</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Ipad</th>
+                                        <!-- ko foreach: isIPLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Reading</th>
+                                        <!-- ko foreach: isRLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Exercise</th>
+                                        <!-- ko foreach: isExLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>DVD/TV</th>
+                                        <!-- ko foreach: isDTLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2"></th>
+                                        <th>Sun</th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">Cleaning Spills/Mop</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isCSMMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isCSMALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isCSMELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Change Bed Linens</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: isCBLMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: isCBLALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: isCBLELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2">Laundry</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: islMLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: islALst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: islELst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="2"></th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                        <th>Sun</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Clean Room</th>
+                                        <th></th>
+                                        <!-- ko foreach: isCRLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <tr>
+                                        <th>Clean Bathroom</th>
+                                        <th></th>
+                                        <!-- ko foreach: isCBLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<br />
+<div id="loading" class="row" align="right" style="margin-right:2px;display:none;"></div>
+
+<div id="successdiv" style="display:none" class="alert alert-success"></div>
+
+<div id="errorDiv" style="display:none" class="alert alert-danger"/>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Logs.load();
+
+        });
+    </script>

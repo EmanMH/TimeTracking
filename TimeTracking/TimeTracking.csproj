@@ -222,6 +222,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LogsModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TimeSheetModel.cs" />
     <Compile Include="Models\TimeSheetViewModel.cs" />
@@ -246,6 +247,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\config.js" />
+    <Content Include="Scripts\Knockout\Logs.js" />
     <Content Include="Template\Employee-Weekly-Timesheet.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -305,6 +307,7 @@
     <Content Include="Views\Home\username.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Employee\TimeSheet.cshtml" />
+    <Content Include="Views\Employee\Logs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,6 +18,7 @@ namespace Data
         public serviceCode()
         {
             this.TimeInOuts = new HashSet<TimeInOut>();
+            this.LogsTypes = new HashSet<LogsType>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeInOut> TimeInOuts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LogsType> LogsTypes { get; set; }
     }
 }
