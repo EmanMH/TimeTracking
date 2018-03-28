@@ -81,8 +81,6 @@ namespace TimeTracking.Controllers
             }
             else
             {
-               
-
                     tsm.Id = timesheets.Id;
 
                 if (timesheets.isDraft!=null && timesheets.isDraft.Value == true)
@@ -102,57 +100,131 @@ namespace TimeTracking.Controllers
                 if (timesheets.DayDate != null)
                     tsm.startDate = timesheets.DayDate.Value;
                 tsm.items = new List<TimeSheetItem>();
-                var pastdate = day1;
-                int count = 0;
 
-                foreach (var item in timesheets.TimeInOuts)
+
+                if (timesheets.fk_statusid == 3)
                 {
-                    tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
-                    tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
-                    if(tsm.HasTime2 != true)
-                    tsm.HasTime2 = item.TimeIn2H1 !=null;
-                    if(item.fk_plansection!=null)
-                    tItem.plansectionId = item.fk_plansection.Value;
-                    if (item.isInAM != null)
-                        tItem.isAmIn = item.isInAM.Value.ToString().ToLower();
-                    if (item.isOutAM != null)
-                        tItem.isAmOut = item.isOutAM.Value.ToString().ToLower();
-                    if (item.fk_serviceCode != null)
-                        tItem.serviceCodeId = item.fk_serviceCode.Value;
-                    //time.serviceCodes = svc;
-                    if (item.TimeInH1 != null)
-                        tItem.TimeInH1 = item.TimeInH1.ToString();
-                    if (item.TimeInM1 != null)
-                        tItem.TimeInM1 = item.TimeInM1.ToString();
-                    if (item.TimeOutH1 != null)
-                        tItem.TimeOutH1 = item.TimeOutH1.ToString();
-                    if (item.TimeOutM1 != null)
-                        tItem.TimeOutM1 = item.TimeOutM1.ToString();
-
-                    if (item.TimeIn2H1 != null)
+                    for (int i = 0; i < 7; i++)
                     {
-                        if (item.TimeIn2H1 != null)
-                            tItem.TimeIn2H1 = item.TimeIn2H1.ToString();
-                        if (item.TimeIn2M1 != null)
-                            tItem.TimeIn2M1 = item.TimeIn2M1.ToString();
-                        if (item.TimeOut2H1 != null)
-                            tItem.TimeOut2H1 = item.TimeOut2H1.ToString();
-                        if (item.TimeOut2M1 != null)
-                            tItem.TimeOut2M1 = item.TimeOut2M1.ToString();
-                        if (item.isInAM2 != null)
-                            tItem.isAmIn2 = item.isInAM2.Value.ToString().ToLower();
-                        if (item.isOutAM2 != null)
-                            tItem.isAmOut2 = item.isOutAM2.Value.ToString().ToLower();
-                        tItem.Time2 = true;
-                        tsm.HasTime2 = true;
-                    }
-                    tItem.dates = dates;
+                        var items = timesheets.TimeInOuts.Where(x => x.dayDate.Value.Date.ToShortDateString() == day1.ToShortDateString()).ToList();
+                        if (items.Count > 0)
+                        {
+                            foreach (var item in items)
+                            {
+                                tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
+                                tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
+                                if (tsm.HasTime2 != true)
+                                    tsm.HasTime2 = item.TimeIn2H1 != null;
+                                if (item.fk_plansection != null)
+                                    tItem.plansectionId = item.fk_plansection.Value;
+                                if (item.isInAM != null)
+                                    tItem.isAmIn = item.isInAM.Value.ToString().ToLower();
+                                if (item.isOutAM != null)
+                                    tItem.isAmOut = item.isOutAM.Value.ToString().ToLower();
+                                if (item.fk_serviceCode != null)
+                                    tItem.serviceCodeId = item.fk_serviceCode.Value;
+                                //time.serviceCodes = svc;
+                                if (item.TimeInH1 != null)
+                                    tItem.TimeInH1 = item.TimeInH1.ToString();
+                                if (item.TimeInM1 != null)
+                                    tItem.TimeInM1 = item.TimeInM1.ToString();
+                                if (item.TimeOutH1 != null)
+                                    tItem.TimeOutH1 = item.TimeOutH1.ToString();
+                                if (item.TimeOutM1 != null)
+                                    tItem.TimeOutM1 = item.TimeOutM1.ToString();
 
-                    // tItem.serviceCodeId = item.serviceCode.Id;
-                    timeItems.Add(tItem);
-                    tItem = new TimeSheetItem();
+                                if (item.TimeIn2H1 != null)
+                                {
+                                    if (item.TimeIn2H1 != null)
+                                        tItem.TimeIn2H1 = item.TimeIn2H1.ToString();
+                                    if (item.TimeIn2M1 != null)
+                                        tItem.TimeIn2M1 = item.TimeIn2M1.ToString();
+                                    if (item.TimeOut2H1 != null)
+                                        tItem.TimeOut2H1 = item.TimeOut2H1.ToString();
+                                    if (item.TimeOut2M1 != null)
+                                        tItem.TimeOut2M1 = item.TimeOut2M1.ToString();
+                                    if (item.isInAM2 != null)
+                                        tItem.isAmIn2 = item.isInAM2.Value.ToString().ToLower();
+                                    if (item.isOutAM2 != null)
+                                        tItem.isAmOut2 = item.isOutAM2.Value.ToString().ToLower();
+                                    tItem.Time2 = true;
+                                    tsm.HasTime2 = true;
+                                }
+                                tItem.dates = dates;
+
+                                // tItem.serviceCodeId = item.serviceCode.Id;
+                                tsm.items.Add(tItem);
+
+                                tItem = new TimeSheetItem();
+                            }
+                        }
+                        else
+                        {
+                            tItem.dayDate = day1.ToShortDateString();
+
+                            tItem.dayName = day1.ToString("dddd");
+                            tItem.dates = dates;
+                            tsm.items.Add(tItem);
+                        }
+                        day1 = day1.AddDays(1);
+                        tItem = new TimeSheetItem();
+                    }
+
+
+
                 }
-                tsm.items = timeItems;
+
+                else
+                {
+                    foreach (var item in timesheets.TimeInOuts)
+                    {
+                        tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
+                        tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
+                        if (tsm.HasTime2 != true)
+                            tsm.HasTime2 = item.TimeIn2H1 != null;
+                        if (item.fk_plansection != null)
+                            tItem.plansectionId = item.fk_plansection.Value;
+                        if (item.isInAM != null)
+                            tItem.isAmIn = item.isInAM.Value.ToString().ToLower();
+                        if (item.isOutAM != null)
+                            tItem.isAmOut = item.isOutAM.Value.ToString().ToLower();
+                        if (item.fk_serviceCode != null)
+                            tItem.serviceCodeId = item.fk_serviceCode.Value;
+                        //time.serviceCodes = svc;
+                        if (item.TimeInH1 != null)
+                            tItem.TimeInH1 = item.TimeInH1.ToString();
+                        if (item.TimeInM1 != null)
+                            tItem.TimeInM1 = item.TimeInM1.ToString();
+                        if (item.TimeOutH1 != null)
+                            tItem.TimeOutH1 = item.TimeOutH1.ToString();
+                        if (item.TimeOutM1 != null)
+                            tItem.TimeOutM1 = item.TimeOutM1.ToString();
+
+                        if (item.TimeIn2H1 != null)
+                        {
+                            if (item.TimeIn2H1 != null)
+                                tItem.TimeIn2H1 = item.TimeIn2H1.ToString();
+                            if (item.TimeIn2M1 != null)
+                                tItem.TimeIn2M1 = item.TimeIn2M1.ToString();
+                            if (item.TimeOut2H1 != null)
+                                tItem.TimeOut2H1 = item.TimeOut2H1.ToString();
+                            if (item.TimeOut2M1 != null)
+                                tItem.TimeOut2M1 = item.TimeOut2M1.ToString();
+                            if (item.isInAM2 != null)
+                                tItem.isAmIn2 = item.isInAM2.Value.ToString().ToLower();
+                            if (item.isOutAM2 != null)
+                                tItem.isAmOut2 = item.isOutAM2.Value.ToString().ToLower();
+                            tItem.Time2 = true;
+                            tsm.HasTime2 = true;
+                        }
+                        tItem.dates = dates;
+
+                        // tItem.serviceCodeId = item.serviceCode.Id;
+                        timeItems.Add(tItem);
+                        tItem = new TimeSheetItem();
+                    }
+                    tsm.items = timeItems;
+                }
             }
             return Json(tsm);
 
