@@ -22,6 +22,11 @@ namespace Business.Services
             return svc;
         }
 
+        public TimeSheet getTimeSheetByID(int id)
+        {
+            return _ttContext.TimeSheets.Include(x=>x.TimeInOuts).Where(x => x.Id == id).FirstOrDefault();
+        }
+
         public void TimeSheetdeleteById(int id)
 
         {
@@ -30,9 +35,11 @@ namespace Business.Services
             {
                 if (ts.TimeInOuts != null)
                 {
-                    for (int i = 0; i < ts.TimeInOuts.Count; i++)
+                    var lst = ts.TimeInOuts.ToList();
+                    for (int i = 0; i < lst.Count; i++)
                     {
-                        ts.TimeInOuts.Remove(ts.TimeInOuts.ToList()[i]);
+                        //  ts.TimeInOuts.Remove(ts.TimeInOuts.ToList()[i]);
+                        _ttContext.TimeInOuts.Remove(lst[i]);
                     }
                 }
                 _ttContext.TimeSheets.Remove(ts);
@@ -48,10 +55,13 @@ namespace Business.Services
             return plans;
         }
 
-        public void saveItems(TimeSheet ts)
+        public int saveItems(TimeSheet ts)
         {
-            _ttContext.TimeSheets.Add(ts);
+                _ttContext.TimeSheets.Add(ts);
             _ttContext.SaveChanges();
+
+            return ts.Id;
+
         }
 
         public void saveLogs(List<UserLog> uls,string empID)

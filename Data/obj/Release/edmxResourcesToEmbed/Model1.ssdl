@@ -61,6 +61,40 @@
     <Property Name="AccessFailedCount" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
   </EntityType>
+  <EntityType Name="DaysOfWeek">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogsItems">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dayID" Type="int" />
+    <Property Name="logID" Type="int" />
+    <Property Name="Morning" Type="bit" />
+    <Property Name="Afternoon" Type="bit" />
+    <Property Name="Evening" Type="bit" />
+  </EntityType>
+  <EntityType Name="LogsLkp">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LogName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="LogsTypesID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogsTypes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="logTypeName" Type="nvarchar" MaxLength="500" />
+    <Property Name="scID" Type="int" />
+  </EntityType>
   <EntityType Name="planSections">
     <Key>
       <PropertyRef Name="Id" />
@@ -140,6 +174,14 @@
     <Property Name="FK_NetID" Type="nvarchar" MaxLength="128" />
     <Property Name="isFirst" Type="bit" />
   </EntityType>
+  <EntityType Name="UserLogs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="empID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="logItemID" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="FK__TimeInOut__fk_pl__37A5467C">
     <End Role="planSections" Type="Self.planSections" Multiplicity="0..1" />
     <End Role="TimeInOut" Type="Self.TimeInOut" Multiplicity="*" />
@@ -212,6 +254,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_AspNetUsers_Logs">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="UserLogs" Type="Self.UserLogs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLogs">
+        <PropertyRef Name="empID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Days_LogsItems">
+    <End Role="DaysOfWeek" Type="Self.DaysOfWeek" Multiplicity="0..1" />
+    <End Role="LogsItems" Type="Self.LogsItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DaysOfWeek">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogsItems">
+        <PropertyRef Name="dayID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -268,6 +334,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_LogesTypes_LogsLkp">
+    <End Role="LogsTypes" Type="Self.LogsTypes" Multiplicity="1" />
+    <End Role="LogsLkp" Type="Self.LogsLkp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogsTypes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogsLkp">
+        <PropertyRef Name="LogsTypesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogsLkp_LogsItems">
+    <End Role="LogsLkp" Type="Self.LogsLkp" Multiplicity="0..1" />
+    <End Role="LogsItems" Type="Self.LogsItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogsLkp">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogsItems">
+        <PropertyRef Name="logID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SC_LogsTypes">
+    <End Role="serviceCodes" Type="Self.serviceCodes" Multiplicity="0..1" />
+    <End Role="LogsTypes" Type="Self.LogsTypes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="serviceCodes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogsTypes">
+        <PropertyRef Name="scID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLogs_LogsItems">
+    <End Role="LogsItems" Type="Self.LogsItems" Multiplicity="1" />
+    <End Role="UserLogs" Type="Self.UserLogs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogsItems">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserLogs">
+        <PropertyRef Name="logItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="TimeTrackingModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -275,12 +389,17 @@
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DaysOfWeek" EntityType="Self.DaysOfWeek" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogsItems" EntityType="Self.LogsItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogsLkp" EntityType="Self.LogsLkp" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogsTypes" EntityType="Self.LogsTypes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="planSections" EntityType="Self.planSections" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="serviceCodes" EntityType="Self.serviceCodes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TimeInOut" EntityType="Self.TimeInOut" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TimeSheet" EntityType="Self.TimeSheet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserLogs" EntityType="Self.UserLogs" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__TimeInOut__fk_pl__37A5467C" Association="Self.FK__TimeInOut__fk_pl__37A5467C">
       <End Role="planSections" EntitySet="planSections" />
       <End Role="TimeInOut" EntitySet="TimeInOut" />
@@ -305,6 +424,14 @@
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="UserDetails" EntitySet="UserDetails" />
     </AssociationSet>
+    <AssociationSet Name="FK_AspNetUsers_Logs" Association="Self.FK_AspNetUsers_Logs">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UserLogs" EntitySet="UserLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Days_LogsItems" Association="Self.FK_Days_LogsItems">
+      <End Role="DaysOfWeek" EntitySet="DaysOfWeek" />
+      <End Role="LogsItems" EntitySet="LogsItems" />
+    </AssociationSet>
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -320,6 +447,22 @@
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogesTypes_LogsLkp" Association="Self.FK_LogesTypes_LogsLkp">
+      <End Role="LogsTypes" EntitySet="LogsTypes" />
+      <End Role="LogsLkp" EntitySet="LogsLkp" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogsLkp_LogsItems" Association="Self.FK_LogsLkp_LogsItems">
+      <End Role="LogsLkp" EntitySet="LogsLkp" />
+      <End Role="LogsItems" EntitySet="LogsItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SC_LogsTypes" Association="Self.FK_SC_LogsTypes">
+      <End Role="serviceCodes" EntitySet="serviceCodes" />
+      <End Role="LogsTypes" EntitySet="LogsTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLogs_LogsItems" Association="Self.FK_UserLogs_LogsItems">
+      <End Role="LogsItems" EntitySet="LogsItems" />
+      <End Role="UserLogs" EntitySet="UserLogs" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

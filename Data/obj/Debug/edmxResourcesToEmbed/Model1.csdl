@@ -48,6 +48,35 @@
       <End Role="planSection" EntitySet="planSections" />
       <End Role="TimeInOut" EntitySet="TimeInOuts" />
     </AssociationSet>
+    <EntitySet Name="DaysOfWeeks" EntityType="TimeTrackingModel.DaysOfWeek" />
+    <EntitySet Name="LogsItems" EntityType="TimeTrackingModel.LogsItem" />
+    <EntitySet Name="LogsLkps" EntityType="TimeTrackingModel.LogsLkp" />
+    <EntitySet Name="LogsTypes" EntityType="TimeTrackingModel.LogsType" />
+    <EntitySet Name="UserLogs" EntityType="TimeTrackingModel.UserLog" />
+    <AssociationSet Name="FK_AspNetUsers_Logs" Association="TimeTrackingModel.FK_AspNetUsers_Logs">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserLog" EntitySet="UserLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Days_LogsItems" Association="TimeTrackingModel.FK_Days_LogsItems">
+      <End Role="DaysOfWeek" EntitySet="DaysOfWeeks" />
+      <End Role="LogsItem" EntitySet="LogsItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogsLkp_LogsItems" Association="TimeTrackingModel.FK_LogsLkp_LogsItems">
+      <End Role="LogsLkp" EntitySet="LogsLkps" />
+      <End Role="LogsItem" EntitySet="LogsItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLogs_LogsItems" Association="TimeTrackingModel.FK_UserLogs_LogsItems">
+      <End Role="LogsItem" EntitySet="LogsItems" />
+      <End Role="UserLog" EntitySet="UserLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogesTypes_LogsLkp" Association="TimeTrackingModel.FK_LogesTypes_LogsLkp">
+      <End Role="LogsType" EntitySet="LogsTypes" />
+      <End Role="LogsLkp" EntitySet="LogsLkps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SC_LogsTypes" Association="TimeTrackingModel.FK_SC_LogsTypes">
+      <End Role="serviceCode" EntitySet="serviceCodes" />
+      <End Role="LogsType" EntitySet="LogsTypes" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -109,6 +138,7 @@
     <NavigationProperty Name="UserDetails" Relationship="TimeTrackingModel.FK__UserDetai__FK_Ne__1FCDBCEB" FromRole="AspNetUser" ToRole="UserDetail" />
     <NavigationProperty Name="AspNetRoles" Relationship="TimeTrackingModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
     <NavigationProperty Name="TimeSheets" Relationship="TimeTrackingModel.FK__TimeSheet__fk_us__239E4DCF" FromRole="AspNetUser" ToRole="TimeSheet" />
+    <NavigationProperty Name="UserLogs" Relationship="TimeTrackingModel.FK_AspNetUsers_Logs" FromRole="AspNetUser" ToRole="UserLog" />
   </EntityType>
   <EntityType Name="UserDetail">
     <Key>
@@ -250,6 +280,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="TimeInOuts" Relationship="TimeTrackingModel.FK__TimeInOut__fk_se__29572725" FromRole="serviceCode" ToRole="TimeInOut" />
+    <NavigationProperty Name="LogsTypes" Relationship="TimeTrackingModel.FK_SC_LogsTypes" FromRole="serviceCode" ToRole="LogsType" />
   </EntityType>
   <Association Name="FK__TimeInOut__fk_se__29572725">
     <End Type="TimeTrackingModel.serviceCode" Role="serviceCode" Multiplicity="0..1" />
@@ -300,6 +331,130 @@
       </Principal>
       <Dependent Role="TimeInOut">
         <PropertyRef Name="fk_plansection" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DaysOfWeek">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="LogsItems" Relationship="TimeTrackingModel.FK_Days_LogsItems" FromRole="DaysOfWeek" ToRole="LogsItem" />
+  </EntityType>
+  <EntityType Name="LogsItem">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dayID" Type="Int32" />
+    <Property Name="logID" Type="Int32" />
+    <Property Name="Morning" Type="Boolean" />
+    <Property Name="Afternoon" Type="Boolean" />
+    <Property Name="Evening" Type="Boolean" />
+    <NavigationProperty Name="DaysOfWeek" Relationship="TimeTrackingModel.FK_Days_LogsItems" FromRole="LogsItem" ToRole="DaysOfWeek" />
+    <NavigationProperty Name="LogsLkp" Relationship="TimeTrackingModel.FK_LogsLkp_LogsItems" FromRole="LogsItem" ToRole="LogsLkp" />
+    <NavigationProperty Name="UserLogs" Relationship="TimeTrackingModel.FK_UserLogs_LogsItems" FromRole="LogsItem" ToRole="UserLog" />
+  </EntityType>
+  <EntityType Name="LogsLkp">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LogName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LogsTypesID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="LogsItems" Relationship="TimeTrackingModel.FK_LogsLkp_LogsItems" FromRole="LogsLkp" ToRole="LogsItem" />
+    <NavigationProperty Name="LogsType" Relationship="TimeTrackingModel.FK_LogesTypes_LogsLkp" FromRole="LogsLkp" ToRole="LogsType" />
+  </EntityType>
+  <EntityType Name="LogsType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="logTypeName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="scID" Type="Int32" />
+    <NavigationProperty Name="LogsLkps" Relationship="TimeTrackingModel.FK_LogesTypes_LogsLkp" FromRole="LogsType" ToRole="LogsLkp" />
+    <NavigationProperty Name="serviceCode" Relationship="TimeTrackingModel.FK_SC_LogsTypes" FromRole="LogsType" ToRole="serviceCode" />
+  </EntityType>
+  <EntityType Name="UserLog">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="empID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="logItemID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="TimeTrackingModel.FK_AspNetUsers_Logs" FromRole="UserLog" ToRole="AspNetUser" />
+    <NavigationProperty Name="LogsItem" Relationship="TimeTrackingModel.FK_UserLogs_LogsItems" FromRole="UserLog" ToRole="LogsItem" />
+  </EntityType>
+  <Association Name="FK_AspNetUsers_Logs">
+    <End Type="TimeTrackingModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="TimeTrackingModel.UserLog" Role="UserLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLog">
+        <PropertyRef Name="empID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Days_LogsItems">
+    <End Type="TimeTrackingModel.DaysOfWeek" Role="DaysOfWeek" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.LogsItem" Role="LogsItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DaysOfWeek">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogsItem">
+        <PropertyRef Name="dayID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogsLkp_LogsItems">
+    <End Type="TimeTrackingModel.LogsLkp" Role="LogsLkp" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.LogsItem" Role="LogsItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogsLkp">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogsItem">
+        <PropertyRef Name="logID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLogs_LogsItems">
+    <End Type="TimeTrackingModel.LogsItem" Role="LogsItem" Multiplicity="1" />
+    <End Type="TimeTrackingModel.UserLog" Role="UserLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogsItem">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserLog">
+        <PropertyRef Name="logItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogesTypes_LogsLkp">
+    <End Type="TimeTrackingModel.LogsType" Role="LogsType" Multiplicity="1" />
+    <End Type="TimeTrackingModel.LogsLkp" Role="LogsLkp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogsType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogsLkp">
+        <PropertyRef Name="LogsTypesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SC_LogsTypes">
+    <End Type="TimeTrackingModel.serviceCode" Role="serviceCode" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.LogsType" Role="LogsType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="serviceCode">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogsType">
+        <PropertyRef Name="scID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

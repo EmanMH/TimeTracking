@@ -112,16 +112,21 @@
         
         self.showTime = function (data) {
             $("#errorDiv").hide();
+            $("#errorDiv").html("");
+
             $("#successdiv").hide();
             var dateSelected = timesheetKO.dateSelected();
             timesheetKO.items([]);
             timesheetKO.serviceCodes([]);
             timesheetKO.PlanSections([]);
+            timesheetKO.backup(undefined);
+            timesheetKO.liveIn(undefined);
+
             while (deletedRows.length != 0) {
                 deletedRows.pop();
             }
             timesheetKO.canUndo(false);
-            
+            timesheetKO.isSubmitted(false);
             dateSelected = JSON.stringify({ 'dateSelected': dateSelected });
             $.ajax({
                 url: window.configLocation+"/Employee/getTimeSheet",
@@ -144,9 +149,14 @@
                         if (value.Time2 == true)
                             numTimes2++;
                     });
-                    
-                  //  timesheetKO.backup(result.isBackup:'Y':'N');
-                   // timesheetKO.liveIn(result.isLiveIn);
+                    if (result.isBackup == null)
+                        timesheetKO.backup(undefined)
+                    else
+                        timesheetKO.backup(result.isBackup ? 'Y' : 'N');
+                    if (result.isLiveIn == null)
+                        timesheetKO.liveIn(undefined)
+                        else
+                    timesheetKO.liveIn(result.isLiveIn?'Y':'N');
                     timesheetKO.empname(result.empName);
                     timesheetKO.Id(result.Id);
                     timesheetKO.HasTime2(result.HasTime2);
@@ -164,10 +174,21 @@
             $("#successdiv").hide();
 
             var str = "";
-            if (data.backup() != "Y" && data.backup() != 'N' && data.backup() != "y" && data.backup() != 'n')
+            if (data.backup() != undefined) {
+                if (data.backup().trim() != "Y" && data.backup().trim() != 'N' && data.backup().trim() != "y" && data.backup().trim() != 'n')
+                    str += "<p>Backup must have value Y or N</p>";
+            }
+            else
                 str += "<p>Backup must have value Y or N</p>";
-            if (data.liveIn() != "Y" && data.liveIn() != 'N' && data.backup() != "y" && data.backup() != 'n')
+
+            if (data.liveIn() != undefined) {
+                if (data.liveIn().trim() != "Y" && data.liveIn().trim() != 'N' && data.liveIn().trim() != "y" && data.liveIn().trim() != 'n')
+                    str += "<p>Live-In must have value Y or N</p>";
+            }
+            else
                 str += "<p>Live-In must have value Y or N</p>";
+
+           
             //$.each(data.items(), function (key, value) {
             //    if (value.serviceCodeId() == undefined || value.plansectionId() == undefined
             //        || value.TimeInH1() == -1  || value.TimeInM1() == -1 
@@ -215,21 +236,24 @@
             $("#successdiv").hide();
             $("#loading").html("Saving...");
             $("#loading").show();
-
+            $("#errorDiv").html("");
+            $("#errorDiv").hide();
+            $("#successdiv").hide();
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
-                var data = JSON.stringify({ 'items': items, 'backup': data.backup(), 'livein': data.liveIn(),'draft':true,'id':data.Id() });
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup() != undefined ? data.backup().trim() : undefined, 'livein': data.liveIn() != undefined ? data.liveIn().trim() : undefined, 'draft': true, 'id': data.Id() });
                 $.ajax({
                     url: window.configLocation + "/Employee/saveTimeSheet",
                     type: 'POST',
                     data: data,
                     contentType: 'application/json',
                     success: function (result) {
+                        timesheetKO.Id(result);
                         $("#successdiv").html("Saved Successfully");
 
                         $("#successdiv").show();
-                        $("#successModal").modal('show');
+                       // $("#successModal").modal('show');
                         $("#containerBody").html("Saved Successfully");
 
                         $("#loading").hide();
@@ -237,7 +261,7 @@
                     },
                     error: function (result) {
                         $("#successdiv").hide();
-                        $("#successModal").modal('hide');
+                      //  $("#successModal").modal('hide');
                         $("#loading").hide();
 
                         //error$("#successdive").html("");
@@ -248,7 +272,7 @@
 
         self.save = function (data) {
             $("#successdiv").hide();
-            $("#successModal").modal('hide');
+           // $("#successModal").modal('hide');
 
             while (deletedRows.length != 0) {
                 deletedRows.pop();
@@ -263,17 +287,19 @@
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
-                var data = JSON.stringify({ 'items': items, 'backup': data.backup(), 'livein': data.liveIn(), 'draft': false, 'id': data.Id() });
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup().trim(), 'livein': data.liveIn().trim(), 'draft': false, 'id': data.Id() });
                 $.ajax({
                     url: window.configLocation+ "/Employee/saveTimeSheet",
                     type: 'POST',
                     data: data,
                     contentType: 'application/json',
                     success: function (result) {
+                        timesheetKO.Id(result);
+
                         $("#successdiv").html("Submitted Successfully");
 
                         $("#successdiv").show();
-                        $("#successModal").modal('show');
+                       // $("#successModal").modal('show');
                         $("#containerBody").html("Submitted Successfully");
                         $("#loading").hide();
                         timesheetKO.isSubmitted(true);
@@ -281,7 +307,7 @@
                     },
                     error: function (result) {
                         $("#successdiv").hide();
-                        $("#successModal").modal('hide');
+                       // $("#successModal").modal('hide');
                         $("#loading").show();
 
                         //error$("#successdive").html("");

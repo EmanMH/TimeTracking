@@ -230,12 +230,18 @@ namespace Save_DataToExcel
 
                     if (RowNum > 22) {
                         RowNum = 8;
-                        
-						// save before go to the next sheet the total working hours per each Service Code
-                        oSheet.get_Range("F24", "G24").Value = "032";
-                        oSheet.get_Range("H24","J24").Value =  ts.Total032WorkedHours.TotalHours;
-                        oSheet.get_Range("F26", "G26").Value = "011";
-                        oSheet.get_Range("H26", "J26").Value =  ts.Total011WorkedHours.TotalHours;
+
+                        // save before go to the next sheet the total working hours per each Service Code
+                        if (ts.Total032WorkedHours.TotalHours != 0)
+                        {
+                            oSheet.get_Range("F24", "G24").Value = "032";
+                            oSheet.get_Range("H24", "J24").Value = ts.Total032WorkedHours.TotalHours;
+                        }
+                        if (ts.Total011WorkedHours.TotalHours != 0)
+                        {
+                            oSheet.get_Range("F26", "G26").Value = "011";
+                            oSheet.get_Range("H26", "J26").Value = ts.Total011WorkedHours.TotalHours;
+                        }
                         ts.Total011WorkedHours = new TimeSpan();
                         ts.Total032WorkedHours = new TimeSpan();
 						
@@ -247,10 +253,16 @@ namespace Save_DataToExcel
 				if (RowNum <= 22)
                 {
                     // save in the last sheet the total working hours per each Service Code
-                    oSheet.get_Range("F24", "G24").Value = "032";
-                    oSheet.get_Range("H24", "J24").Value = ts.Total032WorkedHours.TotalHours;
-                    oSheet.get_Range("F26", "G26").Value = "011";
-                    oSheet.get_Range("H26", "J26").Value = ts.Total011WorkedHours.TotalHours;
+                    if (ts.Total032WorkedHours.TotalHours != 0)
+                    {
+                        oSheet.get_Range("F24", "G24").Value = "032";
+                        oSheet.get_Range("H24", "J24").Value = ts.Total032WorkedHours.TotalHours;
+                    }
+                    if (ts.Total011WorkedHours.TotalHours != 0)
+                    {
+                        oSheet.get_Range("F26", "G26").Value = "011";
+                        oSheet.get_Range("H26", "J26").Value = ts.Total011WorkedHours.TotalHours;
+                    }
                     ts.Total011WorkedHours = new TimeSpan();
                     ts.Total032WorkedHours = new TimeSpan();
                 }

@@ -1243,7 +1243,7 @@ pre code {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1170px;
+    max-width: 1250px;
   }
   .col-lg-1,
   .col-lg-2,
@@ -1415,7 +1415,7 @@ th {
 
 .table {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 2px;
 }
 
 .table thead > tr > th,
@@ -4206,7 +4206,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand {
-    margin-left: -100px;
+    margin-left: -80px;
   }
 }
 

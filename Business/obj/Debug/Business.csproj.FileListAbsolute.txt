@@ -33,3 +33,4 @@ D:\My Work\TC\TimeTracking\Business\bin\Debug\ru\System.ServiceModel.DomainServi
 D:\My Work\TC\TimeTracking\Business\bin\Debug\zh-Hans\System.ServiceModel.DomainServices.Server.resources.dll
 D:\My Work\TC\TimeTracking\Business\bin\Debug\zh-Hant\System.ServiceModel.DomainServices.Server.resources.dll
 D:\My Work\TC\TimeTracking\Business\obj\Debug\Business.csproj.CoreCompileInputs.cache
+D:\My Work\TC\TimeTracking\Business\obj\Debug\Business.csprojResolveAssemblyReference.cache

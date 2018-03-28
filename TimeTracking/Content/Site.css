@@ -1,13 +1,17 @@
 ﻿body {
-    padding-top: 100px;
+    padding-top: 80px;
     padding-bottom: 20px;
 }
 
+.table {
+    width: 100%;
+    margin-bottom: 2px;
+}
 
 .nav-side-menu {
     overflow: auto;
     font-family: verdana;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 200;
     background-color: #004492;
     position: fixed;
@@ -388,7 +392,7 @@
 
 /* Set padding to keep content from hitting the edges */
         .body-content {
-    padding-left: 150px;
+    padding-left: 180px;
     padding-right: 0px;
 }
 

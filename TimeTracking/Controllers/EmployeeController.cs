@@ -65,8 +65,8 @@ namespace TimeTracking.Controllers
             {
                 tsm.Id = 0;
                 tsm.isViewOnly = false;
-                tsm.isBackup = false;
-                tsm.isLiveIn = false;
+                tsm.isBackup = null;
+                tsm.isLiveIn = null;
                 tsm.startDate = day1;
                 tsm.items = new List<TimeSheetItem>();
                 for (int i = 0; i < 7; i++)
@@ -81,7 +81,9 @@ namespace TimeTracking.Controllers
             }
             else
             {
-                tsm.Id = timesheets.Id;
+               
+
+                    tsm.Id = timesheets.Id;
 
                 if (timesheets.isDraft!=null && timesheets.isDraft.Value == true)
                 {
@@ -100,6 +102,8 @@ namespace TimeTracking.Controllers
                 if (timesheets.DayDate != null)
                     tsm.startDate = timesheets.DayDate.Value;
                 tsm.items = new List<TimeSheetItem>();
+                var pastdate = day1;
+                int count = 0;
 
                 foreach (var item in timesheets.TimeInOuts)
                 {
@@ -183,7 +187,7 @@ namespace TimeTracking.Controllers
             bool isdraft = bool.Parse(draft);
             TimeSheet ts;
             int tid=0;
-            if (id!="")
+            if (id != "" && id != "0")
             {
                 tid = int.Parse(id);
             }
@@ -192,10 +196,14 @@ namespace TimeTracking.Controllers
             if(isdraft != true)
             ts.fk_statusid = 1;
             ts.fk_userId = es.getUserId(User.Identity.Name);
-            if(backup!=null)
-            ts.isBackup = backup.ToLower() == "y";
-            if (livein != null)
+            if (backup != null && backup!="")
+                ts.isBackup = backup.ToLower() == "y";
+            else
+                ts.isBackup = null;
+            if (livein != null && livein != "")
                 ts.isLiveIn = livein.ToLower() == "y";
+            else
+            ts.isLiveIn = null;
             if (isdraft == true)
                 ts.isDraft = true;
                 TimeInOut tm = new TimeInOut();
@@ -236,12 +244,15 @@ namespace TimeTracking.Controllers
                     ts.HasTime2 = true;
 
                 }
+                if (isdraft!=true && (tm.fk_serviceCode==0 || tm.fk_serviceCode == null) && (tm.fk_plansection == 0 || tm.fk_plansection == null))
+                    tm = new TimeInOut();
+                    else
                 ts.TimeInOuts.Add(tm);
                 tm = new TimeInOut();
             }
             if (isdraft != true)
                 ts.isDraft = false;
-                es.saveItems(ts);
+             int tsid=   es.saveItems(ts);
 
             if(tid!=0)
             es.TimeSheetdeleteById(tid);
@@ -313,9 +324,9 @@ namespace TimeTracking.Controllers
                 }
                 string res = exs.FillSheet(tse, Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xls"), Server.MapPath("~/TimeSheets"));
 
-                return Json(res);
+                return Json(tsid);
             }
-            return Json("draft saved");
+            return Json(tsid);
         }
 
         public ActionResult TimeSheet()

@@ -9,8 +9,8 @@ namespace TimeTracking.Models
     {
         public int Id { get; set; }
         public string empName { get; set; }
-        public bool isBackup { get; set; }
-        public bool isLiveIn { get; set; }
+        public bool? isBackup { get; set; }
+        public bool? isLiveIn { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public bool isViewOnly { get; set; }

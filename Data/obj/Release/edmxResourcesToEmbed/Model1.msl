@@ -149,5 +149,52 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DaysOfWeeks">
+      <EntityTypeMapping TypeName="TimeTrackingModel.DaysOfWeek">
+        <MappingFragment StoreEntitySet="DaysOfWeek">
+          <ScalarProperty Name="dayName" ColumnName="dayName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogsItems">
+      <EntityTypeMapping TypeName="TimeTrackingModel.LogsItem">
+        <MappingFragment StoreEntitySet="LogsItems">
+          <ScalarProperty Name="Evening" ColumnName="Evening" />
+          <ScalarProperty Name="Afternoon" ColumnName="Afternoon" />
+          <ScalarProperty Name="Morning" ColumnName="Morning" />
+          <ScalarProperty Name="logID" ColumnName="logID" />
+          <ScalarProperty Name="dayID" ColumnName="dayID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogsLkps">
+      <EntityTypeMapping TypeName="TimeTrackingModel.LogsLkp">
+        <MappingFragment StoreEntitySet="LogsLkp">
+          <ScalarProperty Name="LogsTypesID" ColumnName="LogsTypesID" />
+          <ScalarProperty Name="LogName" ColumnName="LogName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogsTypes">
+      <EntityTypeMapping TypeName="TimeTrackingModel.LogsType">
+        <MappingFragment StoreEntitySet="LogsTypes">
+          <ScalarProperty Name="scID" ColumnName="scID" />
+          <ScalarProperty Name="logTypeName" ColumnName="logTypeName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLogs">
+      <EntityTypeMapping TypeName="TimeTrackingModel.UserLog">
+        <MappingFragment StoreEntitySet="UserLogs">
+          <ScalarProperty Name="logItemID" ColumnName="logItemID" />
+          <ScalarProperty Name="empID" ColumnName="empID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
