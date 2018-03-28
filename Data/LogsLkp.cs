@@ -23,9 +23,15 @@ namespace Data
         public int ID { get; set; }
         public string LogName { get; set; }
         public int LogsTypesID { get; set; }
+        public bool HasMorning { get; set; }
+        public bool HasAfternoon { get; set; }
+        public bool HasEvening { get; set; }
+        public bool isSwapped { get; set; }
+        public Nullable<int> categoryID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LogsItem> LogsItems { get; set; }
         public virtual LogsType LogsType { get; set; }
+        public virtual LogCategory LogCategory { get; set; }
     }
 }

@@ -12,77 +12,36 @@ namespace TimeTracking.Models
         public string EmpName { get; set; }
         public string ServiceCode { get; set; }
         public List<int> selectedLogs = new List<int>();
-        public DailyLivingActivities DLActivities = new DailyLivingActivities();
-        public FoodPrepActivities FPActivities = new FoodPrepActivities();
-        public Activities Activities = new Activities();
-        public LightChoresHouseKeeping LcHk = new LightChoresHouseKeeping();
+        public LogItem DLActivities = new LogItem();
+        public LogItem FPActivities = new LogItem();
+        public LogItem Activities = new LogItem();
+        public LogItem LcHkActivities = new LogItem();
     }
 
-    public class DailyLivingActivities
+    public class Log
     {
-        public List<int> ShowerBathingMorninglst = new List<int>();
-        public List<int> ShowerBathingAfternoonlst = new List<int>();
-        public List<int> ShowerBathingEveninglst = new List<int>();
-
-        public List<int> OralHygeineMorninglst = new List<int>();
-        public List<int> OralHygeineAfternoonlst = new List<int>();
-        public List<int> OralHygeineEveninglst = new List<int>();
-
-        public List<int> DressingMorninglst = new List<int>();
-        public List<int> DressingAfternoonlst = new List<int>();
-        public List<int> DressingEveninglst = new List<int>();
-
-        public List<int> HairCutMorninglst = new List<int>();
-        public List<int> HairCutAfternoonlst = new List<int>();
-        public List<int> HairCutEveninglst = new List<int>();
-
+        public string LogName { get; set; }
+        public bool hasMorning { get; set; }
+        public bool hasAfternoon { get; set; }
+        public bool hasEvening { get; set; }
+        public bool hasValue { get; set; }
+        public List<int> MorningLst = new List<int>();
+        public List<int> AfternoonLst = new List<int>();
+        public List<int> EveningLst = new List<int>();
+        public List<int> ValusLst = new List<int>();
     }
 
-    public class FoodPrepActivities
+    public class categorizedLogs
     {
-        public List<int> MealPrepMorninglst = new List<int>();
-        public List<int> MealPrepAfternoonlst = new List<int>();
-        public List<int> MealPrepEveninglst = new List<int>();
-
-        public List<int> SnacksMorninglst = new List<int>();
-        public List<int> SnacksAfternoonlst = new List<int>();
-        public List<int> SnacksEveninglst = new List<int>();
-
-        public List<int> DrinksMorninglst = new List<int>();
-        public List<int> DrinksAfternoonlst = new List<int>();
-        public List<int> DrinksEveninglst = new List<int>();
-        
+        public string cateogryName { get; set; }
+        public List<Log> logLst = new List<Log>();
     }
 
-    public class Activities
+    public class LogItem
     {
-        public List<int> Eventslst = new List<int>();
-        public List<int> WeighInPublixlst = new List<int>();
-
-        public List<int> Ipadlst = new List<int>();
-        public List<int> Readinglst = new List<int>();
-        public List<int> Exerciselst = new List<int>();
-        public List<int> DVDTVlst = new List<int>();
-    }
-
-    public class LightChoresHouseKeeping
-    {
-        public List<int> CleaningSpillsMopMorninglst = new List<int>();
-        public List<int> CleaningSpillsMopAfternoonlst = new List<int>();
-        public List<int> CleaningSpillsMopEveninglst = new List<int>();
-
-        public List<int> ChangeBedLinensMorninglst = new List<int>();
-        public List<int> ChangeBedLinensAfternoonlst = new List<int>();
-        public List<int> ChangeBedLinensEveninglst = new List<int>();
-
-        public List<int> LaundryMorninglst = new List<int>();
-        public List<int> LaundryAfternoonlst = new List<int>();
-        public List<int> LaundryEveninglst = new List<int>();
-
-        public List<int> CleanRoomlst = new List<int>();
-
-        public List<int> CleanPathRoomlst = new List<int>();
-
+        public List<Log> logSwapLst = new List<Log>();
+        public List<categorizedLogs> logCtgLst = new List<categorizedLogs>();
+        public List<Log> logsLst = new List<Log>();
     }
 
 }

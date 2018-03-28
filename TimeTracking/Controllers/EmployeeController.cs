@@ -432,6 +432,72 @@ namespace TimeTracking.Controllers
             return Json("");
         }
 
+        private void swap(List<int> lst)
+        {
+            int temp = 0;
+            temp = lst[0];
+            lst.RemoveAt(0);
+            lst.Add(temp);
+        }
+
+        private List<Log> createLogLst(List<LogsLkp> Logs, bool isSwapped)
+        {
+
+            List<Log> LogLst = new List<Log>();
+            foreach (LogsLkp l in Logs)
+            {
+
+                Log log = new Log();
+                bool hasTime = false;
+                log.LogName = l.LogName;
+                if (l.HasMorning)
+                {
+                    hasTime = true;
+                    log.hasMorning = true;
+                    log.MorningLst = es.getLogsItemsIDslst(l.ID, "m");
+                    if (isSwapped)
+                    {
+                        swap(log.MorningLst);
+                    }
+                }
+
+                if (l.HasAfternoon)
+                {
+                    hasTime = true;
+                    log.hasAfternoon = true;
+                    log.AfternoonLst = es.getLogsItemsIDslst(l.ID, "a");
+                    if (isSwapped)
+                    {
+                        swap(log.AfternoonLst);
+                    }
+                }
+
+                if (l.HasEvening)
+                {
+                    hasTime = true;
+                    log.hasEvening = true;
+                    log.EveningLst = es.getLogsItemsIDslst(l.ID, "e");
+                    if (isSwapped)
+                    {
+                        swap(log.EveningLst);
+                    }
+                }
+
+                if (!hasTime)
+                {
+                    log.hasValue = true;
+                    log.ValusLst = es.getLogsItemsIDslst(l.ID, "");
+                    if (isSwapped)
+                    {
+                        swap(log.ValusLst);
+                    }
+                }
+                LogLst.Add(log);
+            }
+
+            return LogLst;
+        }
+
         [HttpPost]
         public JsonResult loadLogItems()
         {
@@ -441,85 +507,91 @@ namespace TimeTracking.Controllers
 
             lms.selectedLogs = es.getSelecedLogs(empID);
 
-            //Activities of Daily Living
-            int logID = es.getLogID("Shower/Bathing");
-            lms.DLActivities.ShowerBathingMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.DLActivities.ShowerBathingAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.DLActivities.ShowerBathingEveninglst = es.getLogsItemsIDslst(logID, "e");
+            int logTypeID = es.getLogTypeID("Activities of Daily Living");
+            LogItem dlli = new LogItem();
 
-            logID = es.getLogID("Oral Hygeine");
-            lms.DLActivities.OralHygeineMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.DLActivities.OralHygeineAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.DLActivities.OralHygeineEveninglst = es.getLogsItemsIDslst(logID, "e");
+            List<LogCategory> ctgrsLst = es.getCategories(logTypeID);
 
-            logID = es.getLogID("Dressing");
-            lms.DLActivities.DressingMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.DLActivities.DressingAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.DLActivities.DressingEveninglst = es.getLogsItemsIDslst(logID, "e");
+            foreach (LogCategory lg in ctgrsLst)
+            {
+                categorizedLogs lc = new categorizedLogs();
+                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
 
-            logID = es.getLogID("Hair Cut");
-            lms.DLActivities.HairCutMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.DLActivities.HairCutAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.DLActivities.HairCutEveninglst = es.getLogsItemsIDslst(logID, "e");
+                lc.cateogryName = lg.CategoryName;
+                lc.logLst = createLogLst(lLkp, false);
+                dlli.logCtgLst.Add(lc);
+            }
 
-            //Food Prep
-            logID = es.getLogID("Meal Prep");
-            lms.FPActivities.MealPrepMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.FPActivities.MealPrepAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.FPActivities.MealPrepEveninglst = es.getLogsItemsIDslst(logID, "e");
+            dlli.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
+            dlli.logsLst = createLogLst(es.getLogs(logTypeID), false);
+
+            lms.DLActivities = dlli;
 
 
-            logID = es.getLogID("Snacks");
-            lms.FPActivities.SnacksMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.FPActivities.SnacksAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.FPActivities.SnacksEveninglst = es.getLogsItemsIDslst(logID, "e");
+
+            logTypeID = es.getLogTypeID("Food Prep");
+
+            List<LogCategory> fpctgrsLst = es.getCategories(logTypeID);
+            LogItem fpli = new LogItem();
+
+            foreach (LogCategory lg in fpctgrsLst)
+            {
+                categorizedLogs lc = new categorizedLogs();
+                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
+
+                lc.cateogryName = lg.CategoryName;
+                lc.logLst = createLogLst(lLkp, false);
+                fpli.logCtgLst.Add(lc);
+            }
+
+            fpli.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
+            fpli.logsLst = createLogLst(es.getLogs(logTypeID), false);
+
+            lms.FPActivities = fpli;
 
 
-            logID = es.getLogID("Drinks");
-            lms.FPActivities.DrinksMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.FPActivities.DrinksAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.FPActivities.DrinksEveninglst = es.getLogsItemsIDslst(logID, "e");
+            logTypeID = es.getLogTypeID("Activities");
 
-            //Activities
-            logID = es.getLogID("Events");
-            lms.Activities.Eventslst = es.getLogsItemsIDslst(logID, "");
+            List<LogCategory> actgrsLst = es.getCategories(logTypeID);
+            LogItem ali = new LogItem();
 
-            logID = es.getLogID("Weigh In-Publix");
-            lms.Activities.WeighInPublixlst = es.getLogsItemsIDslst(logID, "");
+            foreach (LogCategory lg in actgrsLst)
+            {
 
-            logID = es.getLogID("Ipad");
-            lms.Activities.Ipadlst = es.getLogsItemsIDslst(logID, "");
+                categorizedLogs lc = new categorizedLogs();
+                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
 
-            logID = es.getLogID("Reading");
-            lms.Activities.Readinglst = es.getLogsItemsIDslst(logID, "");
+                lc.cateogryName = lg.CategoryName;
+                lc.logLst = createLogLst(lLkp, false);
+                ali.logCtgLst.Add(lc);
+            }
 
-            logID = es.getLogID("Exercise");
-            lms.Activities.Exerciselst = es.getLogsItemsIDslst(logID, "");
-       
-            logID = es.getLogID("DVD/TV");
-            lms.Activities.DVDTVlst = es.getLogsItemsIDslst(logID, "");
+            ali.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
+            ali.logsLst = createLogLst(es.getLogs(logTypeID), false);
 
-            //Light Chores/HouseKeeping
-            logID = es.getLogID("Cleaning Spills/Mop");
-            lms.LcHk.CleaningSpillsMopMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.LcHk.CleaningSpillsMopAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.LcHk.CleaningSpillsMopEveninglst = es.getLogsItemsIDslst(logID, "e");
+            lms.Activities = ali;
 
-            logID = es.getLogID("Change Bed Linens");
-            lms.LcHk.ChangeBedLinensMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.LcHk.ChangeBedLinensAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.LcHk.ChangeBedLinensEveninglst = es.getLogsItemsIDslst(logID, "e");
 
-            logID = es.getLogID("Laundry");
-            lms.LcHk.LaundryMorninglst = es.getLogsItemsIDslst(logID, "m");
-            lms.LcHk.LaundryAfternoonlst = es.getLogsItemsIDslst(logID, "a");
-            lms.LcHk.LaundryEveninglst = es.getLogsItemsIDslst(logID, "e");
 
-            logID = es.getLogID("Clean Room");
-            lms.LcHk.CleanRoomlst = es.getLogsItemsIDslst(logID, "");
+            logTypeID = es.getLogTypeID("Light Chores/House Keeping");
 
-            logID = es.getLogID("Clean Bathroom");
-            lms.LcHk.CleanPathRoomlst = es.getLogsItemsIDslst(logID, "");
+            List<LogCategory> lchkctgrsLst = es.getCategories(logTypeID);
+            LogItem lchkli = new LogItem();
+
+            foreach (LogCategory lg in lchkctgrsLst)
+            {
+                categorizedLogs lc = new categorizedLogs();
+                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
+
+                lc.cateogryName = lg.CategoryName;
+                lc.logLst = createLogLst(lLkp, false);
+                lchkli.logCtgLst.Add(lc);
+            }
+
+            lchkli.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
+            lchkli.logsLst = createLogLst(es.getLogs(logTypeID), false);
+
+            lms.LcHkActivities = lchkli;
 
             return Json(lms);
         }

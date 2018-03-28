@@ -36,6 +36,9 @@
         <AssociationConnector Association="TimeTrackingModel.FK_UserLogs_LogsItems" />
         <AssociationConnector Association="TimeTrackingModel.FK_LogesTypes_LogsLkp" />
         <AssociationConnector Association="TimeTrackingModel.FK_SC_LogsTypes" />
+        <EntityTypeShape EntityType="TimeTrackingModel.LogCategory" Width="1.5" PointX="11.875" PointY="22" />
+        <AssociationConnector Association="TimeTrackingModel.FK_LogCategory_LogsLkp" />
+        <AssociationConnector Association="TimeTrackingModel.FK_LogCategory_LogsTypes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

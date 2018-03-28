@@ -68,6 +68,9 @@
     <Compile Include="DaysOfWeek.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="LogCategory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="LogsItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

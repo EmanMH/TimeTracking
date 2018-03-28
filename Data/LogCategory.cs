@@ -12,23 +12,20 @@ namespace Data
     using System;
     using System.Collections.Generic;
     
-    public partial class LogsType
+    public partial class LogCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public LogsType()
+        public LogCategory()
         {
             this.LogsLkps = new HashSet<LogsLkp>();
-            this.LogCategories = new HashSet<LogCategory>();
         }
     
         public int ID { get; set; }
-        public string logTypeName { get; set; }
-        public Nullable<int> scID { get; set; }
+        public string CategoryName { get; set; }
+        public int LogTypeID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LogsLkp> LogsLkps { get; set; }
-        public virtual serviceCode serviceCode { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LogCategory> LogCategories { get; set; }
+        public virtual LogsType LogsType { get; set; }
     }
 }

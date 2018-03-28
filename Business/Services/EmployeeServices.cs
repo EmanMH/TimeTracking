@@ -92,6 +92,36 @@ namespace Business.Services
             return logID;
         }
 
+        public int getLogTypeID(string logTypeName)
+        {
+            var logTypeID = _ttContext.LogsTypes.Where(x => x.logTypeName.Equals(logTypeName)).Select(c => c.ID).FirstOrDefault();
+            return logTypeID;
+        }
+
+        public List<LogsLkp> getLogs(int logTypeID)
+        {
+            var logs = _ttContext.LogsLkps.Where(x => x.LogsTypesID == logTypeID && x.categoryID == null && !x.isSwapped).ToList<LogsLkp>();
+            return logs;
+        }
+
+        public List<LogsLkp> getCategoryLogs(int logTypeID, int categoryID)
+        {
+            var logs = _ttContext.LogsLkps.Where(x => x.LogsTypesID == logTypeID && x.categoryID == categoryID).ToList<LogsLkp>();
+            return logs;
+        }
+
+        public List<LogsLkp> getSwappedLogs(int logTypeID)
+        {
+            var logs = _ttContext.LogsLkps.Where(x => x.LogsTypesID == logTypeID && x.isSwapped).ToList<LogsLkp>();
+            return logs;
+        }
+
+        public List<LogCategory> getCategories(int logTypeID)
+        {
+            var logs = _ttContext.LogCategories.Where(x => x.LogTypeID == logTypeID).ToList<LogCategory>();
+            return logs;
+        }
+
         public List<int> getLogsItemsIDslst(int logID, string timePart) {
             List<int> logsItemsIDslst = new List<int>();
 

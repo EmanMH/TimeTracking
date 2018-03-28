@@ -1,68 +1,47 @@
 ﻿Logs = function () {
     var logsKO;
 
+    var item = function (name, hasM, hasA, hasE, hasV, mLst, aLst, eLst, vLst) {
+        self.name = name;
+        self.hasM = hasM;
+        self.hasA = hasA;
+        self.hasE = hasE;
+        self.hasV = hasV;
+
+        self.mLst = ko.observableArray(mLst);
+        self.aLst = ko.observableArray(aLst);
+        self.eLst = ko.observableArray(eLst);
+        self.vLst = ko.observableArray(vLst);
+    };
+
+    var CategorizeItem = function (cName, cLst) {
+        self.cName = cName;
+        self.cLst = ko.observableArray(cLst);
+    };
+
     var logsViewModel = function () {
         var self = this;
-
-        //Daily Activities
-        self.isSBMLst = ko.observableArray([]);
-        self.isSBALst = ko.observableArray([]);
-        self.isSBELst = ko.observableArray([]);
-
-        self.isOHMLst = ko.observableArray([]);
-        self.isOHALst = ko.observableArray([]);
-        self.isOHELst = ko.observableArray([]);
-
-        self.isDMLst = ko.observableArray([]);
-        self.isDALst = ko.observableArray([]);
-        self.isDELst = ko.observableArray([]);
-
-        self.isHCMLst = ko.observableArray([]);
-        self.isHCALst = ko.observableArray([]);
-        self.isHCELst = ko.observableArray([]);
-
-        self.isMPMLst = ko.observableArray([]);
-        self.isMPALst = ko.observableArray([]);
-        self.isMPELst = ko.observableArray([]);
-
-        self.isSMLst = ko.observableArray([]);
-        self.isSALst = ko.observableArray([]);
-        self.isSELst = ko.observableArray([]);
-
-        self.isDrnkMLst = ko.observableArray([]);
-        self.isDrnkALst = ko.observableArray([]);
-        self.isDrnkELst = ko.observableArray([]);
-
-        //Activites
-        self.isELst = ko.observableArray([]);
-
-        self.isWIPLst = ko.observableArray([]);
-
-        self.isIPLst = ko.observableArray([]);
-
-        self.isRLst = ko.observableArray([]);
-
-        self.isExLst = ko.observableArray([]);
-
-        self.isDTLst = ko.observableArray([]);
-
-        //Light Chores/HouseKeeping
-        self.isCSMMLst = ko.observableArray([]);
-        self.isCSMALst = ko.observableArray([]);
-        self.isCSMELst = ko.observableArray([]);
-
-        self.isCBLMLst = ko.observableArray([]);
-        self.isCBLALst = ko.observableArray([]);
-        self.isCBLELst = ko.observableArray([]);
-
-        self.islMLst = ko.observableArray([]);
-        self.islALst = ko.observableArray([]);
-        self.islELst = ko.observableArray([]);
-
-        self.isCRLst = ko.observableArray([]);
-
-        self.isCBLst = ko.observableArray([]);
         
+        self.DAlst = ko.observableArray([]);
+        self.ctgDAlst = ko.observableArray([]);
+        self.swpdDAlst = ko.observableArray([]);
+        self.isDASwpd = ko.observable(false);
+
+        self.FPlst = ko.observableArray([]);
+        self.ctgFPlst = ko.observableArray([]);
+        self.swpdFPlst = ko.observableArray([]);
+        self.isFPSwpd = ko.observable(false);
+
+        self.Alst = ko.observableArray([]);
+        self.ctgAlst = ko.observableArray([]);
+        self.swpdAlst = ko.observableArray([]);
+        self.isASwpd = ko.observable(false);
+
+        self.LcHklst = ko.observableArray([]);
+        self.ctgLcHklst = ko.observableArray([]);
+        self.swpdLcHklst = ko.observableArray([]);
+        self.isLcHkSwpd = ko.observable(false);
+
         self.isChecked = ko.observableArray([]);
         
         self.saveLogs = function (data) {
@@ -95,7 +74,6 @@
                 }
             });
             
-            alert(ko.toJSON(self.isChecked()));
         };
     };
 
@@ -113,144 +91,49 @@
                     logsKO.isChecked.push(value);
                 }),
 
-                    //Daily Activities
-                    $.each(result.DLActivities.ShowerBathingMorninglst, function (key, value) {
-                        logsKO.isSBMLst.push(value);
-                    }),
-                    $.each(result.DLActivities.ShowerBathingAfternoonlst, function (key, value) {
-                        logsKO.isSBALst.push(value);
-                    }),
-                    $.each(result.DLActivities.ShowerBathingEveninglst, function (key, value) {
-                        logsKO.isSBELst.push(value);
-                    }),
+                $.each(result.DLActivities.logsLst, function (key, value) {
+                    logsKO.DAlst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.DLActivities.logSwapLst, function (key, value) {
+                    logsKO.isDASwpd(true);
+                    logsKO.swpdDAlst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.DLActivities.logCtgLst, function (key, value) {
+                    logsKO.ctgDAlst.push(new CategorizeItem(value.cateogryName, value.logLst));
+                }),
 
-                    $.each(result.DLActivities.OralHygeineMorninglst, function (key, value) {
-                        logsKO.isOHMLst.push(value);
-                    }),
-                    $.each(result.DLActivities.OralHygeineAfternoonlst, function (key, value) {
-                        logsKO.isOHALst.push(value);
-                    }),
-                    $.each(result.DLActivities.OralHygeineEveninglst, function (key, value) {
-                        logsKO.isOHELst.push(value);
-                    }),
+                $.each(result.FPActivities.logsLst, function (key, value) {
+                    logsKO.FPlst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.FPActivities.logSwapLst, function (key, value) {
+                    logsKO.isFPSwpd(true);
+                    logsKO.swpdFPlst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.FPActivities.logCtgLst, function (key, value) {
+                   logsKO.ctgFPlst.push(new CategorizeItem(value.cateogryName, value.logLst));
+                }),
 
+                $.each(result.Activities.logsLst, function (key, value) {
+                    logsKO.Alst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.Activities.logSwapLst, function (key, value) {
+                    logsKO.isASwpd(true);
+                    logsKO.swpdAlst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.Activities.logCtgLst, function (key, value) {
+                    logsKO.ctgAlst.push(new CategorizeItem(value.cateogryName, value.logLst));
+                }),
 
-                    $.each(result.DLActivities.DressingMorninglst, function (key, value) {
-                        logsKO.isDMLst.push(value);
-                    }),
-                    $.each(result.DLActivities.DressingAfternoonlst, function (key, value) {
-                        logsKO.isDALst.push(value);
-                    }),
-                    $.each(result.DLActivities.DressingEveninglst, function (key, value) {
-                        logsKO.isDELst.push(value);
-                    }),
-
-
-                    $.each(result.DLActivities.HairCutMorninglst, function (key, value) {
-                        logsKO.isHCMLst.push(value);
-                    }),
-                    $.each(result.DLActivities.HairCutAfternoonlst, function (key, value) {
-                        logsKO.isHCALst.push(value);
-                    }),
-                    $.each(result.DLActivities.HairCutEveninglst, function (key, value) {
-                        logsKO.isHCELst.push(value);
-                    }),
-
-                    //Food Prep
-                    $.each(result.FPActivities.MealPrepMorninglst, function (key, value) {
-                        logsKO.isMPMLst.push(value);
-                    }),
-                    $.each(result.FPActivities.MealPrepAfternoonlst, function (key, value) {
-                        logsKO.isMPALst.push(value);
-                    }),
-                    $.each(result.FPActivities.MealPrepEveninglst, function (key, value) {
-                        logsKO.isMPELst.push(value);
-                    }),
-
-                    $.each(result.FPActivities.SnacksMorninglst, function (key, value) {
-                        logsKO.isSMLst.push(value);
-                    }),
-                    $.each(result.FPActivities.SnacksAfternoonlst, function (key, value) {
-                        logsKO.isSALst.push(value);
-                    }),
-                    $.each(result.FPActivities.SnacksEveninglst, function (key, value) {
-                        logsKO.isSELst.push(value);
-                    }),
-
-
-                    $.each(result.FPActivities.DrinksMorninglst, function (key, value) {
-                        logsKO.isDrnkMLst.push(value);
-                    }),
-                    $.each(result.FPActivities.DrinksAfternoonlst, function (key, value) {
-                        logsKO.isDrnkALst.push(value);
-                    }),
-                    $.each(result.FPActivities.DrinksEveninglst, function (key, value) {
-                        logsKO.isDrnkELst.push(value);
-                    }),
-
-                    //Activities
-                    $.each(result.Activities.Eventslst, function (key, value) {
-                        logsKO.isELst.push(value);
-                    }),
-
-                    $.each(result.Activities.WeighInPublixlst, function (key, value) {
-                        logsKO.isWIPLst.push(value);
-                    }),
-
-                    $.each(result.Activities.Ipadlst, function (key, value) {
-                        logsKO.isIPLst.push(value);
-                    }),
-
-                    $.each(result.Activities.Readinglst, function (key, value) {
-                        logsKO.isRLst.push(value);
-                    }),
-
-                    $.each(result.Activities.Exerciselst, function (key, value) {
-                        logsKO.isExLst.push(value);
-                    }),
-
-                    $.each(result.Activities.DVDTVlst, function (key, value) {
-                        logsKO.isDTLst.push(value);
-                    }),
-
-                    //Light Chores/HouseKeeping
-                    $.each(result.LcHk.CleaningSpillsMopMorninglst, function (key, value) {
-                        logsKO.isCSMMLst.push(value);
-                    }),
-                    $.each(result.LcHk.CleaningSpillsMopAfternoonlst, function (key, value) {
-                        logsKO.isCSMALst.push(value);
-                    }),
-                    $.each(result.LcHk.CleaningSpillsMopEveninglst, function (key, value) {
-                        logsKO.isCSMELst.push(value);
-                    }),
-
-                    $.each(result.LcHk.ChangeBedLinensMorninglst, function (key, value) {
-                        logsKO.isCBLMLst.push(value);
-                    }),
-                    $.each(result.LcHk.ChangeBedLinensAfternoonlst, function (key, value) {
-                        logsKO.isCBLALst.push(value);
-                    }),
-                    $.each(result.LcHk.ChangeBedLinensEveninglst, function (key, value) {
-                        logsKO.isCBLELst.push(value);
-                    }),
-
-                    $.each(result.LcHk.LaundryMorninglst, function (key, value) {
-                        logsKO.islMLst.push(value);
-                    }),
-                    $.each(result.LcHk.LaundryAfternoonlst, function (key, value) {
-                        logsKO.islALst.push(value);
-                    }),
-                    $.each(result.LcHk.LaundryEveninglst, function (key, value) {
-                        logsKO.islELst.push(value);
-                    }),
-
-                    $.each(result.LcHk.CleanRoomlst, function (key, value) {
-                        logsKO.isCRLst.push(value);
-                    }),
-
-                    $.each(result.LcHk.CleanPathRoomlst, function (key, value) {
-                        logsKO.isCBLst.push(value);
-                    });
+                $.each(result.LcHkActivities.logsLst, function (key, value) {
+                    logsKO.LcHklst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.LcHkActivities.logSwapLst, function (key, value) {
+                    logsKO.isLcHkSwpd(true);
+                    logsKO.swpdLcHklst.push(new item(value.LogName, value.hasMorning, value.hasAfternoon, value.hasEvening, value.hasValue, value.MorningLst, value.AfternoonLst, value.EveningLst, value.ValusLst));
+                }),
+                $.each(result.LcHkActivities.logCtgLst, function (key, value) {
+                    logsKO.ctgLcHklst.push(new CategorizeItem(value.cateogryName, value.logLst));
+                });
             },
             error: function () {
             }

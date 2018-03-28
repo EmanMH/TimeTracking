@@ -57,8 +57,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- ko foreach: DAlst -->
+                                    <!-- ko ifnot:hasV -->
                                     <tr>
-                                        <th colspan="2">Shower/Bathing</th>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -67,30 +69,48 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko if:hasM -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: isSBMLst -->
+                                        <!-- ko foreach: mLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: isSBALst -->
+                                        <!-- ko foreach: aLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: isSBELst -->
+                                        <!-- ko foreach: eLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
+                                    <tr>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
 
+                                        <!-- ko foreach: vLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko foreach: ctgDAlst -->
                                     <tr>
-                                        <th colspan="2">Oral Hygeine</th>
+                                        <th colspan="2"><label data-bind="text:cName" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -99,30 +119,73 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko foreach: cLst -->
+                                    <!-- ko ifnot:hasValue -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:LogName" /></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <!-- ko if:hasMorning -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: isOHMLst -->
+                                        <!-- ko foreach: MorningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasAfternoon -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: isOHALst -->
+                                        <!-- ko foreach: AfternoonLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasEvening -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: isOHELst -->
+                                        <!-- ko foreach: EveningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasValue -->
+                                    <tr>
+                                        <th></th>
+                                        <th><label data-bind="text:LogName" /></th>
 
+                                        <!-- ko foreach: ValusLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:isDASwpd -->
                                     <tr>
-                                        <th colspan="2">Dressing</th>
+                                        <th colspan="2"></th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                        <th>Sun</th>
+                                    </tr>
+                                    <!-- ko foreach: swpdDAlst -->
+                                    <!-- ko ifnot:hasV -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -131,59 +194,47 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko if:hasM -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: isDMLst -->
+                                        <!-- ko foreach: mLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: isDALst -->
+                                        <!-- ko foreach: aLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: isDELst -->
+                                        <!-- ko foreach: eLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
+                                    <tr>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
 
-                                    <tr>
-                                        <th colspan="2">Hair Cut</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th>Morning</th>
-                                        <!-- ko foreach: isHCMLst -->
+                                        <!-- ko foreach: vLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th>Afternoon</th>
-                                        <!-- ko foreach: isHCALst -->
-                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
-                                        <!-- /ko -->
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th>Evening</th>
-                                        <!-- ko foreach: isHCELst -->
-                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
-                                        <!-- /ko -->
-                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+
                                 </tbody>
                             </table>
                         </td>
@@ -202,8 +253,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- ko foreach: FPlst -->
+                                    <!-- ko ifnot:hasV -->
                                     <tr>
-                                        <th colspan="2">Meal Prep</th>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -212,30 +265,48 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko if:hasM -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: isMPMLst -->
+                                        <!-- ko foreach: mLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: isMPALst -->
+                                        <!-- ko foreach: aLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: isMPELst -->
+                                        <!-- ko foreach: eLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
+                                    <tr>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
 
+                                        <!-- ko foreach: vLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko foreach: ctgFPlst -->
                                     <tr>
-                                        <th colspan="2">Snacks</th>
+                                        <th colspan="2"><label data-bind="text:cName" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -244,30 +315,73 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko foreach: cLst -->
+                                    <!-- ko ifnot:hasValue -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:LogName" /></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <!-- ko if:hasMorning -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: isSMLst -->
+                                        <!-- ko foreach: MorningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasAfternoon -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: isSALst -->
+                                        <!-- ko foreach: AfternoonLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasEvening -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: isSELst -->
+                                        <!-- ko foreach: EveningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasValue -->
+                                    <tr>
+                                        <th></th>
+                                        <th><label data-bind="text:LogName" /></th>
 
+                                        <!-- ko foreach: ValusLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:isFPSwpd -->
                                     <tr>
-                                        <th colspan="2">Drinks</th>
+                                        <th colspan="2"></th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                        <th>Sun</th>
+                                    </tr>
+                                    <!-- ko foreach: swpdFPlst -->
+                                    <!-- ko ifnot:hasV -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -276,27 +390,47 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko if:hasM -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: isDrnkMLst -->
+                                        <!-- ko foreach: mLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: isDrnkALst -->
+                                        <!-- ko foreach: aLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: isDrnkELst -->
+                                        <!-- ko foreach: eLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
+                                    <tr>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
+
+                                        <!-- ko foreach: vLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+
                                 </tbody>
                             </table>
                         </td>
@@ -334,8 +468,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- ko foreach: Alst -->
+                                    <!-- ko ifnot:hasV -->
                                     <tr>
-                                        <th colspan="2">Community</th>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -344,59 +480,172 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko if:hasM -->
                                     <tr>
                                         <th></th>
-                                        <th>Events</th>
-                                        <!-- ko foreach: isELst -->
+                                        <th>Morning</th>
+                                        <!-- ko foreach: mLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
                                     <tr>
                                         <th></th>
-                                        <th>Weigh In-Publix</th>
-                                        <!-- ko foreach: isWIPLst -->
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: aLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: eLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
+                                    <tr>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
 
-                                    <tr>
-                                        <th colspan="2">Residential/Facility</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th>Ipad</th>
-                                        <!-- ko foreach: isIPLst -->
+                                        <!-- ko foreach: vLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko foreach: ctgAlst -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:cName" /></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <!-- ko foreach: cLst -->
+                                    <!-- ko ifnot:hasValue -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:LogName" /></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <!-- ko if:hasMorning -->
                                     <tr>
                                         <th></th>
-                                        <th>Reading</th>
-                                        <!-- ko foreach: isRLst -->
+                                        <th>Morning</th>
+                                        <!-- ko foreach: MorningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasAfternoon -->
                                     <tr>
                                         <th></th>
-                                        <th>Exercise</th>
-                                        <!-- ko foreach: isExLst -->
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: AfternoonLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasEvening -->
                                     <tr>
                                         <th></th>
-                                        <th>DVD/TV</th>
-                                        <!-- ko foreach: isDTLst -->
+                                        <th>Evening</th>
+                                        <!-- ko foreach: EveningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasValue -->
+                                    <tr>
+                                        <th></th>
+                                        <th><label data-bind="text:LogName" /></th>
+
+                                        <!-- ko foreach: ValusLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:isASwpd -->
+                                    <tr>
+                                        <th colspan="2"></th>
+                                        <th>Mon</th>
+                                        <th>Tues</th>
+                                        <th>Wed</th>
+                                        <th>Thur</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                        <th>Sun</th>
+                                    </tr>
+                                    <!-- ko foreach: swpdAlst -->
+                                    <!-- ko ifnot:hasV -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <!-- ko if:hasM -->
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: mLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
+                                    <tr>
+                                        <th></th>
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: aLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: eLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
+                                    <tr>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
+
+                                        <!-- ko foreach: vLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+
                                 </tbody>
                             </table>
                         </td>
@@ -415,8 +664,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- ko foreach: LcHklst -->
+                                    <!-- ko ifnot:hasV -->
                                     <tr>
-                                        <th colspan="2">Cleaning Spills/Mop</th>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -425,62 +676,48 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th>Morning</th>
-                                        <!-- ko foreach: isCSMMLst -->
-                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
-                                        <!-- /ko -->
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th>Afternoon</th>
-                                        <!-- ko foreach: isCSMALst -->
-                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
-                                        <!-- /ko -->
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th>Evening</th>
-                                        <!-- ko foreach: isCSMELst -->
-                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
-                                        <!-- /ko -->
-                                    </tr>
-
-                                    <tr>
-                                        <th colspan="2">Change Bed Linens</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
+                                    <!-- ko if:hasM -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: isCBLMLst -->
+                                        <!-- ko foreach: mLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: isCBLALst -->
+                                        <!-- ko foreach: aLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: isCBLELst -->
+                                        <!-- ko foreach: eLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
-
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
                                     <tr>
-                                        <th colspan="2">Laundry</th>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
+
+                                        <!-- ko foreach: vLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko foreach: ctgLcHklst -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:cName" /></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -489,28 +726,59 @@
                                         <th></th>
                                         <th></th>
                                     </tr>
+                                    <!-- ko foreach: cLst -->
+                                    <!-- ko ifnot:hasValue -->
+                                    <tr>
+                                        <th colspan="2"><label data-bind="text:LogName" /></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <!-- ko if:hasMorning -->
                                     <tr>
                                         <th></th>
                                         <th>Morning</th>
-                                        <!-- ko foreach: islMLst -->
+                                        <!-- ko foreach: MorningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasAfternoon -->
                                     <tr>
                                         <th></th>
                                         <th>Afternoon</th>
-                                        <!-- ko foreach: islALst -->
+                                        <!-- ko foreach: AfternoonLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasEvening -->
                                     <tr>
                                         <th></th>
                                         <th>Evening</th>
-                                        <!-- ko foreach: islELst -->
+                                        <!-- ko foreach: EveningLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasValue -->
+                                    <tr>
+                                        <th></th>
+                                        <th><label data-bind="text:LogName" /></th>
 
+                                        <!-- ko foreach: ValusLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:isLcHkSwpd -->
                                     <tr>
                                         <th colspan="2"></th>
                                         <th>Mon</th>
@@ -521,20 +789,59 @@
                                         <th>Sat</th>
                                         <th>Sun</th>
                                     </tr>
+                                    <!-- ko foreach: swpdLcHklst -->
+                                    <!-- ko ifnot:hasV -->
                                     <tr>
-                                        <th>Clean Room</th>
+                                        <th colspan="2"><label data-bind="text:name" /></th>
                                         <th></th>
-                                        <!-- ko foreach: isCRLst -->
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <!-- ko if:hasM -->
+                                    <tr>
+                                        <th></th>
+                                        <th>Morning</th>
+                                        <!-- ko foreach: mLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasA -->
                                     <tr>
-                                        <th>Clean Bathroom</th>
                                         <th></th>
-                                        <!-- ko foreach: isCBLst -->
+                                        <th>Afternoon</th>
+                                        <!-- ko foreach: aLst -->
                                         <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
                                         <!-- /ko -->
                                     </tr>
+                                    <!-- /ko -->
+                                    <!-- ko if:hasE -->
+                                    <tr>
+                                        <th></th>
+                                        <th>Evening</th>
+                                        <!-- ko foreach: eLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if:hasV -->
+                                    <tr>
+                                        <th><label data-bind="text:name" /></th>
+                                        <th></th>
+
+                                        <!-- ko foreach: vLst -->
+                                        <th><input type="checkbox" data-bind="checkedValue: $data, checked: $root.isChecked" /></th>
+                                        <!-- /ko -->
+                                    </tr>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+
                                 </tbody>
                             </table>
                         </td>
@@ -554,12 +861,12 @@
 
 <div id="successdiv" style="display:none" class="alert alert-success"></div>
 
-<div id="errorDiv" style="display:none" class="alert alert-danger"/>
+<div id="errorDiv" style="display:none" class="alert alert-danger" />
 
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            Logs.load();
+<script type="text/javascript">
+    $(document).ready(function () {
+        Logs.load();
 
-        });
-    </script>
+    });
+</script>
