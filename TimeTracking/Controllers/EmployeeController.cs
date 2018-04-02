@@ -411,10 +411,12 @@ namespace TimeTracking.Controllers
         }
 
         [HttpPost]
-        public JsonResult saveLogs(string checkedItems)
+        public JsonResult saveLogs(string checkedItems, string toiletingLst)
         {
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<int> sblst = jsSerializer.Deserialize<List<int>>(checkedItems);
+
+            List<ToiletingModel> tmlst = jsSerializer.Deserialize<List<ToiletingModel>>(toiletingLst);
 
             string empID = es.getUserId(User.Identity.Name); 
 
@@ -428,7 +430,25 @@ namespace TimeTracking.Controllers
             }
            
             es.saveLogs(logs,empID);
-            
+
+            List<Toileting> ts = new List<Toileting>();
+
+            foreach (ToiletingModel tm in tmlst)
+            {
+                foreach (ToiletingItem ti in tm.ToiletingItemLst) {
+                    Toileting t = new Toileting();
+                    t.EmployeeID = empID;
+                    t.DayID = tm.DayID;
+                    t.Urine = ti.isUrine;
+                    t.UrineTime = ti.UrineTime;
+                    t.Bm = ti.isBm;
+                    t.BmTime = ti.BmTime;
+                    ts.Add(t);
+                 }
+            }
+
+            es.saveToileting(ts, empID);
+
             return Json("");
         }
 
@@ -592,6 +612,42 @@ namespace TimeTracking.Controllers
             lchkli.logsLst = createLogLst(es.getLogs(logTypeID), false);
 
             lms.LcHkActivities = lchkli;
+
+            List<Toileting> tList = es.getToileting(empID);
+            List<DaysOfWeek> dLst = es.getDaysOfWeek();
+
+            foreach(DaysOfWeek d in dLst)
+            {
+                ToiletingModel tm = new ToiletingModel();
+                tm.DayID = d.ID;
+
+                tm.Day = d.fullDayName;
+
+                List<Toileting> dtList = tList.Where(x => x.DayID == d.ID).ToList<Toileting>();
+
+                if (dtList.Capacity > 0)
+                {
+                    foreach (Toileting t in dtList)
+                    {
+                        ToiletingItem tItm = new ToiletingItem();
+                        tItm.isBm = t.Bm;
+                        tItm.BmTime = t.BmTime;
+                        tItm.isUrine = t.Urine;
+                        tItm.UrineTime = t.UrineTime;
+                        tm.ToiletingItemLst.Add(tItm);
+                    }
+                }
+                else
+                {
+                    ToiletingItem tItm = new ToiletingItem();
+                    tItm.isBm = false;
+                    tItm.BmTime = null;
+                    tItm.isUrine = false;
+                    tItm.UrineTime = null;
+                    tm.ToiletingItemLst.Add(tItm);
+                }
+                lms.ToiletingLst.Add(tm);
+            }
 
             return Json(lms);
         }

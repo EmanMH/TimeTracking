@@ -42,5 +42,6 @@ namespace Data
         public virtual DbSet<LogsType> LogsTypes { get; set; }
         public virtual DbSet<UserLog> UserLogs { get; set; }
         public virtual DbSet<LogCategory> LogCategories { get; set; }
+        public virtual DbSet<Toileting> Toiletings { get; set; }
     }
 }

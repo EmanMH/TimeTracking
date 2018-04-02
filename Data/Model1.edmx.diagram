@@ -39,6 +39,9 @@
         <EntityTypeShape EntityType="TimeTrackingModel.LogCategory" Width="1.5" PointX="11.875" PointY="22" />
         <AssociationConnector Association="TimeTrackingModel.FK_LogCategory_LogsLkp" />
         <AssociationConnector Association="TimeTrackingModel.FK_LogCategory_LogsTypes" />
+        <EntityTypeShape EntityType="TimeTrackingModel.Toileting" Width="1.5" PointX="14.125" PointY="8.5" />
+        <AssociationConnector Association="TimeTrackingModel.FK_Toileting_AspNetUsers1" />
+        <AssociationConnector Association="TimeTrackingModel.FK_Toileting_DaysOfWeek1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
