@@ -849,7 +849,43 @@
                 </tbody>
             </table>
 
+            <br /><br /><br />
+            <div class=" table-responsive " style="height:400px;overflow-y:scroll;border-bottom:1px solid lightgrey !important;border-left:1px solid lightgrey !important">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr>
+                            <th colspan="9" style="text-align:center">Toileting</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach:ToiletingLst">
+                        <tr>
+                            <th>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="9" style="text-align:left" data-bind="text:Day"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:ToiletingItemLst">
 
+                                        <tr>
+                                            <th style='width: 10%;' colspan="2"></th>
+                                            <th style='width: 10%;'>Urine</th>
+                                            <th style='width: 5%;'><input type="checkbox" data-bind="checked: isUrine, click:$root.checkedUrine" /></th>
+                                            <th style='width: 10%;'><label data-bind="text:UrineTime" /></th>
+                                            <th style='width: 10%;'>BM</th>
+                                            <th style='width: 5%;'><input type="checkbox" data-bind="checked: isBm, click:$root.checkedBm" /></th>
+                                            <th style='width: 10%;'><label data-bind="text:BmTime" /></th>
+                                            <th style='width: 10%;'><button type="button" data-bind="click:$root.addToiletingRow.bind($data, $parent.ToiletingItemLst)">Add</button></th>
+                                            <th style='width: 10%;'><button type="button" data-bind="click:$root.deleteToiletingRow.bind($data, $parent.ToiletingItemLst)">Delete</button></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>

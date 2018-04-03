@@ -18,12 +18,16 @@ namespace Data
         public DaysOfWeek()
         {
             this.LogsItems = new HashSet<LogsItem>();
+            this.Toiletings = new HashSet<Toileting>();
         }
     
         public int ID { get; set; }
         public string dayName { get; set; }
+        public string fullDayName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LogsItem> LogsItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Toileting> Toiletings { get; set; }
     }
 }

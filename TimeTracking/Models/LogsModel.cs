@@ -16,6 +16,7 @@ namespace TimeTracking.Models
         public LogItem FPActivities = new LogItem();
         public LogItem Activities = new LogItem();
         public LogItem LcHkActivities = new LogItem();
+        public List<ToiletingModel> ToiletingLst = new List<ToiletingModel>();
     }
 
     public class Log
@@ -42,6 +43,21 @@ namespace TimeTracking.Models
         public List<Log> logSwapLst = new List<Log>();
         public List<categorizedLogs> logCtgLst = new List<categorizedLogs>();
         public List<Log> logsLst = new List<Log>();
+    }
+
+    public class ToiletingModel
+    {
+        public string Day { get; set; }
+        public int DayID { get; set; }
+        public List<ToiletingItem> ToiletingItemLst = new List<ToiletingItem>();
+    }
+
+    public class ToiletingItem
+    {
+        public bool? isUrine { get; set; }
+        public string UrineTime { get; set; }
+        public bool? isBm { get; set; }
+        public string BmTime { get; set; }
     }
 
 }

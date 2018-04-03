@@ -23,6 +23,7 @@ namespace Data
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.TimeSheets = new HashSet<TimeSheet>();
             this.UserLogs = new HashSet<UserLog>();
+            this.Toiletings = new HashSet<Toileting>();
         }
     
         public string Id { get; set; }
@@ -50,5 +51,7 @@ namespace Data
         public virtual ICollection<TimeSheet> TimeSheets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserLog> UserLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Toileting> Toiletings { get; set; }
     }
 }

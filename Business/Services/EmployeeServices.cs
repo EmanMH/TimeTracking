@@ -28,7 +28,6 @@ namespace Business.Services
         }
 
         public void TimeSheetdeleteById(int id)
-
         {
             var ts= _ttContext.TimeSheets.Where(x => x.Id == id).FirstOrDefault();
             if (ts != null)
@@ -48,6 +47,15 @@ namespace Business.Services
 
         }
 
+        public List<DaysOfWeek> getDaysOfWeek()
+        {
+            return _ttContext.DaysOfWeeks.ToList();
+        }
+
+        public DaysOfWeek getDayNameByID(int id)
+        {
+            return _ttContext.DaysOfWeeks.Where(x => x.ID == id).FirstOrDefault();
+        }
 
         public List<planSection> getPlans()
         {
@@ -77,6 +85,22 @@ namespace Business.Services
 
             foreach (UserLog ul in uls)
                 _ttContext.UserLogs.Add(ul);
+            _ttContext.SaveChanges();
+        }
+
+        public void saveToileting(List<Toileting> ts, string empID)
+        {
+            var tl = _ttContext.Toiletings.Where(x => x.EmployeeID == empID).ToList();
+            if (tl != null)
+            {
+                foreach (Toileting t in tl)
+                {
+                    _ttContext.Toiletings.Remove(t);
+                }
+            }
+
+            foreach (Toileting t in ts)
+                _ttContext.Toiletings.Add(t);
             _ttContext.SaveChanges();
         }
 
@@ -143,6 +167,11 @@ namespace Business.Services
             }
 
             return logsItemsIDslst;
+        }
+
+        public List<Toileting> getToileting(string EmployeeID) {
+            var tLst = _ttContext.Toiletings.Where(x => x.EmployeeID.Equals(EmployeeID)).ToList<Toileting>();
+            return tLst;
         }
 
         public TimeSheet getTimeSheet(DateTime startDate,string uname)
