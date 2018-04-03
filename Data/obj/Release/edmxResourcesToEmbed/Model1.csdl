@@ -77,6 +77,15 @@
       <End Role="serviceCode" EntitySet="serviceCodes" />
       <End Role="LogsType" EntitySet="LogsTypes" />
     </AssociationSet>
+    <EntitySet Name="LogCategories" EntityType="TimeTrackingModel.LogCategory" />
+    <AssociationSet Name="FK_LogCategory_LogsLkp" Association="TimeTrackingModel.FK_LogCategory_LogsLkp">
+      <End Role="LogCategory" EntitySet="LogCategories" />
+      <End Role="LogsLkp" EntitySet="LogsLkps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogCategory_LogsTypes" Association="TimeTrackingModel.FK_LogCategory_LogsTypes">
+      <End Role="LogsType" EntitySet="LogsTypes" />
+      <End Role="LogCategory" EntitySet="LogCategories" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -365,6 +374,12 @@
     <Property Name="LogsTypesID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="LogsItems" Relationship="TimeTrackingModel.FK_LogsLkp_LogsItems" FromRole="LogsLkp" ToRole="LogsItem" />
     <NavigationProperty Name="LogsType" Relationship="TimeTrackingModel.FK_LogesTypes_LogsLkp" FromRole="LogsLkp" ToRole="LogsType" />
+    <Property Name="HasMorning" Type="Boolean" Nullable="false" />
+    <Property Name="HasAfternoon" Type="Boolean" Nullable="false" />
+    <Property Name="HasEvening" Type="Boolean" Nullable="false" />
+    <Property Name="isSwapped" Type="Boolean" Nullable="false" />
+    <Property Name="categoryID" Type="Int32" />
+    <NavigationProperty Name="LogCategory" Relationship="TimeTrackingModel.FK_LogCategory_LogsLkp" FromRole="LogsLkp" ToRole="LogCategory" />
   </EntityType>
   <EntityType Name="LogsType">
     <Key>
@@ -375,6 +390,7 @@
     <Property Name="scID" Type="Int32" />
     <NavigationProperty Name="LogsLkps" Relationship="TimeTrackingModel.FK_LogesTypes_LogsLkp" FromRole="LogsType" ToRole="LogsLkp" />
     <NavigationProperty Name="serviceCode" Relationship="TimeTrackingModel.FK_SC_LogsTypes" FromRole="LogsType" ToRole="serviceCode" />
+    <NavigationProperty Name="LogCategories" Relationship="TimeTrackingModel.FK_LogCategory_LogsTypes" FromRole="LogsType" ToRole="LogCategory" />
   </EntityType>
   <EntityType Name="UserLog">
     <Key>
@@ -455,6 +471,40 @@
       </Principal>
       <Dependent Role="LogsType">
         <PropertyRef Name="scID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="LogCategory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LogTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="LogsLkps" Relationship="TimeTrackingModel.FK_LogCategory_LogsLkp" FromRole="LogCategory" ToRole="LogsLkp" />
+    <NavigationProperty Name="LogsType" Relationship="TimeTrackingModel.FK_LogCategory_LogsTypes" FromRole="LogCategory" ToRole="LogsType" />
+  </EntityType>
+  <Association Name="FK_LogCategory_LogsLkp">
+    <End Type="TimeTrackingModel.LogCategory" Role="LogCategory" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.LogsLkp" Role="LogsLkp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogCategory">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogsLkp">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogCategory_LogsTypes">
+    <End Type="TimeTrackingModel.LogsType" Role="LogsType" Multiplicity="1" />
+    <End Type="TimeTrackingModel.LogCategory" Role="LogCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LogsType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogCategory">
+        <PropertyRef Name="LogTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

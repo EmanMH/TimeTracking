@@ -8,3 +8,4 @@ D:\My Work\TC\TimeTracking\Data\bin\Debug\EntityFramework.SqlServer.xml
 D:\My Work\TC\TimeTracking\Data\obj\Debug\Data.dll
 D:\My Work\TC\TimeTracking\Data\obj\Debug\Data.pdb
 D:\My Work\TC\TimeTracking\Data\obj\Debug\Data.csproj.CoreCompileInputs.cache
+D:\My Work\TC\TimeTracking\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache

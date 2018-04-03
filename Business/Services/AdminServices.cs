@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Interfaces;
 using Data;
 using System.Data;
+using System.Data.Entity;
 using Utilities;
 
 namespace Business.Services
@@ -17,6 +19,11 @@ namespace Business.Services
         public AdminServices()
         {
             _ttContext = new TimeTrackingEntities();
+        }
+
+        public List<TimeSheet> getAllSheets()
+        {
+            return _ttContext.TimeSheets.Include(i=>i.TimeInOuts).ToList();
         }
 
         public bool AddUser(IEnumerable<AspNetUser> users,string password)

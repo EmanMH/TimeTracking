@@ -224,6 +224,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LogsModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SheetReviewmodel.cs" />
     <Compile Include="Models\TimeSheetModel.cs" />
     <Compile Include="Models\TimeSheetViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

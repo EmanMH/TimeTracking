@@ -83,6 +83,24 @@ namespace TimeTracking.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator")]
+        public ActionResult ReviewTimesheet()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult getAdminSheets()
+        {
+            AdminServices adminServices = new AdminServices();
+            var timesheets = adminServices.getAllSheets();
+            SheetReviewmodel sr = new SheetReviewmodel();
+            var pending = timesheets.Where(s => s.fk_statusid == 1).ToList();
+            var Approved = timesheets.Where(s => s.fk_statusid == 2).ToList();
+            var Rejected = timesheets.Where(s => s.fk_statusid == 3).ToList();
+            return Json(null);
+        }
+
         // GET: Admin/Details/5
         public ActionResult Details(int id)
         {

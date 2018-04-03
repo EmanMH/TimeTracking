@@ -21,7 +21,7 @@
         self.items = ko.observableArray([]);
         self.serviceCodes = ko.observableArray([]);
         self.PlanSections = ko.observableArray([]);
-
+        self.itemsOld = ko.observableArray([]);
         self.dateSelected = ko.observable();
         self.dateItems = ko.observableArray([]);
         self.backup = ko.observable();
@@ -33,6 +33,21 @@
         self.isSubmitted = ko.observable(false);
         self.isViewOnly = ko.observable(false);
         self.canUndo = ko.observable(false);
+        //self.someAChanged = ko.computed(function () {
+        //    var ch = false;
+        //    var arr = self.itemsOld();
+        //    var count = 0;
+        //    if (arr != undefined) {
+        //        $.each(self.items(), function (key, value) {
+        //            if (arr[count].serviceCodeId() != value.serviceCodeId()) {
+        //                ch = true;
+        //            }
+        //            count++;
+        //        });
+        //    }
+
+        //    return ch;
+        //}, self);    
 
         self.lessTime = function (data) {
             numTimes2--; // decrease the number rows with time2 part
@@ -111,12 +126,15 @@
         }
         
         self.showTime = function (data) {
-            $("#errorDiv").hide();
-            $("#errorDiv").html("");
+            $("#backupid").css("border-color", "");
+            $("#liveinid").css("border-color", "");
+            $("#backIcon").hide();
+            $("#liveIcon").hide();
 
             $("#successdiv").hide();
             var dateSelected = timesheetKO.dateSelected();
             timesheetKO.items([]);
+            timesheetKO.itemsOld([]);
             timesheetKO.serviceCodes([]);
             timesheetKO.PlanSections([]);
             timesheetKO.backup(undefined);
@@ -145,6 +163,8 @@
 
                     $.each(result.items, function (key, value) {
                         timesheetKO.items.push(new vm_form(value));
+                        timesheetKO.itemsOld.push(new vm_form(value));
+
                         //count the number of rows with time2 part
                         if (value.Time2 == true)
                             numTimes2++;
@@ -170,23 +190,45 @@
             });
         }
         self.validate = function (data) {
-            $("#errorDiv").hide();
+           
             $("#successdiv").hide();
+            $("#backupid").css("border-color", "");
+            $("#liveinid").css("border-color", "");
+
+            $("#backIcon").hide();
+            $("#liveIcon").hide();
 
             var str = "";
             if (data.backup() != undefined) {
-                if (data.backup().trim() != "Y" && data.backup().trim() != 'N' && data.backup().trim() != "y" && data.backup().trim() != 'n')
-                    str += "<p>Backup must have value Y or N</p>";
+                if (data.backup().trim() != "Y" && data.backup().trim() != 'N' && data.backup().trim() != "y" && data.backup().trim() != 'n') {
+                    $("#backupid").css("border-color", "red");
+                    $("#backIcon").show();
+                    str = "123";
+                }
+                //str += "<p>Backup must have value Y or N</p>";
             }
-            else
-                str += "<p>Backup must have value Y or N</p>";
+            else {
+                $("#backupid").css("border-color", "red");
+                $("#backIcon").show();
+                str = "123";
+
+
+            }
 
             if (data.liveIn() != undefined) {
-                if (data.liveIn().trim() != "Y" && data.liveIn().trim() != 'N' && data.liveIn().trim() != "y" && data.liveIn().trim() != 'n')
-                    str += "<p>Live-In must have value Y or N</p>";
+                if (data.liveIn().trim() != "Y" && data.liveIn().trim() != 'N' && data.liveIn().trim() != "y" && data.liveIn().trim() != 'n') {
+                    $("#liveinid").css("border-color", "red");
+                    $("#liveIcon").show();
+                    str = "123";
+
+                }
             }
-            else
-                str += "<p>Live-In must have value Y or N</p>";
+            else {
+                $("#liveinid").css("border-color", "red");
+                $("#liveIcon").show();
+                str = "123";
+
+            }
 
            
             //$.each(data.items(), function (key, value) {
@@ -206,12 +248,9 @@
 
             //});
             if (str != "") {
-                $("#errorDiv").html(str);
-                $("#errorDiv").show();
                 return false;
             }
-            else
-                $("#errorDiv").hide();
+            
 
             return true;
         }
@@ -233,11 +272,13 @@
                 timesheetKO.canUndo(false);
         }
         self.saveDraft = function (data) {
+            $("#backupid").css("border-color", "");
+            $("#liveinid").css("border-color", "");
+            $("#backIcon").hide();
+            $("#liveIcon").hide();
             $("#successdiv").hide();
             $("#loading").html("Saving...");
             $("#loading").show();
-            $("#errorDiv").html("");
-            $("#errorDiv").hide();
             $("#successdiv").hide();
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());

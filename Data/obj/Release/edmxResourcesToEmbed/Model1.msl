@@ -172,6 +172,11 @@
     <EntitySetMapping Name="LogsLkps">
       <EntityTypeMapping TypeName="TimeTrackingModel.LogsLkp">
         <MappingFragment StoreEntitySet="LogsLkp">
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+          <ScalarProperty Name="isSwapped" ColumnName="isSwapped" />
+          <ScalarProperty Name="HasEvening" ColumnName="HasEvening" />
+          <ScalarProperty Name="HasAfternoon" ColumnName="HasAfternoon" />
+          <ScalarProperty Name="HasMorning" ColumnName="HasMorning" />
           <ScalarProperty Name="LogsTypesID" ColumnName="LogsTypesID" />
           <ScalarProperty Name="LogName" ColumnName="LogName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
@@ -192,6 +197,15 @@
         <MappingFragment StoreEntitySet="UserLogs">
           <ScalarProperty Name="logItemID" ColumnName="logItemID" />
           <ScalarProperty Name="empID" ColumnName="empID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogCategories">
+      <EntityTypeMapping TypeName="TimeTrackingModel.LogCategory">
+        <MappingFragment StoreEntitySet="LogCategory">
+          <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
