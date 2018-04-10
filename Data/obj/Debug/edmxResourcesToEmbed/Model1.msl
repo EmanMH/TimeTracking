@@ -152,6 +152,7 @@
     <EntitySetMapping Name="DaysOfWeeks">
       <EntityTypeMapping TypeName="TimeTrackingModel.DaysOfWeek">
         <MappingFragment StoreEntitySet="DaysOfWeek">
+          <ScalarProperty Name="fullDayName" ColumnName="fullDayName" />
           <ScalarProperty Name="dayName" ColumnName="dayName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
@@ -206,6 +207,19 @@
         <MappingFragment StoreEntitySet="LogCategory">
           <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
           <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Toiletings">
+      <EntityTypeMapping TypeName="TimeTrackingModel.Toileting">
+        <MappingFragment StoreEntitySet="Toileting">
+          <ScalarProperty Name="DayID" ColumnName="DayID" />
+          <ScalarProperty Name="BmTime" ColumnName="BmTime" />
+          <ScalarProperty Name="UrineTime" ColumnName="UrineTime" />
+          <ScalarProperty Name="Bm" ColumnName="Bm" />
+          <ScalarProperty Name="Urine" ColumnName="Urine" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

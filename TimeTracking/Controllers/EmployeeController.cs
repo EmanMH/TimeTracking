@@ -71,6 +71,7 @@ namespace TimeTracking.Controllers
                 tsm.items = new List<TimeSheetItem>();
                 for (int i = 0; i < 7; i++)
                 {
+                    tItem.Id = 0;
                     tItem.dayDate= day1.ToShortDateString();
                     tItem.dayName = day1.ToString("dddd");
                     day1=day1.AddDays(1);
@@ -111,6 +112,7 @@ namespace TimeTracking.Controllers
                         {
                             foreach (var item in items)
                             {
+                                tItem.Id = item.Id;
                                 tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
                                 tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
                                 if (tsm.HasTime2 != true)
@@ -160,6 +162,7 @@ namespace TimeTracking.Controllers
                         }
                         else
                         {
+                            tItem.Id = 0;
                             tItem.dayDate = day1.ToShortDateString();
 
                             tItem.dayName = day1.ToString("dddd");
@@ -178,6 +181,7 @@ namespace TimeTracking.Controllers
                 {
                     foreach (var item in timesheets.TimeInOuts)
                     {
+                        tItem.Id = item.Id;
                         tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
                         tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
                         if (tsm.HasTime2 != true)

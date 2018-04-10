@@ -44,43 +44,111 @@
 
 
     </div>
-
+    <!--sidebar -->
+    @*<div class="content">
+            <div class="pri-sidebar">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-folder fa-lg" style="color:khaki"></i> Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class=" fa fa-folder fa-lg" style="color:khaki"></i> Employee </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Contractor
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Vendor
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Reporting
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Admin
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="sub-sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#">Item 1</a></li>
+                        <li><a href="#">Item 2</a></li>
+                        <li><a href="#">Item 3</a></li>
+                        <li><a href="#">Item 4</a></li>
+                        <li><a href="#">Item 5</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="container body-content">
+                @RenderBody()
+            </div>
+        </div>*@
+    <!--/sidebar-->
     <div class="nav-side-menu">
 
         <div class="menu-list">
 
             <ul id="menu-content" class="menu-content collapse out">
-                <li>
+                <li id="lihome">
                     <a href="#">
                         <i class="fa fa-folder fa-lg" style="color:khaki"></i> Home
                     </a>
                 </li>
-                <li>
-                    <a href="#"><i class=" fa fa-folder fa-lg"  style="color:khaki"></i> Employee </a>
+                <li id="liemp" onclick="showEmpSub()" data-toggle="collapse" data-target="#products" class="collapsed active">
+                    <a href="#"><i class=" fa fa-folder fa-lg" style="color:khaki" id="empFolder"></i> Employee </a>
                 </li>
-                <li>
+                <ul class="sub-menu collapse" id="products">
+                    <li class="active clock"><img src="~/Images/time.png" height="25" style="padding-left:20px" />&nbsp;<a href="@Url.Action("Timesheet", "Employee")">Time Sheet</a></li>
+                    <li class="paper"><img src="~/Images/pencil-clipboard.png" height="20" style="padding-left:22px" />&nbsp;<a href="#">Logs</a></li>
+                </ul>
+
+                <li id="licontractor">
                     <a href="#">
-                        <i class=" fa fa-folder fa-lg"  style="color:khaki"></i> Contractor
+                        <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Contractor
                     </a>
                 </li>
-                <li>
+                <li id="livendor">
                     <a href="#">
-                        <i class=" fa fa-folder fa-lg"  style="color:khaki"></i> Vendor
+                        <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Vendor
                     </a>
                 </li>
-                <li>
+                <li id="lireporting">
                     <a href="#">
-                        <i class=" fa fa-folder fa-lg"  style="color:khaki"></i> Reporting
+                        <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Reporting
                     </a>
                 </li>
-                <li>
+                <li id="liadmin">
                     <a href="#">
-                        <i class=" fa fa-folder fa-lg"  style="color:khaki"></i> Admin
+                        <i class=" fa fa-folder fa-lg" style="color:khaki"></i> Admin
                     </a>
                 </li>
             </ul>
         </div>
     </div>
+    <div class="sub-sidebar nav-side-menu2" id="empSub">
+
+        <div >
+
+            <ul >
+                <li><a href="#">Time Sheet</a></li>
+                <li><a href="#">Logs</a></li>
+            </ul>
+        </div>
+    </div>
+
+
 
     @*<div class="nav-side-menu">
             <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
@@ -180,11 +248,11 @@
                 </div>
             </div>
         </div>*@
-
-
     <div class="container body-content">
         @RenderBody()
     </div>
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -193,14 +261,36 @@
     <script src="~/Scripts/knockout.mapping-latest.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
     <script>
+        var isEmpShown = false;
         $(document).ready(function () {
             //$("#nav1").find("ul.mastermenu li").each(function () {
             //    $(this).removeClass("active");
             //});
 
             setNav();
+            $(function () {
+                $(".pri-sidebar nav ul li:first-child a").click(function () {
+                    $(".content").toggleClass("open");
+                    return false;
+                });
+            });
 
         });
+
+        function showEmpSub() {
+            if (isEmpShown == true) {
+               // $("#empSub").hide();
+                $("#empFolder").addClass("fa-folder");
+                $("#empFolder").removeClass("fa-folder-open");
+                isEmpShown = false;
+            }
+            else {
+              //  $("#empSub").show();
+                isEmpShown = true;
+                $("#empFolder").removeClass("fa-folder");
+                $("#empFolder").addClass("fa-folder-open");
+            }
+        }
         function setNav() {
             var url = window.location.href;
             var menuitem = "";

@@ -86,6 +86,15 @@
       <End Role="LogsType" EntitySet="LogsTypes" />
       <End Role="LogCategory" EntitySet="LogCategories" />
     </AssociationSet>
+    <EntitySet Name="Toiletings" EntityType="TimeTrackingModel.Toileting" />
+    <AssociationSet Name="FK_Toileting_AspNetUsers1" Association="TimeTrackingModel.FK_Toileting_AspNetUsers1">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Toileting" EntitySet="Toiletings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Toileting_DaysOfWeek1" Association="TimeTrackingModel.FK_Toileting_DaysOfWeek1">
+      <End Role="DaysOfWeek" EntitySet="DaysOfWeeks" />
+      <End Role="Toileting" EntitySet="Toiletings" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -148,6 +157,7 @@
     <NavigationProperty Name="AspNetRoles" Relationship="TimeTrackingModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
     <NavigationProperty Name="TimeSheets" Relationship="TimeTrackingModel.FK__TimeSheet__fk_us__239E4DCF" FromRole="AspNetUser" ToRole="TimeSheet" />
     <NavigationProperty Name="UserLogs" Relationship="TimeTrackingModel.FK_AspNetUsers_Logs" FromRole="AspNetUser" ToRole="UserLog" />
+    <NavigationProperty Name="Toiletings" Relationship="TimeTrackingModel.FK_Toileting_AspNetUsers1" FromRole="AspNetUser" ToRole="Toileting" />
   </EntityType>
   <EntityType Name="UserDetail">
     <Key>
@@ -350,6 +360,8 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="dayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="LogsItems" Relationship="TimeTrackingModel.FK_Days_LogsItems" FromRole="DaysOfWeek" ToRole="LogsItem" />
+    <NavigationProperty Name="Toiletings" Relationship="TimeTrackingModel.FK_Toileting_DaysOfWeek1" FromRole="DaysOfWeek" ToRole="Toileting" />
+    <Property Name="fullDayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="LogsItem">
     <Key>
@@ -505,6 +517,44 @@
       </Principal>
       <Dependent Role="LogCategory">
         <PropertyRef Name="LogTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Toileting">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Urine" Type="Boolean" />
+    <Property Name="Bm" Type="Boolean" />
+    <Property Name="UrineTime" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BmTime" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DayID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="TimeTrackingModel.FK_Toileting_AspNetUsers1" FromRole="Toileting" ToRole="AspNetUser" />
+    <NavigationProperty Name="DaysOfWeek" Relationship="TimeTrackingModel.FK_Toileting_DaysOfWeek1" FromRole="Toileting" ToRole="DaysOfWeek" />
+  </EntityType>
+  <Association Name="FK_Toileting_AspNetUsers1">
+    <End Type="TimeTrackingModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="TimeTrackingModel.Toileting" Role="Toileting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Toileting">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Toileting_DaysOfWeek1">
+    <End Type="TimeTrackingModel.DaysOfWeek" Role="DaysOfWeek" Multiplicity="1" />
+    <End Type="TimeTrackingModel.Toileting" Role="Toileting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DaysOfWeek">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Toileting">
+        <PropertyRef Name="DayID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

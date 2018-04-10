@@ -67,6 +67,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="dayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="fullDayName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="LogCategory">
     <Key>
@@ -175,6 +176,18 @@
     <Property Name="fk_statusid" Type="int" />
     <Property Name="HasTime2" Type="bit" />
     <Property Name="isDraft" Type="bit" />
+  </EntityType>
+  <EntityType Name="Toileting">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeID" Type="nvarchar" MaxLength="128" />
+    <Property Name="Urine" Type="bit" />
+    <Property Name="Bm" Type="bit" />
+    <Property Name="UrineTime" Type="nvarchar" MaxLength="100" />
+    <Property Name="BmTime" Type="nvarchar" MaxLength="100" />
+    <Property Name="DayID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UserDetails">
     <Key>
@@ -407,6 +420,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Toileting_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Toileting" Type="Self.Toileting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Toileting">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Toileting_DaysOfWeek1">
+    <End Role="DaysOfWeek" Type="Self.DaysOfWeek" Multiplicity="1" />
+    <End Role="Toileting" Type="Self.Toileting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DaysOfWeek">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Toileting">
+        <PropertyRef Name="DayID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_UserLogs_LogsItems">
     <End Role="LogsItems" Type="Self.LogsItems" Multiplicity="1" />
     <End Role="UserLogs" Type="Self.UserLogs" Multiplicity="*" />
@@ -436,6 +473,7 @@
     <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TimeInOut" EntityType="Self.TimeInOut" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TimeSheet" EntityType="Self.TimeSheet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Toileting" EntityType="Self.Toileting" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserLogs" EntityType="Self.UserLogs" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__TimeInOut__fk_pl__37A5467C" Association="Self.FK__TimeInOut__fk_pl__37A5467C">
@@ -505,6 +543,14 @@
     <AssociationSet Name="FK_SC_LogsTypes" Association="Self.FK_SC_LogsTypes">
       <End Role="serviceCodes" EntitySet="serviceCodes" />
       <End Role="LogsTypes" EntitySet="LogsTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Toileting_AspNetUsers1" Association="Self.FK_Toileting_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Toileting" EntitySet="Toileting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Toileting_DaysOfWeek1" Association="Self.FK_Toileting_DaysOfWeek1">
+      <End Role="DaysOfWeek" EntitySet="DaysOfWeek" />
+      <End Role="Toileting" EntitySet="Toileting" />
     </AssociationSet>
     <AssociationSet Name="FK_UserLogs_LogsItems" Association="Self.FK_UserLogs_LogsItems">
       <End Role="LogsItems" EntitySet="LogsItems" />

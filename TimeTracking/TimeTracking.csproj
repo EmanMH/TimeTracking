@@ -237,10 +237,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\clipboard.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\logot.png" />
+    <Content Include="Images\pen.png" />
+    <Content Include="Images\pencil-clipboard.png" />
     <Content Include="Images\picture_logo.png" />
     <Content Include="Images\sdtrlogo.gif" />
+    <Content Include="Images\Tests-icon.png" />
+    <Content Include="Images\time.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

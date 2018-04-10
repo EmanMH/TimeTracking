@@ -19,11 +19,13 @@ namespace TimeTracking.Models
         public List<svc> serviceCodes { get; set; }
         public bool HasTime2 { get; set; }
         public bool isDraft { get; set; }
-
+        public bool isChangedA { get; set; }
+        public bool ChangeCountA { get; set; }
     }
 
     public class TimeSheetItem
     {
+        public int Id { get; set; }
         public string[] dates { get; set; }
         public string dayName { get; set; }
         public string dayDate { get; set; }
@@ -55,6 +57,23 @@ namespace TimeTracking.Models
         public string isAmOut2 { get; set; }
         public int serviceCodeId { get; set; }
         public bool Time2 { get; set; }
+
+        public int ccplansectionId { get; set; }
+        public int ccserviceCodeId { get; set; }
+        public int ccisAmIn2 { get; set; }
+        public int ccisAmOut2 { get; set; }
+        public int ccTimeOut2H1  { get; set; }
+        public int ccTimeOut2M1  { get; set; }
+        public int ccTimeIn2H1 { get; set; }
+        public int ccTimeIn2M1 { get; set; }
+        public int ccisAmIn  { get; set; }
+        public int ccisAmOut { get; set; }
+        public int ccTimeOutH1 { get; set; }
+        public int ccTimeOutM1 { get; set; }
+        public int ccTimeInH1 { get; set; }
+        public int ccTimeInM1 { get; set; }
+
+
 
 
     }
