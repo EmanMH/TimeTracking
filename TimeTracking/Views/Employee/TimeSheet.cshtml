@@ -38,11 +38,11 @@
     <br/>
     <div class="row" data-bind="visible:HasTime2()!=true" style="margin-bottom:2px">
         <div class="col-sm-12" colspan="8" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default" >
-                <i class="fa fa-save"></i> Save  <span class="badge badge-light" data-bind="visible:totalChangesCount()!=0,text:totalChangesCount"></span>
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default">
+                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>   <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:totalChangesCount()!=0,text:totalChangesCount"></span>
             </button>
-            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" >
-                <i class="fa fa-undo"></i> Undo
+            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default">
+                <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
             </button>
             @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
             @*<input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
@@ -50,11 +50,11 @@
     </div>
     <div class="row" data-bind="visible:HasTime2()==true"  style="margin-bottom:2px">
         <div class="col-sm-12" colspan="12" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default" >
-                <i class="fa fa-save"></i> Save  <span class="badge badge-light" data-bind="visible:totalChangesCount()!=0,text:totalChangesCount"></span>
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default">
+                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>  <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:totalChangesCount()!=0,text:totalChangesCount"></span>
             </button>
-            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" >
-                <i class="fa fa-undo"></i> Undo
+            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default">
+                <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
             </button>
             @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
             @*<input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@

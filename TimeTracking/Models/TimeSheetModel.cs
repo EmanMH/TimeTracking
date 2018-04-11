@@ -73,6 +73,9 @@ namespace TimeTracking.Models
         public int ccTimeInH1 { get; set; }
         public int ccTimeInM1 { get; set; }
 
+        public bool isAdded { get; set; }
+
+
 
 
 

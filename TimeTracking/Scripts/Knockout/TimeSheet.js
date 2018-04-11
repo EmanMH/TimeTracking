@@ -134,6 +134,7 @@
             data.ccTimeOutM1(0);
             data.ccTimeInH1(0);
             data.ccTimeInM1(0); 
+            data.isAdded(true);
             debugger;
             // name the row not clicked by the "add time" link
             data.Time2(false);
@@ -155,10 +156,16 @@
                 timesheetKO.HasTime2(false);
             }
 
+            if (data.isAdded() == true)
+            {
+                timesheetKO.ChangeCountT(timesheetKO.ChangeCountT()-1);
+            }
+            else
+                timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
+
             timesheetKO.items.remove(data);
             timesheetKO.itemsOld.remove(data);
 
-            timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
             //if (timesheetKO.ChangeCountT() == 0)
             //    timesheetKO.isChangedT(false);
             
@@ -302,7 +309,8 @@
         self.undo = function (data) {
             var row = deletedRows.pop();
             timesheetKO.items.splice(row.index, 0, row.data);
-            timesheetKO.itemsOld.splice(row.index, 0, row.data);
+            var data2 = ko.mapping.fromJS(ko.mapping.toJS(row.data));
+            timesheetKO.itemsOld.splice(row.index, 0, data2);
 
             timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
             if (timesheetKO.ChangeCountT() == 0)
@@ -354,8 +362,9 @@
                         timesheetKO.ChangeCountT(0);
                         timesheetKO.isChangedT(false);
                         timesheetKO.itemsOld([]);
-                        timesheetKO.itemsOld(timesheetKO.items());
                         $.each(timesheetKO.items(), function (key, value) {
+                            var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
+                            timesheetKO.itemsOld.push(data2);
                             value.ccplansectionId(0);
                             value.ccserviceCodeId(0);
                             value.ccisAmIn2(0);
