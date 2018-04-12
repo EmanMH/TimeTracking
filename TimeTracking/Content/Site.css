@@ -234,6 +234,11 @@ h1, h2, p {
                 background-color:darkgreen;
             }
 
+.nav-side-menu ul .sub-menu li.active,
+.nav-side-menu li .sub-menu li.active {
+    background-color: darkgreen;
+}
+
 .nav-side-menu2 ul .sub-menu li:hover,
 .nav-side-menu2 li .sub-menu li:hover {
     background-color: darkgreen;

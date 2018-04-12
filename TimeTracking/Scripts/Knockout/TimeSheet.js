@@ -177,7 +177,9 @@
             $("#backIcon").hide();
             $("#liveIcon").hide();
 
-            $("#successdiv").hide();
+            $("#successdiv1").hide();
+            $("#successdiv2").hide();
+
             var dateSelected = timesheetKO.dateSelected();
             timesheetKO.items([]);
             timesheetKO.itemsOld([]);
@@ -242,7 +244,9 @@
         }
         self.validate = function (data) {
            
-            $("#successdiv").hide();
+            $("#successdiv1").hide();
+            $("#successdiv2").hide();
+
             $("#backupid").css("border-color", "");
             $("#liveinid").css("border-color", "");
 
@@ -335,10 +339,11 @@
             $("#liveinid").css("border-color", "");
             $("#backIcon").hide();
             $("#liveIcon").hide();
-            $("#successdiv").hide();
+            $("#successdiv1").hide();
+            $("#successdiv1").hide();
+
             $("#loading").html("Saving...");
             $("#loading").show();
-            $("#successdiv").hide();
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
@@ -350,9 +355,13 @@
                     contentType: 'application/json',
                     success: function (result) {
                         timesheetKO.Id(result);
-                        $("#successdiv").html("Saved Successfully");
+                        $("#successdiv1").html("Saved Successfully");
+                        $("#successdiv2").html("Saved Successfully");
 
-                        $("#successdiv").show();
+
+                        $("#successdiv1").show();
+                        $("#successdiv2").show();
+
                        // $("#successModal").modal('show');
                         $("#containerBody").html("Saved Successfully");
 
@@ -383,7 +392,9 @@
 
                     },
                     error: function (result) {
-                        $("#successdiv").hide();
+                        $("#successdiv1").hide();
+                        $("#successdiv2").hide();
+
                       //  $("#successModal").modal('hide');
                         $("#loading").hide();
 
@@ -394,7 +405,9 @@
         }
 
         self.save = function (data) {
-            $("#successdiv").hide();
+            $("#successdiv1").hide();
+            $("#successdiv2").hide();
+
            // $("#successModal").modal('hide');
 
             while (deletedRows.length != 0) {
@@ -419,9 +432,13 @@
                     success: function (result) {
                         timesheetKO.Id(result);
 
-                        $("#successdiv").html("Submitted Successfully");
+                        $("#successdiv1").html("Submitted Successfully");
+                        $("#successdiv2").html("Submitted Successfully");
 
-                        $("#successdiv").show();
+
+                        $("#successdiv1").show();
+                        $("#successdiv2").show();
+
                        // $("#successModal").modal('show');
                         $("#containerBody").html("Submitted Successfully");
                         $("#loading").hide();
@@ -449,7 +466,9 @@
 
                     },
                     error: function (result) {
-                        $("#successdiv").hide();
+                        $("#successdiv1").hide();
+                        $("#successdiv2").hide();
+
                        // $("#successModal").modal('hide');
                         $("#loading").show();
 
