@@ -37,10 +37,10 @@
 <div class=" container">
     <div class="row" data-bind="visible:HasTime2()!=true" style="margin-bottom:2px;margin-top:2px;">
         <div class="col-sm-12" colspan="8" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
-                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>   <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:totalChangesCount()!=0,text:totalChangesCount"></span>
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true || ChangeCountA()!=0 || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
+                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>   <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:ChangeCountA()!=0,text:ChangeCountA"></span>
             </button>
-            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
+            <button type="button" data-bind="click:undo,disable:canUndo()!=true || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
                 <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
             </button>
             @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
@@ -49,10 +49,10 @@
     </div>
     <div class="row" data-bind="visible:HasTime2()==true"  style="margin-bottom:2px;margin-top:2px;">
         <div class="col-sm-12" colspan="12" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true" style="padding:0px;padding-left:5px;padding-right:5px;" class="btn btn-default">
-                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>  <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:totalChangesCount()!=0,text:totalChangesCount"></span>
+            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true || ChangeCountA()!=0 || items().length==0" style="padding:0px;padding-left:5px;padding-right:5px;" class="btn btn-default">
+                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>  <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:ChangeCountA()!=0,text:ChangeCountA"></span>
             </button>
-            <button type="button" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
+            <button type="button" data-bind="click:undo,disable:canUndo()!=true || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
                 <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
             </button>
             @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
@@ -65,30 +65,30 @@
             @*style="display:none" id="sheet"*@
             <thead>
                 <tr>
-                    <th>Employee</th>
-                    <th>Date Selection</th>
-                    <th>Backup (Y/N)</th>
-                    <th>Live-In (Y/N)</th>
+                    <th style="padding:2px;">Employee</th>
+                    <th style="padding:2px;">Date Selection</th>
+                    <th style="padding:2px;">Backup (Y/N)</th>
+                    <th style="padding:2px;">Live-In (Y/N)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding:10px !important;">@ViewBag.empName</td>
-                    <td>
+                    <td style="padding:2px !important;">@ViewBag.empName</td>
+                    <td style="padding:2px;">
                         <select name="dateSelected" data-bind="value:dateSelected,options: dateItems,
                        optionsText: 'date',optionsValue: 'date', event:{change:showTime},optionsCaption: 'Select...'"></select>
                     </td>
-                    <td>
-                        <input type="text" data-bind="value:backup,event:{change:changedbl}" placeholder="Y/N" id="backupid" />&nbsp;<i class="fa fa-exclamation-circle" id="backIcon" title="Backup must have value Y or N" style="color:red;display:none"></i>
+                    <td style="padding:2px;">
+                        <input type="text" data-bind="value:backup,event:{change:validate2}" placeholder="Y/N" id="backupid" />&nbsp;<i class="fa fa-exclamation-circle" id="backIcon" title="Backup must have value Y or N" style="color:red;display:none"></i>
                     </td>
-                    <td>
-                        <input type="text" data-bind="value:liveIn,event:{change:changedbl}" placeholder="Y/N" id="liveinid" />&nbsp;<i class="fa fa-exclamation-circle" id="liveIcon" title="Live-In must have value Y or N" style="color:red;display:none"></i>
+                    <td style="padding:2px;">
+                        <input type="text" data-bind="value:liveIn,event:{change:validate2}" placeholder="Y/N" id="liveinid" />&nbsp;<i class="fa fa-exclamation-circle" id="liveIcon" title="Live-In must have value Y or N" style="color:red;display:none"></i>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div class=" panel panel-default " style="height:470px;overflow-y:scroll;margin-bottom:2px; ">
+    <div class=" panel panel-default " style="height:500px;overflow-y:scroll;margin-bottom:2px; ">
         <table class="table table-bordered" data-bind="visble:items.length>0" style="font-size:12px !important">
 
             <thead>
@@ -113,10 +113,14 @@
             <tbody data-bind="foreach:items">
 
                 <tr>
-                    <td>
+                    <td style="padding-bottom:0px;">
+                        <!-- ko if: dayName()!="" -->
                         <label data-bind="text:dayName"></label>
                         <br />
                         <label data-bind="text: dayDate"></label>
+                        <!-- /ko -->
+
+
                     </td>
                     <td>
                         <select data-bind="value:serviceCodeId,options: $root.serviceCodes,
@@ -327,13 +331,13 @@
                         </select>
                     </td>
                     <!--/ko-->
-                    <td>
+                    <td style="padding:0px;">
                         @*<div class="dropdown">
                             @*<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Action
                             </button>*@
                         @*<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">*@
-                        <ul style="list-style:none;padding:0px !important;margin:1px !important;color:navy">
+                        <ul style="list-style:none;padding:0px !important;margin:0px !important;color:navy">
                             <li>
                                 <a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true" style="color:navy">Add Time</a>
                             </li>
@@ -360,23 +364,26 @@
         </table>
     </div>
     <div class="row" data-bind="visible:HasTime2()!=true" >
-        <div class="col-sm-9">
-            <div id="successdiv1"  style="display:none" ></div>
+        <div class="col-sm-11">
+            <div id="successdiv1" align="right" style="display:none;color:green"></div>
+            <div id="loading1" align="right" style="margin-right:2px;display:none;font-size:12px;"></div>
+
         </div>
-        <div class="col-sm-3" align="right">
-            <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default" style="padding:2px;padding-left:5px;padding-right:5px;" />
+        <div class="col-sm-1" align="left">
+            <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true || isSubmitted()==true || items().length==0" class="btn btn-default" style="padding:2px;padding-left:5px;padding-right:5px;" />
         </div>
     </div>
     <div class="row" data-bind="visible:HasTime2()==true"  >
-        <div class="col-sm-9">
-            <div id="successdiv2" style="display:none" ></div>
+        <div class="col-sm-11">
+            <div id="successdiv2" align="right" style="display:none;color:green"></div>
+            <div id="loading2" align="right" style="margin-right:2px;display:none;font-size:12px;"></div>
+
         </div>
-        <div class="col-sm-3" align="right">
-            <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true || isSubmitted()==true" class="btn btn-default" style="padding:2px;padding-left:5px;padding-right:5px;" />
+        <div class="col-sm-1" align="left">
+            <input type="button" value="Submit" data-bind="click:save,disable:isViewOnly()==true || isSubmitted()==true || items().length==0" class="btn btn-default" style="padding:2px;padding-left:5px;padding-right:5px;" />
 
         </div>
     </div>
-    <div id="loading"  align="right" style="margin-right:2px;display:none;font-size:12px;"></div>
 
 
 

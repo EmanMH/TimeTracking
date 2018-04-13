@@ -40,7 +40,6 @@
         self.isChangedT = ko.observable();
         self.ChangeCountT = ko.observable(0);
         self.totalChangesCount = ko.computed(function () {
-            debugger;
             var count = 0;
             $.each(self.items(), function (key, value) {
                 count += value.ccplansectionId();
@@ -58,7 +57,7 @@
                 count += value.ccTimeInH1();
                 count += value.ccTimeInM1(); 
             });
-            count += self.ChangeCountA() + self.ChangeCountT();
+            count += self.ChangeCountT(); //+self.ChangeCountA(); 
             return count;
     }, this);
         
@@ -99,6 +98,7 @@
 
             /* reset the values of the dropdowns of the old row as the new one appear upper of it 
                in the table, so we reset it as it appear to the user as the new one */
+            data.dayName("");
             data.serviceCodeId("");
             data.plansectionId("");
 
@@ -310,6 +310,60 @@
             return true;
         }
 
+        self.validate2 = function (data) {
+            $("#backupid").css("border-color", "");
+            $("#liveinid").css("border-color", "");
+
+            $("#backIcon").hide();
+            $("#liveIcon").hide();
+
+            var str = "";
+            var count = 0;
+            if (data.backup() != undefined) {
+                if (data.backup().trim() != "Y" && data.backup().trim() != 'N' && data.backup().trim() != "y" && data.backup().trim() != 'n') {
+                    $("#backupid").css("border-color", "red");
+                    $("#backIcon").show();
+                    str = "123";
+                    count++;
+                }
+                //str += "<p>Backup must have value Y or N</p>";
+            }
+            else {
+                $("#backupid").css("border-color", "red");
+                $("#backIcon").show();
+                str = "123";
+                count++;
+
+
+            }
+
+            if (data.liveIn() != undefined) {
+                if (data.liveIn().trim() != "Y" && data.liveIn().trim() != 'N' && data.liveIn().trim() != "y" && data.liveIn().trim() != 'n') {
+                    $("#liveinid").css("border-color", "red");
+                    $("#liveIcon").show();
+                    str = "123";
+                    count++;
+
+                }
+            }
+            else {
+                $("#liveinid").css("border-color", "red");
+                $("#liveIcon").show();
+                str = "123";
+                count++;
+
+
+            }
+
+            if (str != "") {
+                timesheetKO.ChangeCountA(count);
+            }
+
+            else {
+                timesheetKO.ChangeCountA(0);
+            }
+        }
+
         self.undo = function (data) {
             var row = deletedRows.pop();
             timesheetKO.items.splice(row.index, 0, row.data);
@@ -342,8 +396,12 @@
             $("#successdiv1").hide();
             $("#successdiv1").hide();
 
-            $("#loading").html("Saving...");
-            $("#loading").show();
+            $("#loading1").html("Saving...");
+            $("#loading2").html("Saving...");
+
+            $("#loading1").show();
+            $("#loading2").show();
+
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
@@ -365,7 +423,9 @@
                        // $("#successModal").modal('show');
                         $("#containerBody").html("Saved Successfully");
 
-                        $("#loading").hide();
+                        $("#loading1").hide();
+                        $("#loading2").hide();
+
                         timesheetKO.ChangeCountA(0);
                         timesheetKO.isChangedA(false);
                         timesheetKO.ChangeCountT(0);
@@ -396,7 +456,9 @@
                         $("#successdiv2").hide();
 
                       //  $("#successModal").modal('hide');
-                        $("#loading").hide();
+                        $("#loading1").hide();
+                        $("#loading2").hide();
+
 
                         //error$("#successdive").html("");
 
@@ -416,9 +478,13 @@
             timesheetKO.canUndo(false);
 
             if (timesheetKO.validate(data)) {
-                $("#loading").html("Submitting...");
+                $("#loading1").html("Submitting...");
+                $("#loading2").html("Submitting...");
 
-                $("#loading").show();
+
+                $("#loading1").show();
+                $("#loading2").show();
+
 
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
@@ -441,7 +507,9 @@
 
                        // $("#successModal").modal('show');
                         $("#containerBody").html("Submitted Successfully");
-                        $("#loading").hide();
+                        $("#loading1").hide();
+                        $("#loading2").hide();
+
                         timesheetKO.isSubmitted(true);
                         timesheetKO.ChangeCountA(0);
                         timesheetKO.isChangedA(false);
@@ -470,7 +538,9 @@
                         $("#successdiv2").hide();
 
                        // $("#successModal").modal('hide');
-                        $("#loading").show();
+                        $("#loading1").show();
+                        $("#loading2").show();
+
 
                         //error$("#successdive").html("");
 
