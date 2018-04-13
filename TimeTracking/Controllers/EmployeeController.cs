@@ -464,11 +464,13 @@ namespace TimeTracking.Controllers
             lst.Add(temp);
         }
 
-        private List<Log> createLogLst(List<LogsLkp> Logs, bool isSwapped)
+        private List<Log> createLogLst(List<v_Logs> Logs, bool isSwapped)
         {
 
             List<Log> LogLst = new List<Log>();
-            foreach (LogsLkp l in Logs)
+            var LogsIems = Logs.Select(x => new { x.logLkpID, x.LogName , x.HasMorning , x.HasAfternoon, x.HasEvening }).Distinct();
+
+            foreach (var l in LogsIems)
             {
 
                 Log log = new Log();
@@ -478,7 +480,7 @@ namespace TimeTracking.Controllers
                 {
                     hasTime = true;
                     log.hasMorning = true;
-                    log.MorningLst = es.getLogsItemsIDslst(l.ID, "m");
+                    log.MorningLst = Logs.Where(x => x.logLkpID == l.logLkpID && x.Morning == true).Select(c => c.ID).ToList();
                     if (isSwapped)
                     {
                         swap(log.MorningLst);
@@ -489,7 +491,7 @@ namespace TimeTracking.Controllers
                 {
                     hasTime = true;
                     log.hasAfternoon = true;
-                    log.AfternoonLst = es.getLogsItemsIDslst(l.ID, "a");
+                    log.AfternoonLst = Logs.Where(x => x.logLkpID == l.logLkpID && x.Afternoon == true).Select(c => c.ID).ToList();
                     if (isSwapped)
                     {
                         swap(log.AfternoonLst);
@@ -500,7 +502,7 @@ namespace TimeTracking.Controllers
                 {
                     hasTime = true;
                     log.hasEvening = true;
-                    log.EveningLst = es.getLogsItemsIDslst(l.ID, "e");
+                    log.EveningLst = Logs.Where(x => x.logLkpID == l.logLkpID && x.Evening == true).Select(c => c.ID).ToList();
                     if (isSwapped)
                     {
                         swap(log.EveningLst);
@@ -510,7 +512,7 @@ namespace TimeTracking.Controllers
                 if (!hasTime)
                 {
                     log.hasValue = true;
-                    log.ValusLst = es.getLogsItemsIDslst(l.ID, "");
+                    log.ValusLst = Logs.Where(x => x.logLkpID == l.logLkpID).Select(c => c.ID).ToList();
                     if (isSwapped)
                     {
                         swap(log.ValusLst);
@@ -522,100 +524,67 @@ namespace TimeTracking.Controllers
             return LogLst;
         }
 
+        private LogItem createLogItem(List<v_Logs> Logs) {
+            LogItem li = new LogItem();
+
+            var ctgrsLst = Logs.Where(x => !string.IsNullOrEmpty(x.CategoryName)).Select(c => c.CategoryName).Distinct();
+
+            foreach (string lg in ctgrsLst)
+            {
+                categorizedLogs lc = new categorizedLogs();
+                List<v_Logs> lLkp = Logs.Where(x => x.CategoryName.Equals(lg)).ToList();
+
+                lc.cateogryName = lg;
+                lc.logLst = createLogLst(lLkp, false);
+                li.logCtgLst.Add(lc);
+            }
+
+            li.logSwapLst = createLogLst(Logs.Where(x => x.isSwapped).ToList(), true);
+            li.logsLst = createLogLst(Logs.Where(x => x.categoryID == null && !x.isSwapped).ToList(), false);
+
+            return li;
+        }
+
         [HttpPost]
         public JsonResult loadLogItems()
         {
             LogsModel lms = new LogsModel();
 
+            List<v_Logs> vLogs = es.getLogs();
+
             string empID = es.getUserId(User.Identity.Name);
 
             lms.selectedLogs = es.getSelecedLogs(empID);
+            
+            #region Activities of Daily Living
 
-            int logTypeID = es.getLogTypeID("Activities of Daily Living");
-            LogItem dlli = new LogItem();
+            List<v_Logs> adLogs = vLogs.Where(x => x.logTypeName.Equals("Activities of Daily Living")).ToList<v_Logs>();
+            lms.DLActivities = createLogItem(adLogs);
 
-            List<LogCategory> ctgrsLst = es.getCategories(logTypeID);
+            #endregion
 
-            foreach (LogCategory lg in ctgrsLst)
-            {
-                categorizedLogs lc = new categorizedLogs();
-                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
+            #region Food Prep
 
-                lc.cateogryName = lg.CategoryName;
-                lc.logLst = createLogLst(lLkp, false);
-                dlli.logCtgLst.Add(lc);
-            }
+            List<v_Logs> fpLogs = vLogs.Where(x => x.logTypeName.Equals("Food Prep")).ToList<v_Logs>();
+            lms.FPActivities = createLogItem(fpLogs);
+            
+            #endregion
 
-            dlli.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
-            dlli.logsLst = createLogLst(es.getLogs(logTypeID), false);
+            #region Activities
+            
+            List<v_Logs> aLogs = vLogs.Where(x => x.logTypeName.Equals("Activities")).ToList<v_Logs>();
+            lms.Activities = createLogItem(aLogs);
+            
+            #endregion
 
-            lms.DLActivities = dlli;
+            #region Light Chores/House Keeping
 
+            List<v_Logs> lchkLogs = vLogs.Where(x => x.logTypeName.Equals("Light Chores/House Keeping")).ToList<v_Logs>();
+            lms.LcHkActivities = createLogItem(lchkLogs);
 
+            #endregion
 
-            logTypeID = es.getLogTypeID("Food Prep");
-
-            List<LogCategory> fpctgrsLst = es.getCategories(logTypeID);
-            LogItem fpli = new LogItem();
-
-            foreach (LogCategory lg in fpctgrsLst)
-            {
-                categorizedLogs lc = new categorizedLogs();
-                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
-
-                lc.cateogryName = lg.CategoryName;
-                lc.logLst = createLogLst(lLkp, false);
-                fpli.logCtgLst.Add(lc);
-            }
-
-            fpli.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
-            fpli.logsLst = createLogLst(es.getLogs(logTypeID), false);
-
-            lms.FPActivities = fpli;
-
-
-            logTypeID = es.getLogTypeID("Activities");
-
-            List<LogCategory> actgrsLst = es.getCategories(logTypeID);
-            LogItem ali = new LogItem();
-
-            foreach (LogCategory lg in actgrsLst)
-            {
-
-                categorizedLogs lc = new categorizedLogs();
-                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
-
-                lc.cateogryName = lg.CategoryName;
-                lc.logLst = createLogLst(lLkp, false);
-                ali.logCtgLst.Add(lc);
-            }
-
-            ali.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
-            ali.logsLst = createLogLst(es.getLogs(logTypeID), false);
-
-            lms.Activities = ali;
-
-
-
-            logTypeID = es.getLogTypeID("Light Chores/House Keeping");
-
-            List<LogCategory> lchkctgrsLst = es.getCategories(logTypeID);
-            LogItem lchkli = new LogItem();
-
-            foreach (LogCategory lg in lchkctgrsLst)
-            {
-                categorizedLogs lc = new categorizedLogs();
-                List<LogsLkp> lLkp = es.getCategoryLogs(logTypeID, lg.ID);
-
-                lc.cateogryName = lg.CategoryName;
-                lc.logLst = createLogLst(lLkp, false);
-                lchkli.logCtgLst.Add(lc);
-            }
-
-            lchkli.logSwapLst = createLogLst(es.getSwappedLogs(logTypeID), true);
-            lchkli.logsLst = createLogLst(es.getLogs(logTypeID), false);
-
-            lms.LcHkActivities = lchkli;
+            #region Toileting
 
             List<Toileting> tList = es.getToileting(empID);
             List<DaysOfWeek> dLst = es.getDaysOfWeek();
@@ -652,6 +621,8 @@ namespace TimeTracking.Controllers
                 }
                 lms.ToiletingLst.Add(tm);
             }
+
+            #endregion
 
             return Json(lms);
         }

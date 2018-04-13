@@ -110,63 +110,8 @@ namespace Business.Services
             return logID;
         }
 
-        public int getLogID(string logName)
-        {
-            var logID = _ttContext.LogsLkps.Where(x => x.LogName.Equals(logName)).Select(c => c.ID).FirstOrDefault();
-            return logID;
-        }
-
-        public int getLogTypeID(string logTypeName)
-        {
-            var logTypeID = _ttContext.LogsTypes.Where(x => x.logTypeName.Equals(logTypeName)).Select(c => c.ID).FirstOrDefault();
-            return logTypeID;
-        }
-
-        public List<LogsLkp> getLogs(int logTypeID)
-        {
-            var logs = _ttContext.LogsLkps.Where(x => x.LogsTypesID == logTypeID && x.categoryID == null && !x.isSwapped).ToList<LogsLkp>();
-            return logs;
-        }
-
-        public List<LogsLkp> getCategoryLogs(int logTypeID, int categoryID)
-        {
-            var logs = _ttContext.LogsLkps.Where(x => x.LogsTypesID == logTypeID && x.categoryID == categoryID).ToList<LogsLkp>();
-            return logs;
-        }
-
-        public List<LogsLkp> getSwappedLogs(int logTypeID)
-        {
-            var logs = _ttContext.LogsLkps.Where(x => x.LogsTypesID == logTypeID && x.isSwapped).ToList<LogsLkp>();
-            return logs;
-        }
-
-        public List<LogCategory> getCategories(int logTypeID)
-        {
-            var logs = _ttContext.LogCategories.Where(x => x.LogTypeID == logTypeID).ToList<LogCategory>();
-            return logs;
-        }
-
-        public List<int> getLogsItemsIDslst(int logID, string timePart) {
-            List<int> logsItemsIDslst = new List<int>();
-
-            if (timePart.Equals("m"))
-            {
-                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID && x.Morning == true).Select(c => c.ID).ToList();
-            }
-            else if (timePart.Equals("a"))
-            {
-                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID && x.Afternoon == true).Select(c => c.ID).ToList();
-            }
-            else if (timePart.Equals("e"))
-            {
-                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID && x.Evening == true).Select(c => c.ID).ToList();
-            }
-            else
-            {
-                logsItemsIDslst = _ttContext.LogsItems.Where(x => x.logID == logID).Select(c => c.ID).ToList();
-            }
-
-            return logsItemsIDslst;
+        public List<v_Logs> getLogs() {
+            return _ttContext.v_Logs.ToList();
         }
 
         public List<Toileting> getToileting(string EmployeeID) {

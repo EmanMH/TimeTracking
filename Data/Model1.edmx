@@ -213,6 +213,40 @@
           <Property Name="empID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="logItemID" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TimeTracking2.dbo.v_Logs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_Logs">
+          <Key>
+            <PropertyRef Name="LgTypeID" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LogsTypesID" />
+            <PropertyRef Name="logLkpID" />
+            <PropertyRef Name="LogName" />
+            <PropertyRef Name="dayName" />
+            <PropertyRef Name="HasMorning" />
+            <PropertyRef Name="HasAfternoon" />
+            <PropertyRef Name="HasEvening" />
+            <PropertyRef Name="isSwapped" />
+          </Key>
+          <Property Name="logTypeName" Type="nvarchar" MaxLength="500" />
+          <Property Name="LgTypeID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Morning" Type="bit" />
+          <Property Name="Afternoon" Type="bit" />
+          <Property Name="Evening" Type="bit" />
+          <Property Name="LogsTypesID" Type="int" Nullable="false" />
+          <Property Name="logLkpID" Type="int" Nullable="false" />
+          <Property Name="LogName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="dayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="HasMorning" Type="bit" Nullable="false" />
+          <Property Name="HasAfternoon" Type="bit" Nullable="false" />
+          <Property Name="HasEvening" Type="bit" Nullable="false" />
+          <Property Name="isSwapped" Type="bit" Nullable="false" />
+          <Property Name="categoryID" Type="int" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="500" />
+          <Property Name="CtgryID" Type="int" />
+          <Property Name="LogTypeID" Type="int" />
+        </EntityType>
         <Association Name="FK__TimeInOut__fk_pl__37A5467C">
           <End Role="planSections" Type="Self.planSections" Multiplicity="0..1" />
           <End Role="TimeInOut" Type="Self.TimeInOut" Multiplicity="*" />
@@ -481,6 +515,28 @@
           <EntitySet Name="Toileting" EntityType="Self.Toileting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogs" EntityType="Self.UserLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_Logs" EntityType="Self.v_Logs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Logs].[logTypeName] AS [logTypeName], 
+    [v_Logs].[LgTypeID] AS [LgTypeID], 
+    [v_Logs].[ID] AS [ID], 
+    [v_Logs].[Morning] AS [Morning], 
+    [v_Logs].[Afternoon] AS [Afternoon], 
+    [v_Logs].[Evening] AS [Evening], 
+    [v_Logs].[LogsTypesID] AS [LogsTypesID], 
+    [v_Logs].[logLkpID] AS [logLkpID], 
+    [v_Logs].[LogName] AS [LogName], 
+    [v_Logs].[dayName] AS [dayName], 
+    [v_Logs].[HasMorning] AS [HasMorning], 
+    [v_Logs].[HasAfternoon] AS [HasAfternoon], 
+    [v_Logs].[HasEvening] AS [HasEvening], 
+    [v_Logs].[isSwapped] AS [isSwapped], 
+    [v_Logs].[categoryID] AS [categoryID], 
+    [v_Logs].[CategoryName] AS [CategoryName], 
+    [v_Logs].[CtgryID] AS [CtgryID], 
+    [v_Logs].[LogTypeID] AS [LogTypeID]
+    FROM [dbo].[v_Logs] AS [v_Logs]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__TimeInOut__fk_pl__37A5467C" Association="Self.FK__TimeInOut__fk_pl__37A5467C">
             <End Role="planSections" EntitySet="planSections" />
             <End Role="TimeInOut" EntitySet="TimeInOut" />
@@ -661,6 +717,7 @@
             <End Role="DaysOfWeek" EntitySet="DaysOfWeeks" />
             <End Role="Toileting" EntitySet="Toiletings" />
           </AssociationSet>
+          <EntitySet Name="v_Logs" EntityType="TimeTrackingModel.v_Logs" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -1124,6 +1181,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="v_Logs">
+          <Key>
+            <PropertyRef Name="LgTypeID" />
+            <PropertyRef Name="LogsTypesID" />
+            <PropertyRef Name="LogName" />
+            <PropertyRef Name="dayName" />
+            <PropertyRef Name="HasMorning" />
+            <PropertyRef Name="HasAfternoon" />
+            <PropertyRef Name="HasEvening" />
+            <PropertyRef Name="isSwapped" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="logLkpID" />
+          </Key>
+          <Property Name="logTypeName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LgTypeID" Type="Int32" Nullable="false" />
+          <Property Name="LogsTypesID" Type="Int32" Nullable="false" />
+          <Property Name="LogName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="dayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasMorning" Type="Boolean" Nullable="false" />
+          <Property Name="HasAfternoon" Type="Boolean" Nullable="false" />
+          <Property Name="HasEvening" Type="Boolean" Nullable="false" />
+          <Property Name="isSwapped" Type="Boolean" Nullable="false" />
+          <Property Name="categoryID" Type="Int32" />
+          <Property Name="CategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CtgryID" Type="Int32" />
+          <Property Name="LogTypeID" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Morning" Type="Boolean" />
+          <Property Name="Afternoon" Type="Boolean" />
+          <Property Name="Evening" Type="Boolean" />
+          <Property Name="logLkpID" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1350,6 +1439,30 @@
                 <ScalarProperty Name="Urine" ColumnName="Urine" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Logs">
+            <EntityTypeMapping TypeName="TimeTrackingModel.v_Logs">
+              <MappingFragment StoreEntitySet="v_Logs">
+                <ScalarProperty Name="logLkpID" ColumnName="logLkpID" />
+                <ScalarProperty Name="Evening" ColumnName="Evening" />
+                <ScalarProperty Name="Afternoon" ColumnName="Afternoon" />
+                <ScalarProperty Name="Morning" ColumnName="Morning" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+                <ScalarProperty Name="CtgryID" ColumnName="CtgryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="isSwapped" ColumnName="isSwapped" />
+                <ScalarProperty Name="HasEvening" ColumnName="HasEvening" />
+                <ScalarProperty Name="HasAfternoon" ColumnName="HasAfternoon" />
+                <ScalarProperty Name="HasMorning" ColumnName="HasMorning" />
+                <ScalarProperty Name="dayName" ColumnName="dayName" />
+                <ScalarProperty Name="LogName" ColumnName="LogName" />
+                <ScalarProperty Name="LogsTypesID" ColumnName="LogsTypesID" />
+                <ScalarProperty Name="LgTypeID" ColumnName="LgTypeID" />
+                <ScalarProperty Name="logTypeName" ColumnName="logTypeName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
