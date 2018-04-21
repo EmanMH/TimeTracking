@@ -224,5 +224,29 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="v_Logs">
+      <EntityTypeMapping TypeName="TimeTrackingModel.v_Logs">
+        <MappingFragment StoreEntitySet="v_Logs">
+          <ScalarProperty Name="logLkpID" ColumnName="logLkpID" />
+          <ScalarProperty Name="Evening" ColumnName="Evening" />
+          <ScalarProperty Name="Afternoon" ColumnName="Afternoon" />
+          <ScalarProperty Name="Morning" ColumnName="Morning" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+          <ScalarProperty Name="CtgryID" ColumnName="CtgryID" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+          <ScalarProperty Name="isSwapped" ColumnName="isSwapped" />
+          <ScalarProperty Name="HasEvening" ColumnName="HasEvening" />
+          <ScalarProperty Name="HasAfternoon" ColumnName="HasAfternoon" />
+          <ScalarProperty Name="HasMorning" ColumnName="HasMorning" />
+          <ScalarProperty Name="dayName" ColumnName="dayName" />
+          <ScalarProperty Name="LogName" ColumnName="LogName" />
+          <ScalarProperty Name="LogsTypesID" ColumnName="LogsTypesID" />
+          <ScalarProperty Name="LgTypeID" ColumnName="LgTypeID" />
+          <ScalarProperty Name="logTypeName" ColumnName="logTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

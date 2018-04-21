@@ -36,29 +36,41 @@
 </style>
 <div class=" container">
     <div class="row" data-bind="visible:HasTime2()!=true" style="margin-bottom:2px;margin-top:2px;">
-        <div class="col-sm-12" colspan="8" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true || ChangeCountA()!=0 || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
-                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>   <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:ChangeCountA()!=0,text:ChangeCountA"></span>
-            </button>
-            <button type="button" data-bind="click:undo,disable:canUndo()!=true || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
-                <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
-            </button>
+        <div class="col-sm-12" colspan="8" align="right" >
+            <div class="col-sm-10"></div>
+            <div class="col-sm-1" data-toggle="tooltip" data-placement="bottom" data-bind="attr: {title:errortip}"  align="right" style="padding:0px;padding-right:1px;">
+                <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true || ChangeCountA()!=0 || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
+                    <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>   <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:ChangeCountA()!=0,text:ChangeCountA"></span>
+                </button>
+            </div>
+            <div class="col-sm-1"  style="padding:0px;" align="left">
+                <button type="button" data-bind="click:undo,disable:canUndo()!=true || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
+                    <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
+                </button>
+            </div>
             @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
             @*<input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
         </div>
     </div>
     <div class="row" data-bind="visible:HasTime2()==true"  style="margin-bottom:2px;margin-top:2px;">
         <div class="col-sm-12" colspan="12" align="right">
-            <button type="button" data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true || ChangeCountA()!=0 || items().length==0" style="padding:0px;padding-left:5px;padding-right:5px;" class="btn btn-default">
-                <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>  <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:ChangeCountA()!=0,text:ChangeCountA"></span>
-            </button>
-            <button type="button" data-bind="click:undo,disable:canUndo()!=true || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
-                <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
-            </button>
+            <div class="col-sm-10"></div>
+            <div class="col-sm-1" data-toggle="tooltip" data-placement="bottom" data-bind="attr: {title:errortip}" align="right" style="padding:0px;padding-right:1px;">
+                <button data-bind="click:saveDraft,disable:isViewOnly()==true || isSubmitted()==true || ChangeCountA()!=0 || items().length==0" style="padding:0px;padding-left:5px;padding-right:5px;" class="btn btn-default">
+                    <i class="fa fa-save"></i> <font color="green" data-bind="visible:totalChangesCount()!=0">Save</font> <span data-bind="visible:totalChangesCount()==0">Save</span>  <span class="badge badge-light" style="background-color:red;Color:white;" data-bind="visible:ChangeCountA()!=0,text:ChangeCountA"></span>
+                </button>
+            </div>
+            <div class="col-sm-1" align="left" style="padding:0px;">
+
+                <button type="button" data-bind="click:undo,disable:canUndo()!=true || items().length==0" class="btn btn-default" style="padding:0px;padding-left:5px;padding-right:5px;">
+                    <i class="fa fa-undo"></i> <font color="red" data-bind="visible:canUndo()==true">Undo</font> <span data-bind="visible:canUndo()!=true">Undo</span>
+                </button>
+            </div>
+
             @*<input type="button" value="Save" data-bind="click:saveDraft,disable:isViewOnly()==true" class="btn btn-default" />*@
             @*<input type="button" value="Undo" data-bind="click:undo,disable:canUndo()!=true" class="btn btn-default" />*@
         </div>
-    </div>
+        </div>
     @*<div class="panel-heading" style="border:1px solid navy !important;"><h4>Employee</h4></div>*@
     <div class="panel panel-default" style="margin-bottom:2px;">
         <table class="table table-bordered table-responsive">
@@ -88,7 +100,7 @@
             </tbody>
         </table>
     </div>
-    <div class=" panel panel-default " style="height:500px;overflow-y:scroll;margin-bottom:2px; ">
+    <div class=" panel panel-default " style="height:508px;overflow-y:scroll;margin-bottom:2px; ">
         <table class="table table-bordered" data-bind="visble:items.length>0" style="font-size:12px !important">
 
             <thead>
@@ -123,212 +135,239 @@
 
                     </td>
                     <td>
-                        <select data-bind="value:serviceCodeId,options: $root.serviceCodes,
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:serviceCodeId,options: $root.serviceCodes,
                        optionsText: 'Name',optionsValue: 'Id',optionsCaption: '.',event:{blur:$root.changedItemSVC}" style="width:45px"></select>
-
+                            <br/>
+                        </div>
+                       
                     </td>
                     <td>
-                        <select data-bind="value:plansectionId,options: $root.PlanSections,
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:plansectionId,options: $root.PlanSections,
                        optionsText: 'Name',optionsValue: 'Id',optionsCaption: '.',event:{blur:$root.changedItemPlan}" style="width:40px"></select>
+                            <br/>
+                            </div>
                     </td>
                     <td>
-                        <select data-bind="value:TimeInH1,event:{blur:$root.changedItemTimeInH1}" style="display:inline-block;width:40px;">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="1">01</option>
-                            <option value="2">02</option>
-                            <option value="3">03</option>
-                            <option value="4">04</option>
-                            <option value="5">05</option>
-                            <option value="6">06</option>
-                            <option value="7">07</option>
-                            <option value="8">08</option>
-                            <option value="9">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:TimeInH1,event:{blur:$root.changedItemTimeInH1}" style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        </select> :
-                        <select data-bind="value:TimeInM1,event:{blur:$root.changedItemTimeInM1}" style="display:inline-block;width:40px;">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="15">15</option>
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                            @*<option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>*@
-                        </select>
+                            </select> :
+                            <select data-bind="value:TimeInM1,event:{blur:$root.changedItemTimeInM1}" style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                                @*<option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>*@
+                            </select>
+                            <br/>
+                        </div>
                     </td>
                     <td>
-                        <select data-bind="value:isAmIn,event:{blur:$root.changedItemisAmIn}" style="width:45px">
-                            <option value="-1"></option>
-                            <option value="true">AM</option>
-                            <option value="false">PM</option>
-                        </select>
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:isAmIn,event:{blur:$root.changedItemisAmIn}" style="width:45px">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                            <br/>
+                        </div>
                     </td>
                     <td>
-                        <select data-bind="value:TimeOutH1,event:{blur:$root.changedItemTimeOutH1}" style="display:inline-block;width:40px;">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="1">01</option>
-                            <option value="2">02</option>
-                            <option value="3">03</option>
-                            <option value="4">04</option>
-                            <option value="5">05</option>
-                            <option value="6">06</option>
-                            <option value="7">07</option>
-                            <option value="8">08</option>
-                            <option value="9">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:TimeOutH1,event:{blur:$root.changedItemTimeOutH1}" style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        </select> :
-                        <select data-bind="value:TimeOutM1,event:{blur:$root.changedItemTimeOutM1}" style="display:inline-block;width:40px;">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="15">15</option>
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                        </select>
-
+                            </select> :
+                            <select data-bind="value:TimeOutM1,event:{blur:$root.changedItemTimeOutM1}" style="display:inline-block;width:40px;">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <br/>
+                        </div>
                     </td>
                     <td>
-                        <select data-bind="value:isAmOut,event:{blur:$root.changedItemisAmOut}" style="width:45px">
-                            <option value="-1"></option>
-                            <option value="true">AM</option>
-                            <option value="false">PM</option>
-                        </select>
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:isAmOut,event:{blur:$root.changedItemisAmOut}" style="width:45px">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                            <br/>
+                            </div>
                     </td>
                     <!-- ko if: $root.HasTime2 -->
 
 
                     <td>
-                        <!-- ko if: Time2 -->
-                        <select data-bind="value:TimeIn2H1,event:{blur:$root.changedItemTimeIn2H1}" style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="1">01</option>
-                            <option value="2">02</option>
-                            <option value="3">03</option>
-                            <option value="4">04</option>
-                            <option value="5">05</option>
-                            <option value="6">06</option>
-                            <option value="7">07</option>
-                            <option value="8">08</option>
-                            <option value="9">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
+                        <div data-bind="foreach:times">
+                            <!-- ko if: Time2 -->
+                            <select data-bind="value:TimeIn2H1,event:{blur:$root.changedItemTimeIn2H1}" style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        </select> :
-                        <select data-bind="value:TimeIn2M1,event:{blur:$root.changedItemTimeIn2M1}" style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="15">15</option>
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                        </select>
-                        <!--/ko-->
-                        <!-- ko if: !Time2 -->
-                        <select data-bind="value:TimeIn2H1,event:{blur:$root.changedItemTimeIn2H1} " style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="1">01</option>
-                            <option value="2">02</option>
-                            <option value="3">03</option>
-                            <option value="4">04</option>
-                            <option value="5">05</option>
-                            <option value="6">06</option>
-                            <option value="7">07</option>
-                            <option value="8">08</option>
-                            <option value="9">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
+                            </select> :
+                            <select data-bind="value:TimeIn2M1,event:{blur:$root.changedItemTimeIn2M1}" style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
+                            <!-- ko if: !Time2 -->
+                            <select data-bind="value:TimeIn2H1,event:{blur:$root.changedItemTimeIn2H1} " style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
 
-                        </select> :
-                        <select data-bind="value:TimeIn2M1,event:{blur:$root.changedItemTimeIn2M1}" style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="15">15</option>
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                        </select>
-                        <!--/ko-->
+                            </select> :
+                            <select data-bind="value:TimeIn2M1,event:{blur:$root.changedItemTimeIn2M1}" style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
+                            <br />
+                        </div>
+                    </td>
+                    <td>
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:isAmIn2,visible:Time2,event:{blur:$root.changedItemisAmIn2}" style="width:45px;padding:0px!important;margin:0px!important">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                            <br/>
+                            </div>
+                    </td>
+                    <td>
+                        <div data-bind="foreach:times">
+                            <!-- ko if: Time2 -->
+                            <select data-bind="value:TimeOut2H1,event:{blur:$root.changedItemTimeOut2H1}" style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+
+                            </select> :
+                            <select data-bind="value:TimeOut2M1,event:{blur:$root.changedItemTimeOut2M1}" style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
+                            <!-- ko if: !Time2 -->
+                            <select data-bind="value:TimeOut2H1,event:{blur:$root.changedItemTimeOut2H1}" style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+
+                            </select> :
+                            <select data-bind="value:TimeOut2M1,event:{blur:$root.changedItemTimeOut2M1}" style="width: 40px;display:inline-block">
+                                <option value="-1"></option>
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <!--/ko-->
+                            <br/>
+                            </div>
 
                     </td>
                     <td>
-                        <select data-bind="value:isAmIn2,visible:Time2,event:{blur:$root.changedItemisAmIn2}" style="width:45px;padding:0px!important;margin:0px!important">
-                            <option value="-1"></option>
-                            <option value="true">AM</option>
-                            <option value="false">PM</option>
-                        </select>
-                    </td>
-                    <td>
-                        <!-- ko if: Time2 -->
-                        <select data-bind="value:TimeOut2H1,event:{blur:$root.changedItemTimeOut2H1}" style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="1">01</option>
-                            <option value="2">02</option>
-                            <option value="3">03</option>
-                            <option value="4">04</option>
-                            <option value="5">05</option>
-                            <option value="6">06</option>
-                            <option value="7">07</option>
-                            <option value="8">08</option>
-                            <option value="9">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-
-                        </select> :
-                        <select data-bind="value:TimeOut2M1,event:{blur:$root.changedItemTimeOut2M1}" style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="15">15</option>
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                        </select>
-                        <!--/ko-->
-                        <!-- ko if: !Time2 -->
-                        <select data-bind="value:TimeOut2H1,event:{blur:$root.changedItemTimeOut2H1}" style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="1">01</option>
-                            <option value="2">02</option>
-                            <option value="3">03</option>
-                            <option value="4">04</option>
-                            <option value="5">05</option>
-                            <option value="6">06</option>
-                            <option value="7">07</option>
-                            <option value="8">08</option>
-                            <option value="9">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-
-                        </select> :
-                        <select data-bind="value:TimeOut2M1,event:{blur:$root.changedItemTimeOut2M1}" style="width: 40px;display:inline-block">
-                            <option value="-1"></option>
-                            <option value="0">00</option>
-                            <option value="15">15</option>
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                        </select>
-                        <!--/ko-->
-
-
-                    </td>
-                    <td>
-                        <select data-bind="value:isAmOut2,visible:Time2,event:{blur:$root.changedItemisAmOut2}" style="width:45px;padding:0px!important;margin:0px!important">
-                            <option value="-1"></option>
-                            <option value="true">AM</option>
-                            <option value="false">PM</option>
-                        </select>
+                        <div data-bind="foreach:times">
+                            <select data-bind="value:isAmOut2,visible:Time2,event:{blur:$root.changedItemisAmOut2}" style="width:45px;padding:0px!important;margin:0px!important">
+                                <option value="-1"></option>
+                                <option value="true">AM</option>
+                                <option value="false">PM</option>
+                            </select>
+                            <br/>
+                            </div>
                     </td>
                     <!--/ko-->
                     <td style="padding:0px;">
@@ -339,10 +378,10 @@
                         @*<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">*@
                         <ul style="list-style:none;padding:0px !important;margin:0px !important;color:navy">
                             <li>
-                                <a href="#" data-bind="click:$root.moreTime,visible:Time2()!=true" style="color:navy">Add Time</a>
+                                <a href="#" data-bind="click:$root.moreTime,visible:times()[0].Time2()!=true" style="color:navy">Add Time</a>
                             </li>
                             <li>
-                                <a href="#" data-bind="click:$root.lessTime,visible:Time2()==true" style="color:navy">Delete Time</a>
+                                <a href="#" data-bind="click:$root.lessTime,visible:times()[0].Time2()==true" style="color:navy">Delete Time</a>
                             </li>
                             <li>
                                 <a href="#" data-bind="click:$root.moreService" style="color:navy">Add Service Code</a>
@@ -395,6 +434,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             TimeSheet.load();
+            $('[data-toggle="tooltip"]').tooltip();
 
         });
     </script>

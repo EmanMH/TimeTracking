@@ -95,6 +95,7 @@
       <End Role="DaysOfWeek" EntitySet="DaysOfWeeks" />
       <End Role="Toileting" EntitySet="Toiletings" />
     </AssociationSet>
+    <EntitySet Name="v_Logs" EntityType="TimeTrackingModel.v_Logs" />
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -558,4 +559,36 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="v_Logs">
+    <Key>
+      <PropertyRef Name="LgTypeID" />
+      <PropertyRef Name="LogsTypesID" />
+      <PropertyRef Name="LogName" />
+      <PropertyRef Name="dayName" />
+      <PropertyRef Name="HasMorning" />
+      <PropertyRef Name="HasAfternoon" />
+      <PropertyRef Name="HasEvening" />
+      <PropertyRef Name="isSwapped" />
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="logLkpID" />
+    </Key>
+    <Property Name="logTypeName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LgTypeID" Type="Int32" Nullable="false" />
+    <Property Name="LogsTypesID" Type="Int32" Nullable="false" />
+    <Property Name="LogName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="dayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasMorning" Type="Boolean" Nullable="false" />
+    <Property Name="HasAfternoon" Type="Boolean" Nullable="false" />
+    <Property Name="HasEvening" Type="Boolean" Nullable="false" />
+    <Property Name="isSwapped" Type="Boolean" Nullable="false" />
+    <Property Name="categoryID" Type="Int32" />
+    <Property Name="CategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CtgryID" Type="Int32" />
+    <Property Name="LogTypeID" Type="Int32" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Morning" Type="Boolean" />
+    <Property Name="Afternoon" Type="Boolean" />
+    <Property Name="Evening" Type="Boolean" />
+    <Property Name="logLkpID" Type="Int32" Nullable="false" />
+  </EntityType>
 </Schema>

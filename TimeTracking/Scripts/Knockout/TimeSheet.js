@@ -6,6 +6,8 @@
     var timesheetKO;
     var url = "";
     var deletedRows = [];
+    var deletedSubRows = [];
+    var whichRowsDeleted=[]
     var numTimes2 = 0;
 
     var timesheetViewModel = function () {
@@ -30,7 +32,7 @@
         self.liveIn = ko.observable();
         self.empname = ko.observable();
         self.Id = ko.observable();
-
+        self.errortip = ko.observable("");
         self.HasTime2 = ko.observable();
         self.isSubmitted = ko.observable(false);
         self.isViewOnly = ko.observable(false);
@@ -41,21 +43,24 @@
         self.ChangeCountT = ko.observable(0);
         self.totalChangesCount = ko.computed(function () {
             var count = 0;
-            $.each(self.items(), function (key, value) {
-                count += value.ccplansectionId();
-                count += value.ccserviceCodeId();
-                count += value.ccisAmIn2();
-                count += value.ccisAmOut2();
-                count += value.ccTimeOut2H1();
-                count += value.ccTimeOut2M1();
-                count += value.ccTimeIn2H1();
-                count += value.ccTimeIn2M1();
-                count += value.ccisAmIn();
-                count += value.ccisAmOut();
-                count += value.ccTimeOutH1();
-                count += value.ccTimeOutM1();
-                count += value.ccTimeInH1();
-                count += value.ccTimeInM1(); 
+            $.each(self.items(), function (key, value1) {
+                $.each(value1.times(), function (key, value) {
+                    count += value.ccplansectionId();
+                    count += value.ccserviceCodeId();
+                    count += value.ccisAmIn2();
+                    count += value.ccisAmOut2();
+                    count += value.ccTimeOut2H1();
+                    count += value.ccTimeOut2M1();
+                    count += value.ccTimeIn2H1();
+                    count += value.ccTimeIn2M1();
+                    count += value.ccisAmIn();
+                    count += value.ccisAmOut();
+                    count += value.ccTimeOutH1();
+                    count += value.ccTimeOutM1();
+                    count += value.ccTimeInH1();
+                    count += value.ccTimeInM1(); 
+                });
+               
             });
             count += self.ChangeCountT(); //+self.ChangeCountA(); 
             return count;
@@ -66,15 +71,18 @@
         self.lessTime = function (data) {
             numTimes2--; // decrease the number rows with time2 part
 
-            data.Time2(false);
+            $.each(data.times(), function (key, value) {
+                value.Time2(false);
+                value.TimeIn2H1(-1);
+                value.TimeIn2M1(-1);
+                value.isAmIn2(-1);
+                value.TimeOut2H1(-1);
+                value.TimeOut2M1(-1);
+                value.isAmOut2(-1);
+            });
 
             //reset dropdowns of time 2
-            data.TimeIn2H1(-1);
-            data.TimeIn2M1(-1);
-            data.isAmIn2(-1);
-            data.TimeOut2H1(-1);
-            data.TimeOut2M1(-1);
-            data.isAmOut2(-1);
+            
 
             //if no more time2 part in any rows the stop display its columns
             if (numTimes2 == 0)
@@ -84,87 +92,159 @@
         self.moreTime = function (data) {
             numTimes2++; // increase the number rows with time2 part
             timesheetKO.HasTime2(true);
-            data.Time2(true);
+            $.each(data.times(), function (key, value) {
+                value.Time2(true);
+            });
+            
         }
 
         self.moreService = function (data) {
             var index = timesheetKO.items.indexOf(data);
             //copy the row
-            var newRow = ko.mapping.fromJS(ko.mapping.toJS(data));
+
+            var newRow2 = ko.mapping.fromJS(ko.mapping.toJS(data.times()[0]));
+            newRow2.serviceCodeId("");
+            newRow2.plansectionId("");
+            newRow2
+            newRow2.TimeInH1(-1);
+            newRow2.TimeInM1(-1);
+            newRow2
+            newRow2.isAmIn(-1);
+            newRow2.TimeOutH1(-1);
+            newRow2.TimeOutM1(-1);
+            newRow2
+            newRow2
+            newRow2.isAmOut(-1);
+            newRow2
+            newRow2.TimeIn2H1(-1);
+            newRow2.TimeIn2M1(-1);
+            newRow2
+            newRow2.isAmIn2(-1);
+            newRow2.TimeOut2H1(-1);
+            newRow2.TimeOut2M1(-1);
+            newRow2
+            newRow2.isAmOut2(-1);
+            newRow2.ccplansectionId(0);
+            newRow2.ccserviceCodeId(0);
+            newRow2.ccisAmIn2(0);
+            newRow2.ccisAmOut2(0);
+            newRow2.ccTimeOut2H1(0);
+            newRow2.ccTimeOut2M1(0);
+            newRow2.ccTimeIn2H1(0);
+            newRow2.ccTimeIn2M1(0);
+            newRow2.ccisAmIn(0);
+            newRow2.ccisAmOut(0);
+            newRow2.ccTimeOutH1(0);
+            newRow2.ccTimeOutM1(0);
+            newRow2.ccTimeInH1(0);
+            newRow2.ccTimeInM1(0);
+            newRow2.isAdded(true);
+            // name the row not clicked by the "add time" link
             //add the copy of the row as new row in the table
-            timesheetKO.items.splice(index, 0, newRow);
-            timesheetKO.itemsOld.splice(index, 0, newRow);
+            data.times.push(newRow2);
+            var newRow = ko.mapping.fromJS(ko.mapping.toJS(data));
+
+            timesheetKO.itemsOld()[index](newRow);
 
 
             /* reset the values of the dropdowns of the old row as the new one appear upper of it 
                in the table, so we reset it as it appear to the user as the new one */
-            data.dayName("");
-            data.serviceCodeId("");
-            data.plansectionId("");
-
-            data.TimeInH1(-1);
-            data.TimeInM1(-1);
-
-            data.isAmIn(-1);
-            data.TimeOutH1(-1);
-            data.TimeOutM1(-1);
-
-
-            data.isAmOut(-1);
-
-            data.TimeIn2H1(-1);
-            data.TimeIn2M1(-1);
-
-            data.isAmIn2(-1);
-            data.TimeOut2H1(-1);
-            data.TimeOut2M1(-1);
-
-            data.isAmOut2(-1);
-            data.ccplansectionId(0);
-            data.ccserviceCodeId(0);
-            data.ccisAmIn2(0);
-            data.ccisAmOut2(0);
-            data.ccTimeOut2H1(0);
-            data.ccTimeOut2M1(0);
-            data.ccTimeIn2H1(0);
-            data.ccTimeIn2M1(0);
-            data.ccisAmIn(0);
-            data.ccisAmOut(0);
-            data.ccTimeOutH1(0);
-            data.ccTimeOutM1(0);
-            data.ccTimeInH1(0);
-            data.ccTimeInM1(0); 
-            data.isAdded(true);
-            debugger;
-            // name the row not clicked by the "add time" link
-            data.Time2(false);
+            //data.dayName("");
+            //var count = 0;
+            //$.each(data.times(), function (key, value) {
+            //    if (count > 0) {
+            //        data.times.remove(value);
+            //    }
+            //    else {
+            //        value.serviceCodeId("");
+            //        value.plansectionId("");
+            //        value
+            //        value.TimeInH1(-1);
+            //        value.TimeInM1(-1);
+            //        value
+            //        value.isAmIn(-1);
+            //        value.TimeOutH1(-1);
+            //        value.TimeOutM1(-1);
+            //        value
+            //        value
+            //        value.isAmOut(-1);
+            //        value
+            //        value.TimeIn2H1(-1);
+            //        value.TimeIn2M1(-1);
+            //        value
+            //        value.isAmIn2(-1);
+            //        value.TimeOut2H1(-1);
+            //        value.TimeOut2M1(-1);
+            //        value
+            //        value.isAmOut2(-1);
+            //        value.ccplansectionId(0);
+            //        value.ccserviceCodeId(0);
+            //        value.ccisAmIn2(0);
+            //        value.ccisAmOut2(0);
+            //        value.ccTimeOut2H1(0);
+            //        value.ccTimeOut2M1(0);
+            //        value.ccTimeIn2H1(0);
+            //        value.ccTimeIn2M1(0);
+            //        value.ccisAmIn(0);
+            //        value.ccisAmOut(0);
+            //        value.ccTimeOutH1(0);
+            //        value.ccTimeOutM1(0);
+            //        value.ccTimeInH1(0);
+            //        value.ccTimeInM1(0);
+            //        value.isAdded(true);
+            //        // name the row not clicked by the "add time" link
+            //        value.Time2(false);
+            //    }
+                
+            //});
+            
             timesheetKO.ChangeCountT(timesheetKO.ChangeCountT()+1);
             timesheetKO.isChangedT(true);
         }
 
         self.deleteRow = function (data) {
-            var index = timesheetKO.items.indexOf(data);
-            deletedRows.push({ 'index':index,'data': data });
-            timesheetKO.canUndo(true); //enable undo button
+            if (data.times().length == 1) {
+                var index = timesheetKO.items.indexOf(data);
+                deletedRows.push({ 'index': index, 'data': data });
+                whichRowsDeleted.push(-1);
+                timesheetKO.canUndo(true); //enable undo button
 
-            //if the deleted row has a time2 part then decrease the number rows with time2 part
-            if (data.Time2() == true) 
-                numTimes2--;
+                //if the deleted row has a time2 part then decrease the number rows with time2 part
+                if (data.times()[0].Time2() == true)
+                    numTimes2--;
 
-            //if that was the last row with time2 part then stop display its column
-            if (numTimes2 == 0) {
-                timesheetKO.HasTime2(false);
+                //if that was the last row with time2 part then stop display its column
+                if (numTimes2 == 0) {
+                    timesheetKO.HasTime2(false);
+                }
+
+                if (data.times()[0].isAdded() == true) {
+                    timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
+                }
+                else
+                    timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
+
+                timesheetKO.items.remove(data);
+                timesheetKO.itemsOld.remove(data);
+            }
+            else {
+                var index = timesheetKO.items.indexOf(data);
+                data.times()[data.times().length - 1];
+                deletedSubRows.push(data.times()[data.times().length - 1]);
+                whichRowsDeleted.push(index);
+                timesheetKO.canUndo(true);
+                data.times.remove(data.times()[data.times().length - 1]);
+                var newData = ko.mapping.fromJS(ko.mapping.toJS(data));
+                timesheetKO.itemsOld()[index](newData);
+
+                if (data.times()[0].isAdded() == true) {
+                    timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
+                }
+                else
+                    timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
             }
 
-            if (data.isAdded() == true)
-            {
-                timesheetKO.ChangeCountT(timesheetKO.ChangeCountT()-1);
-            }
-            else
-                timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
-
-            timesheetKO.items.remove(data);
-            timesheetKO.itemsOld.remove(data);
+           
 
             //if (timesheetKO.ChangeCountT() == 0)
             //    timesheetKO.isChangedT(false);
@@ -193,6 +273,12 @@
             timesheetKO.isChangedT(false);
             while (deletedRows.length != 0) {
                 deletedRows.pop();
+            }
+            while (deletedSubRows.length != 0) {
+                deletedSubRows.pop();
+            }
+            while (whichRowsDeleted.length != 0) {
+                whichRowsDeleted.pop();
             }
             timesheetKO.canUndo(false);
             timesheetKO.isSubmitted(false);
@@ -316,7 +402,7 @@
 
             $("#backIcon").hide();
             $("#liveIcon").hide();
-
+            timesheetKO.errortip("");
             var str = "";
             var count = 0;
             if (data.backup() != undefined) {
@@ -324,6 +410,7 @@
                     $("#backupid").css("border-color", "red");
                     $("#backIcon").show();
                     str = "123";
+                    timesheetKO.errortip("Backup must have value Y or N");
                     count++;
                 }
                 //str += "<p>Backup must have value Y or N</p>";
@@ -332,6 +419,8 @@
                 $("#backupid").css("border-color", "red");
                 $("#backIcon").show();
                 str = "123";
+                timesheetKO.errortip("Backup must have value Y or N");
+
                 count++;
 
 
@@ -344,6 +433,11 @@
                     str = "123";
                     count++;
 
+                    if (timesheetKO.errortip() != "")
+                        timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                        else
+                    timesheetKO.errortip("Live-In must have value Y or N");
+
                 }
             }
             else {
@@ -351,40 +445,61 @@
                 $("#liveIcon").show();
                 str = "123";
                 count++;
-
+                if (timesheetKO.errortip() != "")
+                    timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                else
+                    timesheetKO.errortip("Live-In must have value Y or N");
 
             }
 
             if (str != "") {
                 timesheetKO.ChangeCountA(count);
+                $('[data-toggle="tooltip"]').tooltip();
             }
 
             else {
+                timesheetKO.errortip("");
                 timesheetKO.ChangeCountA(0);
             }
         }
 
         self.undo = function (data) {
-            var row = deletedRows.pop();
-            timesheetKO.items.splice(row.index, 0, row.data);
-            var data2 = ko.mapping.fromJS(ko.mapping.toJS(row.data));
-            timesheetKO.itemsOld.splice(row.index, 0, data2);
+            var whichone = whichRowsDeleted.pop();
+            if (whichone == -1) {
 
+                var row = deletedRows.pop();
+                timesheetKO.items.splice(row.index, 0, row.data);
+                var data2 = ko.mapping.fromJS(ko.mapping.toJS(row.data));
+                timesheetKO.itemsOld.splice(row.index, 0, data2);
+                $.each(row.data.times(), function (key, value) {
+                    if (value.Time2() == true) {
+                        numTimes2++;
+                        break;
+                    }
+                })
+
+            }
+            else {
+                var row = deletedSubRows.pop();
+                var data = timesheetKO.items()[whichone];
+                data.times.push(row);
+            }
+            
             timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
             if (timesheetKO.ChangeCountT() == 0)
                 timesheetKO.isChangedT(false);
            
 
             //check flog of Time 2 part to display it
-            if (row.data.Time2() == true)
-                numTimes2++;
+            //if (row.data.Time2() == true)
+            //    numTimes2++;
 
             if (numTimes2 > 0) {
                 timesheetKO.HasTime2(true);
             }
 
             //if no more row to undo then disable the undo button
-            if (deletedRows.length == 0)
+            if (deletedRows.length == 0 && deletedSubRows.length==0)
                 timesheetKO.canUndo(false);
         }
         self.saveDraft = function (data) {
@@ -434,22 +549,23 @@
                         $.each(timesheetKO.items(), function (key, value) {
                             var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
                             timesheetKO.itemsOld.push(data2);
-                            value.ccplansectionId(0);
-                            value.ccserviceCodeId(0);
-                            value.ccisAmIn2(0);
-                            value.ccisAmOut2(0);
-                            value.ccTimeOut2H1(0);
-                            value.ccTimeOut2M1(0);
-                            value.ccTimeIn2H1(0);
-                            value.ccTimeIn2M1(0);
-                            value.ccisAmIn(0);
-                            value.ccisAmOut(0);
-                            value.ccTimeOutH1(0);
-                            value.ccTimeOutM1(0);
-                            value.ccTimeInH1(0);
-                            value.ccTimeInM1(0); 
+                            $.each(value.times(), function (key, value2) {
+                                value2.ccplansectionId(0);
+                                value2.ccserviceCodeId(0);
+                                value2.ccisAmIn2(0);
+                                value2.ccisAmOut2(0);
+                                value2.ccTimeOut2H1(0);
+                                value2.ccTimeOut2M1(0);
+                                value2.ccTimeIn2H1(0);
+                                value2.ccTimeIn2M1(0);
+                                value2.ccisAmIn(0);
+                                value2.ccisAmOut(0);
+                                value2.ccTimeOutH1(0);
+                                value2.ccTimeOutM1(0);
+                                value2.ccTimeInH1(0);
+                                value2.ccTimeInM1(0); 
+                            });
                         });
-
                     },
                     error: function (result) {
                         $("#successdiv1").hide();
@@ -474,6 +590,12 @@
 
             while (deletedRows.length != 0) {
                 deletedRows.pop();
+            }
+            while (deletedSubRows.length != 0) {
+                deletedSubRows.pop();
+            }
+            while (whichRowsDeleted.length != 0) {
+                whichRowsDeleted.pop();
             }
             timesheetKO.canUndo(false);
 
@@ -516,20 +638,23 @@
                         timesheetKO.ChangeCountT(0);
                         timesheetKO.isChangedT(false);
                         $.each(timesheetKO.items(), function (key, value) {
-                            value.ccplansectionId(0);
-                            value.ccserviceCodeId(0);
-                            value.ccisAmIn2(0);
-                            value.ccisAmOut2(0);
-                            value.ccTimeOut2H1(0);
-                            value.ccTimeOut2M1(0);
-                            value.ccTimeIn2H1(0);
-                            value.ccTimeIn2M1(0);
-                            value.ccisAmIn(0);
-                            value.ccisAmOut(0);
-                            value.ccTimeOutH1(0);
-                            value.ccTimeOutM1(0);
-                            value.ccTimeInH1(0);
-                            value.ccTimeInM1(0);
+                            $.each(value.times(), function (key, value2) {
+                                value2.ccplansectionId(0);
+                                value2.ccserviceCodeId(0);
+                                value2.ccisAmIn2(0);
+                                value2.ccisAmOut2(0);
+                                value2.ccTimeOut2H1(0);
+                                value2.ccTimeOut2M1(0);
+                                value2.ccTimeIn2H1(0);
+                                value2.ccTimeIn2M1(0);
+                                value2.ccisAmIn(0);
+                                value2.ccisAmOut(0);
+                                value2.ccTimeOutH1(0);
+                                value2.ccTimeOutM1(0);
+                                value2.ccTimeInH1(0);
+                                value2.ccTimeInM1(0);
+                            });
+                            
                         });
 
                     },

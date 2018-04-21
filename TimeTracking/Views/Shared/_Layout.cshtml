@@ -110,7 +110,7 @@
                     <a href="#"><i class=" fa fa-folder fa-lg" style="color:khaki" id="empFolder"></i> Employee </a>
                 </li>
                 <ul class="sub-menu collapse" id="products">
-                    <li id="liempts" ><img src="~/Images/time.png" height="25" style="padding-left:20px" />&nbsp;<a href="@Url.Action("Timesheet", "Employee")">Time Sheet</a></li>
+                    <li id="liempts"><img src="~/Images/time.png" height="25" style="padding-left:20px" />&nbsp;<a href="@Url.Action("Timesheet", "Employee")">Time Sheet</a></li>
                     <li class="paper"><img src="~/Images/pencil-clipboard.png" height="20" style="padding-left:22px" />&nbsp;<a href="#">Logs</a></li>
                 </ul>
 
@@ -139,9 +139,9 @@
     </div>
     <div class="sub-sidebar nav-side-menu2" id="empSub">
 
-        <div >
+        <div>
 
-            <ul >
+            <ul>
                 <li><a href="#">Time Sheet</a></li>
                 <li><a href="#">Logs</a></li>
             </ul>
@@ -251,8 +251,9 @@
     <div class="container body-content">
         @RenderBody()
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
-
+    
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -279,13 +280,13 @@
 
         function showEmpSub() {
             if (isEmpShown == true) {
-               // $("#empSub").hide();
+                // $("#empSub").hide();
                 $("#empFolder").addClass("fa-folder");
                 $("#empFolder").removeClass("fa-folder-open");
                 isEmpShown = false;
             }
             else {
-              //  $("#empSub").show();
+                //  $("#empSub").show();
                 isEmpShown = true;
                 $("#empFolder").removeClass("fa-folder");
                 $("#empFolder").addClass("fa-folder-open");
@@ -312,7 +313,7 @@
                     $('#lireporting').removeClass("active");
                     $('#livenodr').removeClass("active");
                     $('#licontractor').removeClass("active");
-                    
+
                     isEmpShown = true;
                     $("#empFolder").removeClass("fa-folder");
                     $("#empFolder").addClass("fa-folder-open");
