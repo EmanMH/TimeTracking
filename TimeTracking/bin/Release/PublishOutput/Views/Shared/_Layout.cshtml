@@ -110,7 +110,7 @@
                     <a href="#"><i class=" fa fa-folder fa-lg" style="color:khaki" id="empFolder"></i> Employee </a>
                 </li>
                 <ul class="sub-menu collapse" id="products">
-                    <li class="active clock"><img src="~/Images/time.png" height="25" style="padding-left:20px" />&nbsp;<a href="@Url.Action("Timesheet", "Employee")">Time Sheet</a></li>
+                    <li id="liempts"><img src="~/Images/time.png" height="25" style="padding-left:20px" />&nbsp;<a href="@Url.Action("Timesheet", "Employee")">Time Sheet</a></li>
                     <li class="paper"><img src="~/Images/pencil-clipboard.png" height="20" style="padding-left:22px" />&nbsp;<a href="#">Logs</a></li>
                 </ul>
 
@@ -139,9 +139,9 @@
     </div>
     <div class="sub-sidebar nav-side-menu2" id="empSub">
 
-        <div >
+        <div>
 
-            <ul >
+            <ul>
                 <li><a href="#">Time Sheet</a></li>
                 <li><a href="#">Logs</a></li>
             </ul>
@@ -251,8 +251,9 @@
     <div class="container body-content">
         @RenderBody()
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
-
+    
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -279,13 +280,13 @@
 
         function showEmpSub() {
             if (isEmpShown == true) {
-               // $("#empSub").hide();
+                // $("#empSub").hide();
                 $("#empFolder").addClass("fa-folder");
                 $("#empFolder").removeClass("fa-folder-open");
                 isEmpShown = false;
             }
             else {
-              //  $("#empSub").show();
+                //  $("#empSub").show();
                 isEmpShown = true;
                 $("#empFolder").removeClass("fa-folder");
                 $("#empFolder").addClass("fa-folder-open");
@@ -295,123 +296,108 @@
             var url = window.location.href;
             var menuitem = "";
             $('#lihome').addClass("active");
-            $('#lihome').removeClass("tabs");
             $('#liemp').removeClass("active");
-            $('#liemp').addClass("tabs");
 
             $('#liadmin').removeClass("active");
-            $('#liadmin').addClass("tabs");
 
             $('#lireporting').removeClass("active");
-            $('#lireporting').addClass("tabs");
 
             $('#livenodr').removeClass("active");
-            $('#livenodr').addClass("tabs");
 
             $('#licontractor').removeClass("active");
-            $('#licontractor').addClass("tabs");
             if (url.toLowerCase().indexOf("employee") != "-1") {
-                $('#lihome').removeClass("active");
-                $('#lihome').addClass("tabs");
+                if (url.toLowerCase().indexOf("employee/timesheet") != "-1") {
+                    $('#lihome').removeClass("active");
+                    $('#liempts').addClass("active");
+                    $('#liadmin').removeClass("active");
+                    $('#lireporting').removeClass("active");
+                    $('#livenodr').removeClass("active");
+                    $('#licontractor').removeClass("active");
 
-                $('#liemp').addClass("active");
-                $('#liemp').removeClass("tabs");
+                    isEmpShown = true;
+                    $("#empFolder").removeClass("fa-folder");
+                    $("#empFolder").addClass("fa-folder-open");
+                    $('#liemp').removeClass("collapsed");
+                    $('#products').removeClass("collapse");
+                    $('#products').addClass("in");
 
-                $('#liadmin').removeClass("active");
-                $('#liadmin').addClass("tabs");
 
-                $('#lireporting').removeClass("active");
-                $('#lireporting').addClass("tabs");
 
-                $('#livenodr').removeClass("active");
-                $('#livenodr').addClass("tabs");
 
-                $('#licontractor').removeClass("active");
-                $('#licontractor').addClass("tabs");
+                }
+                else {
+                    $('#lihome').removeClass("active");
+
+                    $('#liemp').addClass("active");
+
+                    $('#liadmin').removeClass("active");
+
+                    $('#lireporting').removeClass("active");
+
+                    $('#livenodr').removeClass("active");
+
+                    $('#licontractor').removeClass("active");
+                }
 
             }
 
             else if (url.toLowerCase().indexOf("admin") != "-1") {
                 $('#lihome').removeClass("active");
-                $('#lihome').addClass("tabs");
 
-                $('#liemp').removeClass("active");
-                $('#liemp').addClass("tabs");
+                $('#liempts').removeClass("active");
 
                 $('#liadmin').addClass("active");
-                $('#liadmin').removeClass("tabs");
 
                 $('#lireporting').removeClass("active");
-                $('#lireporting').addClass("tabs");
 
                 $('#livenodr').removeClass("active");
-                $('#livenodr').addClass("tabs");
 
                 $('#licontractor').removeClass("active");
-                $('#licontractor').addClass("tabs");
 
             }
 
             else if (url.toLowerCase().indexOf("venodr") != "-1") {
                 $('#lihome').removeClass("active");
-                $('#lihome').addClass("tabs");
 
-                $('#liemp').removeClass("active");
-                $('#liemp').addClass("tabs");
+                $('#liempts').removeClass("active");
 
                 $('#liadmin').removeClass("active");
-                $('#liadmin').addClass("tabs");
 
                 $('#lireporting').removeClass("active");
-                $('#lireporting').addClass("tabs");
 
                 $('#livenodr').addClass("active");
-                $('#livenodr').removeClass("tabs");
 
                 $('#licontractor').removeClass("active");
-                $('#licontractor').addClass("tabs");
 
             }
 
             else if (url.toLowerCase().indexOf("reporting") != "-1") {
                 $('#lihome').removeClass("active");
-                $('#lihome').addClass("tabs");
 
-                $('#liemp').removeClass("active");
-                $('#liemp').addClass("tabs");
+                $('#liempts').removeClass("active");
 
                 $('#liadmin').removeClass("active");
-                $('#liadmin').addClass("tabs");
 
                 $('#lireporting').addClass("active");
-                $('#lireporting').removeClass("tabs");
 
                 $('#livenodr').removeClass("active");
-                $('#livenodr').addClass("tabs");
 
                 $('#licontractor').removeClass("active");
-                $('#licontractor').addClass("tabs");
 
             }
 
             else if (url.toLowerCase().indexOf("contractor") != "-1") {
                 $('#lihome').removeClass("active");
-                $('#lihome').addClass("tabs");
 
-                $('#liemp').removeClass("active");
-                $('#liemp').addClass("tabs");
+                $('#liempts').removeClass("active");
 
                 $('#liadmin').removeClass("active");
-                $('#liadmin').addClass("tabs");
 
                 $('#lireporting').removeClass("active");
-                $('#lireporting').addClass("tabs");
 
                 $('#livenodr').removeClass("active");
-                $('#livenodr').addClass("tabs");
 
                 $('#licontractor').addClass("active");
-                $('#licontractor').removeClass("tabs");
 
             }
 

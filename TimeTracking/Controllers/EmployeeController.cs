@@ -37,6 +37,7 @@ namespace TimeTracking.Controllers
             string[] dates = dateSelected.Split(str.ToCharArray());
             var day1 = DateTime.Parse(dates[0]);
             var timesheets = es.getTimeSheet(DateTime.Parse(dates[0]), User.Identity.Name);
+            ModelStack mdl= new ModelStack();
             TimeSheetModel tsm = new TimeSheetModel();
             TimeSheetItem tItem = new TimeSheetItem();
             List<TimeSheetItem> timeItems = new List<TimeSheetItem>();
@@ -116,8 +117,13 @@ namespace TimeTracking.Controllers
                             foreach (var itemsvals in dateditems)
                             {
                                 var itemvals = itemsvals.ToList();
+                                var time2 = false;
                                 foreach (var item in itemvals)
                                 {
+                                    if(time2==false)
+                                    {
+                                        time2 = item.TimeIn2H1 != null;
+                                    }
                                     tItem.Id = item.Id;
                                     tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
                                     tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
@@ -159,6 +165,8 @@ namespace TimeTracking.Controllers
                                         timesitem.Time2 = true;
                                         tsm.HasTime2 = true;
                                     }
+                                    else
+                                        timesitem.Time2 = time2;
                                     tItem.dates = dates;
                                     if (tItem.times == null)
                                         tItem.times = new List<times>();
@@ -200,8 +208,13 @@ namespace TimeTracking.Controllers
                         foreach (var itemsvals in dateditems)
                         {
                             var itemvals = itemsvals.ToList();
+                        var time2 = false;
                             foreach (var item in itemvals)
                             {
+                            if (time2 == false)
+                            {
+                                time2 = item.TimeIn2H1 != null;
+                            }
                             tItem.Id = item.Id;
                             tItem.dayDate = item.dayDate.Value.Date.ToShortDateString(); ;
                             tItem.dayName = item.dayDate.Value.ToString("dddd"); //config
@@ -243,13 +256,27 @@ namespace TimeTracking.Controllers
                                     timesitem.Time2 = true;
                                     tsm.HasTime2 = true;
                                 }
-                                tItem.dates = dates;
+                                else
+                                timesitem.Time2 = time2;
+
+                            tItem.dates = dates;
+                           
+
                             if (tItem.times == null)
                                 tItem.times = new List<times>();
                                 tItem.times.Add(timesitem);
                                 // tItem.serviceCodeId = item.serviceCode.Id;
 
                             }
+
+                        if (time2 == true)
+                        {
+                            foreach (var item in tItem.times)
+                            {
+                                item.Time2 = true;
+                            }
+                        }
+
                         timeItems.Add(tItem);
 
                             tItem = new TimeSheetItem();
@@ -257,7 +284,10 @@ namespace TimeTracking.Controllers
                     tsm.items = timeItems;
                 }
             }
-            return Json(tsm);
+            mdl.model = tsm;
+            mdl.modelstack = new List<TimeSheetModel>();
+           // mdl.modelstack.Add(tsm);
+            return Json(mdl);
 
         }
 

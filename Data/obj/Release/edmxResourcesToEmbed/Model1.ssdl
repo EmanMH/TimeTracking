@@ -67,6 +67,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="dayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="fullDayName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="LogCategory">
     <Key>
@@ -176,6 +177,18 @@
     <Property Name="HasTime2" Type="bit" />
     <Property Name="isDraft" Type="bit" />
   </EntityType>
+  <EntityType Name="Toileting">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeID" Type="nvarchar" MaxLength="128" />
+    <Property Name="Urine" Type="bit" />
+    <Property Name="Bm" Type="bit" />
+    <Property Name="UrineTime" Type="nvarchar" MaxLength="100" />
+    <Property Name="BmTime" Type="nvarchar" MaxLength="100" />
+    <Property Name="DayID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="UserDetails">
     <Key>
       <PropertyRef Name="Id" />
@@ -194,6 +207,40 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="empID" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="logItemID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TimeTracking2.dbo.v_Logs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="v_Logs">
+    <Key>
+      <PropertyRef Name="LgTypeID" />
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="LogsTypesID" />
+      <PropertyRef Name="logLkpID" />
+      <PropertyRef Name="LogName" />
+      <PropertyRef Name="dayName" />
+      <PropertyRef Name="HasMorning" />
+      <PropertyRef Name="HasAfternoon" />
+      <PropertyRef Name="HasEvening" />
+      <PropertyRef Name="isSwapped" />
+    </Key>
+    <Property Name="logTypeName" Type="nvarchar" MaxLength="500" />
+    <Property Name="LgTypeID" Type="int" Nullable="false" />
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Morning" Type="bit" />
+    <Property Name="Afternoon" Type="bit" />
+    <Property Name="Evening" Type="bit" />
+    <Property Name="LogsTypesID" Type="int" Nullable="false" />
+    <Property Name="logLkpID" Type="int" Nullable="false" />
+    <Property Name="LogName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="dayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="HasMorning" Type="bit" Nullable="false" />
+    <Property Name="HasAfternoon" Type="bit" Nullable="false" />
+    <Property Name="HasEvening" Type="bit" Nullable="false" />
+    <Property Name="isSwapped" Type="bit" Nullable="false" />
+    <Property Name="categoryID" Type="int" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="500" />
+    <Property Name="CtgryID" Type="int" />
+    <Property Name="LogTypeID" Type="int" />
   </EntityType>
   <Association Name="FK__TimeInOut__fk_pl__37A5467C">
     <End Role="planSections" Type="Self.planSections" Multiplicity="0..1" />
@@ -407,6 +454,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Toileting_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Toileting" Type="Self.Toileting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Toileting">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Toileting_DaysOfWeek1">
+    <End Role="DaysOfWeek" Type="Self.DaysOfWeek" Multiplicity="1" />
+    <End Role="Toileting" Type="Self.Toileting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DaysOfWeek">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Toileting">
+        <PropertyRef Name="DayID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_UserLogs_LogsItems">
     <End Role="LogsItems" Type="Self.LogsItems" Multiplicity="1" />
     <End Role="UserLogs" Type="Self.UserLogs" Multiplicity="*" />
@@ -436,8 +507,31 @@
     <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TimeInOut" EntityType="Self.TimeInOut" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TimeSheet" EntityType="Self.TimeSheet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Toileting" EntityType="Self.Toileting" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserLogs" EntityType="Self.UserLogs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_Logs" EntityType="Self.v_Logs" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [v_Logs].[logTypeName] AS [logTypeName], 
+    [v_Logs].[LgTypeID] AS [LgTypeID], 
+    [v_Logs].[ID] AS [ID], 
+    [v_Logs].[Morning] AS [Morning], 
+    [v_Logs].[Afternoon] AS [Afternoon], 
+    [v_Logs].[Evening] AS [Evening], 
+    [v_Logs].[LogsTypesID] AS [LogsTypesID], 
+    [v_Logs].[logLkpID] AS [logLkpID], 
+    [v_Logs].[LogName] AS [LogName], 
+    [v_Logs].[dayName] AS [dayName], 
+    [v_Logs].[HasMorning] AS [HasMorning], 
+    [v_Logs].[HasAfternoon] AS [HasAfternoon], 
+    [v_Logs].[HasEvening] AS [HasEvening], 
+    [v_Logs].[isSwapped] AS [isSwapped], 
+    [v_Logs].[categoryID] AS [categoryID], 
+    [v_Logs].[CategoryName] AS [CategoryName], 
+    [v_Logs].[CtgryID] AS [CtgryID], 
+    [v_Logs].[LogTypeID] AS [LogTypeID]
+    FROM [dbo].[v_Logs] AS [v_Logs]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK__TimeInOut__fk_pl__37A5467C" Association="Self.FK__TimeInOut__fk_pl__37A5467C">
       <End Role="planSections" EntitySet="planSections" />
       <End Role="TimeInOut" EntitySet="TimeInOut" />
@@ -505,6 +599,14 @@
     <AssociationSet Name="FK_SC_LogsTypes" Association="Self.FK_SC_LogsTypes">
       <End Role="serviceCodes" EntitySet="serviceCodes" />
       <End Role="LogsTypes" EntitySet="LogsTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Toileting_AspNetUsers1" Association="Self.FK_Toileting_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Toileting" EntitySet="Toileting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Toileting_DaysOfWeek1" Association="Self.FK_Toileting_DaysOfWeek1">
+      <End Role="DaysOfWeek" EntitySet="DaysOfWeek" />
+      <End Role="Toileting" EntitySet="Toileting" />
     </AssociationSet>
     <AssociationSet Name="FK_UserLogs_LogsItems" Association="Self.FK_UserLogs_LogsItems">
       <End Role="LogsItems" EntitySet="LogsItems" />

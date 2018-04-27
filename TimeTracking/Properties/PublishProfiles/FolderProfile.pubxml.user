@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
 This file is used by the publish/package process of your Web project. You can customize the behavior of this process
 by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
@@ -22,13 +22,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 19:28:20</publishTime>
     </File>
     <File Include="bin/Business.dll">
-      <publishTime>04/04/2018 01:54:40</publishTime>
+      <publishTime>04/14/2018 02:56:06</publishTime>
     </File>
     <File Include="bin/Business.pdb">
       <publishTime>04/04/2018 01:54:40</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>04/04/2018 01:52:33</publishTime>
+      <publishTime>04/14/2018 02:55:49</publishTime>
     </File>
     <File Include="bin/Data.dll.config">
       <publishTime>01/23/2018 20:43:30</publishTime>
@@ -217,7 +217,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2015 03:04:30</publishTime>
     </File>
     <File Include="bin/TimeTracking.dll">
-      <publishTime>04/11/2018 00:48:38</publishTime>
+      <publishTime>04/27/2018 21:04:45</publishTime>
     </File>
     <File Include="bin/TimeTracking.pdb">
       <publishTime>04/11/2018 00:48:38</publishTime>
@@ -244,7 +244,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/29/2018 18:56:50</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>04/05/2018 16:01:59</publishTime>
+      <publishTime>04/16/2018 11:07:02</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>01/23/2018 19:26:19</publishTime>
@@ -343,7 +343,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/04/2018 01:40:45</publishTime>
     </File>
     <File Include="Scripts/Knockout/TimeSheet.js">
-      <publishTime>04/11/2018 00:24:17</publishTime>
+      <publishTime>04/27/2018 20:56:12</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>01/23/2018 19:27:40</publishTime>
@@ -406,10 +406,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/27/2018 16:46:32</publishTime>
     </File>
     <File Include="Views/Employee/Logs.cshtml">
-      <publishTime>04/10/2018 03:40:35</publishTime>
+      <publishTime>04/11/2018 05:17:56</publishTime>
     </File>
     <File Include="Views/Employee/TimeSheet.cshtml">
-      <publishTime>04/11/2018 00:42:33</publishTime>
+      <publishTime>04/27/2018 21:12:47</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>01/23/2018 20:42:32</publishTime>
@@ -448,7 +448,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2018 20:42:31</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>04/11/2018 00:47:19</publishTime>
+      <publishTime>04/16/2018 11:26:44</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutLogin.cshtml">
       <publishTime>01/25/2018 20:21:45</publishTime>

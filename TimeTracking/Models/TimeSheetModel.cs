@@ -5,6 +5,12 @@ using System.Web;
 
 namespace TimeTracking.Models
 {
+    public class ModelStack
+    {
+        public TimeSheetModel model { get; set; }
+        public List<TimeSheetModel> modelstack { get; set; }
+    }
+
     public class TimeSheetModel
     {
         public int Id { get; set; }
@@ -25,6 +31,8 @@ namespace TimeTracking.Models
 
     public class times
     {
+       
+
         public int plansectionId { get; set; }
         public string Plan { get; set; }
         public string TimeInH1 { get; set; }
@@ -46,6 +54,22 @@ namespace TimeTracking.Models
         public int serviceCodeId { get; set; }
         public bool Time2 { get; set; }
 
+        public List<int> plansectionIdStack { get; set; }
+        public List<string> TimeInH1Stack { get; set; }
+        public List<string> TimeInM1Stack { get; set; }
+        public List<string> TimeOutH1Stack { get; set; }
+        public List<string> TimeOutM1Stack { get; set; }
+        public List<string> isAmInStack { get; set; }
+        public List<string> isAmOutStack { get; set; }
+        public List<string> TimeIn2H1Stack { get; set; }
+        public List<string> TimeIn2M1Stack { get; set; }
+        public List<string> TimeOut2H1Stack { get; set; }
+        public List<string> TimeOut2M1Stack { get; set; }
+        public List<string> isAmIn2Stack { get; set; }
+        public List<string> isAmOut2Stack { get; set; }
+        public List<int> serviceCodeIdStack { get; set; }
+        public List<bool> Time2Stack { get; set; }
+
         public int ccplansectionId { get; set; }
         public int ccserviceCodeId { get; set; }
         public int ccisAmIn2 { get; set; }
@@ -62,6 +86,25 @@ namespace TimeTracking.Models
         public int ccTimeInM1 { get; set; }
 
         public bool isAdded { get; set; }
+
+        public times()
+        {
+            plansectionIdStack = new List<int>();
+            TimeInH1Stack = new List<string>();
+            TimeInM1Stack = new List<string>();
+            TimeOutH1Stack = new List<string>();
+            TimeOutM1Stack = new List<string>();
+            isAmInStack = new List<string>();
+            isAmOutStack = new List<string>();
+            TimeIn2H1Stack = new List<string>();
+            TimeIn2M1Stack = new List<string>();
+            TimeOut2H1Stack = new List<string>();
+            TimeOut2M1Stack = new List<string>();
+            isAmIn2Stack = new List<string>();
+            isAmOut2Stack = new List<string>();
+            serviceCodeIdStack = new List<int>();
+            Time2Stack = new List<bool>();
+    }
     }
 
     public class TimeSheetItem

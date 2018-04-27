@@ -20,7 +20,22 @@
             this.Id = Id;
             this.name = name;
         };
+
+       
+       
+        self.changeObject =
+            {
+                data: ko.observable(),
+                type: ko.observable()
+            }
+      
+        self.changes = ko.observableArray([]);
+        self.current = ko.observableArray();
+
         self.items = ko.observableArray([]);
+        self.itemsStack = ko.observableArray([]);
+        self.redo=ko.observableArray([]);
+        self.canRedo = ko.observableArray();
         self.serviceCodes = ko.observableArray([]);
         self.PlanSections = ko.observableArray([]);
         self.itemsOld = ko.observableArray([]);
@@ -41,35 +56,50 @@
         self.ChangeCountA = ko.observable(0);
         self.isChangedT = ko.observable();
         self.ChangeCountT = ko.observable(0);
-        self.totalChangesCount = ko.computed(function () {
-            var count = 0;
+        self.setnumtimes = ko.computed(function () {
+            numTimes2 = 0;
             $.each(self.items(), function (key, value1) {
                 $.each(value1.times(), function (key, value) {
-                    count += value.ccplansectionId();
-                    count += value.ccserviceCodeId();
-                    count += value.ccisAmIn2();
-                    count += value.ccisAmOut2();
-                    count += value.ccTimeOut2H1();
-                    count += value.ccTimeOut2M1();
-                    count += value.ccTimeIn2H1();
-                    count += value.ccTimeIn2M1();
-                    count += value.ccisAmIn();
-                    count += value.ccisAmOut();
-                    count += value.ccTimeOutH1();
-                    count += value.ccTimeOutM1();
-                    count += value.ccTimeInH1();
-                    count += value.ccTimeInM1(); 
+                    if(value.Time2()==true)
+                    {
+                        timesheetKO.HasTime2(true);
+                        numTimes2++;
+                    }
                 });
-               
             });
-            count += self.ChangeCountT(); //+self.ChangeCountA(); 
+            if (numTimes2==0 && self.items().length!=0)
+                timesheetKO.HasTime2(false);
+
+        }, this);
+        self.totalChangesCount = ko.computed(function () {
+            var count = 0;
+            //$.each(self.items(), function (key, value1) {
+            //    $.each(value1.times(), function (key, value) {
+            //        count += value.ccplansectionId();
+            //        count += value.ccserviceCodeId();
+            //        count += value.ccisAmIn2();
+            //        count += value.ccisAmOut2();
+            //        count += value.ccTimeOut2H1();
+            //        count += value.ccTimeOut2M1();
+            //        count += value.ccTimeIn2H1();
+            //        count += value.ccTimeIn2M1();
+            //        count += value.ccisAmIn();
+            //        count += value.ccisAmOut();
+            //        count += value.ccTimeOutH1();
+            //        count += value.ccTimeOutM1();
+            //        count += value.ccTimeInH1();
+            //        count += value.ccTimeInM1(); 
+            //    });
+               
+            //});
+            //count += self.ChangeCountT(); //+self.ChangeCountA(); 
             return count;
     }, this);
         
         
        
         self.lessTime = function (data) {
-            numTimes2--; // decrease the number rows with time2 part
+           // numTimes2--; // decrease the number rows with time2 part
 
             $.each(data.times(), function (key, value) {
                 value.Time2(false);
@@ -85,16 +115,17 @@
             
 
             //if no more time2 part in any rows the stop display its columns
-            if (numTimes2 == 0)
-                timesheetKO.HasTime2(false);
+            //if (numTimes2 == 0)
+            //    timesheetKO.HasTime2(false);
         }
 
         self.moreTime = function (data) {
-            numTimes2++; // increase the number rows with time2 part
+           // numTimes2++; // increase the number rows with time2 part
             timesheetKO.HasTime2(true);
             $.each(data.times(), function (key, value) {
                 value.Time2(true);
             });
+            timesheetKO.addChange();
             
         }
 
@@ -144,7 +175,7 @@
             data.times.push(newRow2);
             var newRow = ko.mapping.fromJS(ko.mapping.toJS(data));
 
-            timesheetKO.itemsOld()[index](newRow);
+         //   timesheetKO.itemsOld()[index](newRow);
 
 
             /* reset the values of the dropdowns of the old row as the new one appear upper of it 
@@ -200,23 +231,26 @@
             
             timesheetKO.ChangeCountT(timesheetKO.ChangeCountT()+1);
             timesheetKO.isChangedT(true);
+            timesheetKO.addChange();
         }
 
         self.deleteRow = function (data) {
+            
+
             if (data.times().length == 1) {
                 var index = timesheetKO.items.indexOf(data);
-                deletedRows.push({ 'index': index, 'data': data });
-                whichRowsDeleted.push(-1);
+                //deletedRows.push({ 'index': index, 'data': data });
+                //whichRowsDeleted.push(-1);
                 timesheetKO.canUndo(true); //enable undo button
 
                 //if the deleted row has a time2 part then decrease the number rows with time2 part
-                if (data.times()[0].Time2() == true)
-                    numTimes2--;
+                //if (data.times()[0].Time2() == true)
+                //    numTimes2--;
 
                 //if that was the last row with time2 part then stop display its column
-                if (numTimes2 == 0) {
-                    timesheetKO.HasTime2(false);
-                }
+                //if (numTimes2 == 0) {
+                //    timesheetKO.HasTime2(false);
+                //}
 
                 if (data.times()[0].isAdded() == true) {
                     timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
@@ -230,8 +264,8 @@
             else {
                 var index = timesheetKO.items.indexOf(data);
                 data.times()[data.times().length - 1];
-                deletedSubRows.push(data.times()[data.times().length - 1]);
-                whichRowsDeleted.push(index);
+              //  deletedSubRows.push(data.times()[data.times().length - 1]);
+               // whichRowsDeleted.push(index);
                 timesheetKO.canUndo(true);
                 data.times.remove(data.times()[data.times().length - 1]);
                 var newData = ko.mapping.fromJS(ko.mapping.toJS(data));
@@ -244,7 +278,7 @@
                     timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
             }
 
-           
+            timesheetKO.addChange();
 
             //if (timesheetKO.ChangeCountT() == 0)
             //    timesheetKO.isChangedT(false);
@@ -261,7 +295,13 @@
             $("#successdiv2").hide();
 
             var dateSelected = timesheetKO.dateSelected();
+            
             timesheetKO.items([]);
+            timesheetKO.itemsStack([]);
+            timesheetKO.redo([]);
+
+            timesheetKO.current(null);
+
             timesheetKO.itemsOld([]);
             timesheetKO.serviceCodes([]);
             timesheetKO.PlanSections([]);
@@ -281,7 +321,10 @@
                 whichRowsDeleted.pop();
             }
             timesheetKO.canUndo(false);
+            timesheetKO.canRedo(false);
+
             timesheetKO.isSubmitted(false);
+
             dateSelected = JSON.stringify({ 'dateSelected': dateSelected });
             $.ajax({
                 url: window.configLocation+"/Employee/getTimeSheet",
@@ -290,36 +333,44 @@
                 contentType: 'application/json',
                 success: function (result) {
                    // timesheetKO.items = ko.observableArray([]);
-                    $.each(result.serviceCodes, function (key, value) {
+                    $.each(result.model.serviceCodes, function (key, value) {
                         timesheetKO.serviceCodes.push(new vm_form(value));
                     });
                     
-                    $.each(result.PlanSections, function (key, value) {
+                    $.each(result.model.PlanSections, function (key, value) {
                         timesheetKO.PlanSections.push(new vm_form(value));
                     });
 
-                    $.each(result.items, function (key, value) {
+                    //$.each(result.modelstack, function (key, value) {
+                    //    timesheetKO.itemsStack.push(new vm_form(value));
+                    //});
+
+
+                    $.each(result.model.items, function (key, value) {
                         timesheetKO.items.push(new vm_form(value));
                         timesheetKO.itemsOld.push(new vm_form(value));
 
                         //count the number of rows with time2 part
-                        if (value.Time2 == true)
-                            numTimes2++;
+                        //if (value.Time2 == true)
+                        //    numTimes2++;
                     });
-                    if (result.isBackup == null)
+                    if (result.model.isBackup == null)
                         timesheetKO.backup(undefined)
                     else
-                        timesheetKO.backup(result.isBackup ? 'Y' : 'N');
-                    if (result.isLiveIn == null)
+                        timesheetKO.backup(result.model.isBackup ? 'Y' : 'N');
+                    if (result.model.isLiveIn == null)
                         timesheetKO.liveIn(undefined)
                         else
-                        timesheetKO.liveIn(result.isLiveIn ? 'Y' : 'N');
+                        timesheetKO.liveIn(result.model.isLiveIn ? 'Y' : 'N');
                     timesheetKO.liveInOld(timesheetKO.liveIn());
                     timesheetKO.backupOld(timesheetKO.backup());
-                    timesheetKO.empname(result.empName);
-                    timesheetKO.Id(result.Id);
-                    timesheetKO.HasTime2(result.HasTime2);
-                    timesheetKO.isViewOnly(result.isViewOnly);
+                    timesheetKO.empname(result.model.empName);
+                    timesheetKO.Id(result.model.Id);
+                    timesheetKO.HasTime2(result.model.HasTime2);
+                    timesheetKO.isViewOnly(result.model.isViewOnly);
+                    timesheetKO.addChange();
+                    timesheetKO.canUndo(false);
+                    timesheetKO.addCurrent();
                    // $("#sheet").show();
                   //  timesheetKO.dates(result.dates);
 
@@ -396,6 +447,80 @@
             return true;
         }
 
+        self.addChange = function () {
+            
+            var model = {
+                items: ko.observableArray([]),
+                itemsOld: ko.observableArray([]),
+                backup: ko.observable(),
+                liveIn: ko.observable(),
+                HasTime2: ko.observable()
+            };
+
+            $.each(timesheetKO.items(), function (key, value) {
+                var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
+                model.items.push(data2);
+               // model.itemsOld.push(data2);
+
+               
+            });
+            if (timesheetKO.backup() == undefined)
+                model.backup(undefined)
+            else
+                model.backup(timesheetKO.backup());
+            if (timesheetKO.liveIn() == undefined)
+                model.liveIn(undefined)
+            else
+                model.liveIn(timesheetKO.liveIn());
+            //timesheetKO.empname(result.model.empName);
+            //  timesheetKO.Id(result.model.Id);
+            model.HasTime2(timesheetKO.HasTime2());
+           // var model2 = ko.mapping.fromJS(model);
+
+            timesheetKO.itemsStack.push(timesheetKO.current());
+            timesheetKO.current(model);
+            timesheetKO.canUndo(true);
+            timesheetKO.redo([]);
+            timesheetKO.canRedo(false);
+
+
+
+        }
+
+        self.addCurrent= function () {
+
+            var model = {
+                items: ko.observableArray([]),
+                itemsOld: ko.observableArray([]),
+                backup: ko.observable(),
+                liveIn: ko.observable(),
+                HasTime2: ko.observable()
+            };
+
+            $.each(timesheetKO.items(), function (key, value) {
+                var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
+                model.items.push(data2);
+                // model.itemsOld.push(data2);
+
+              
+            });
+            if (timesheetKO.backup() == undefined)
+                model.backup(undefined)
+            else
+                model.backup(timesheetKO.backup());
+            if (timesheetKO.liveIn() == undefined)
+                model.liveIn(undefined)
+            else
+                model.liveIn(timesheetKO.liveIn());
+            //timesheetKO.empname(result.model.empName);
+            //  timesheetKO.Id(result.model.Id);
+            model.HasTime2(timesheetKO.HasTime2());
+            // var model2 = ko.mapping.fromJS(model);
+
+            timesheetKO.current(model);
+        }
+
+
         self.validate2 = function (data) {
             $("#backupid").css("border-color", "");
             $("#liveinid").css("border-color", "");
@@ -461,46 +586,103 @@
                 timesheetKO.errortip("");
                 timesheetKO.ChangeCountA(0);
             }
+            timesheetKO.addChange();
         }
 
-        self.undo = function (data) {
-            var whichone = whichRowsDeleted.pop();
-            if (whichone == -1) {
+        self.undo = function () {
 
-                var row = deletedRows.pop();
-                timesheetKO.items.splice(row.index, 0, row.data);
-                var data2 = ko.mapping.fromJS(ko.mapping.toJS(row.data));
-                timesheetKO.itemsOld.splice(row.index, 0, data2);
-                $.each(row.data.times(), function (key, value) {
-                    if (value.Time2() == true) {
-                        numTimes2++;
-                        break;
-                    }
-                })
+            var change = timesheetKO.itemsStack.pop();
+            // change = timesheetKO.itemsStack.pop();
 
+            timesheetKO.items([]);
+            timesheetKO.itemsOld([]);
+            timesheetKO.backup(undefined);
+            timesheetKO.liveIn(undefined);
+            timesheetKO.ChangeCountA(0);
+            timesheetKO.isChangedA(false);
+            timesheetKO.ChangeCountT(0);
+            timesheetKO.isChangedT(false);
+            while (deletedRows.length != 0) {
+                deletedRows.pop();
             }
-            else {
-                var row = deletedSubRows.pop();
-                var data = timesheetKO.items()[whichone];
-                data.times.push(row);
+            while (deletedSubRows.length != 0) {
+                deletedSubRows.pop();
             }
-            
-            timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
-            if (timesheetKO.ChangeCountT() == 0)
-                timesheetKO.isChangedT(false);
-           
-
-            //check flog of Time 2 part to display it
-            //if (row.data.Time2() == true)
-            //    numTimes2++;
-
-            if (numTimes2 > 0) {
-                timesheetKO.HasTime2(true);
+            while (whichRowsDeleted.length != 0) {
+                whichRowsDeleted.pop();
             }
 
-            //if no more row to undo then disable the undo button
-            if (deletedRows.length == 0 && deletedSubRows.length==0)
+            $.each(change.items(), function (key, value) {
+                timesheetKO.items.push(new vm_form(value));
+                timesheetKO.itemsOld.push(new vm_form(value));
+            });
+            if (change.backup() == undefined)
+                timesheetKO.backup(undefined)
+            else
+                timesheetKO.backup(change.backup() ? 'Y' : 'N');
+            if (change.liveIn() == undefined)
+                timesheetKO.liveIn(undefined)
+            else
+                timesheetKO.liveIn(change.liveIn() ? 'Y' : 'N');
+            timesheetKO.liveInOld(timesheetKO.liveIn());
+            timesheetKO.backupOld(timesheetKO.backup());
+            timesheetKO.HasTime2(change.HasTime2());
+
+            if (timesheetKO.itemsStack().length == 1)
                 timesheetKO.canUndo(false);
+            timesheetKO.redo.push(timesheetKO.current());
+            timesheetKO.canRedo(true);
+
+            timesheetKO.current(change);
+
+        }
+
+        self.rdo = function () {
+
+            var change = timesheetKO.redo.pop();
+            // change = timesheetKO.itemsStack.pop();
+
+            timesheetKO.items([]);
+            timesheetKO.itemsOld([]);
+            timesheetKO.backup(undefined);
+            timesheetKO.liveIn(undefined);
+            timesheetKO.ChangeCountA(0);
+            timesheetKO.isChangedA(false);
+            timesheetKO.ChangeCountT(0);
+            timesheetKO.isChangedT(false);
+            while (deletedRows.length != 0) {
+                deletedRows.pop();
+            }
+            while (deletedSubRows.length != 0) {
+                deletedSubRows.pop();
+            }
+            while (whichRowsDeleted.length != 0) {
+                whichRowsDeleted.pop();
+            }
+
+            $.each(change.items(), function (key, value) {
+                timesheetKO.items.push(new vm_form(value));
+                timesheetKO.itemsOld.push(new vm_form(value));
+            });
+            if (change.backup() == undefined)
+                timesheetKO.backup(undefined)
+            else
+                timesheetKO.backup(change.backup() ? 'Y' : 'N');
+            if (change.liveIn() == undefined)
+                timesheetKO.liveIn(undefined)
+            else
+                timesheetKO.liveIn(change.liveIn() ? 'Y' : 'N');
+            timesheetKO.liveInOld(timesheetKO.liveIn());
+            timesheetKO.backupOld(timesheetKO.backup());
+            timesheetKO.HasTime2(change.HasTime2());
+
+            if (timesheetKO.redo().length == 0)
+                timesheetKO.canRedo(false);
+            timesheetKO.itemsStack.push(timesheetKO.current());
+            timesheetKO.canUndo(true);
+
+            timesheetKO.current(change);
+
         }
         self.saveDraft = function (data) {
 
@@ -566,6 +748,11 @@
                                 value2.ccTimeInM1(0); 
                             });
                         });
+                        timesheetKO.itemsStack([]);
+                        timesheetKO.redo([]);
+                        timesheetKO.canRedo(false);
+
+
                     },
                     error: function (result) {
                         $("#successdiv1").hide();
@@ -656,6 +843,10 @@
                             });
                             
                         });
+                        timesheetKO.itemsStack([]);
+                        timesheetKO.redo([]);
+                        timesheetKO.canRedo(false);
+
 
                     },
                     error: function (result) {
@@ -675,6 +866,11 @@
         }
 
         self.changedbl = function (data) {
+            timesheetKO.changeObject.data(data);
+            timesheetKO.changeObject.type("backuplivein");
+            var newCh = ko.mapping.fromJS(ko.mapping.toJS(timesheetKO.changeObject));
+            timesheetKO.changes.push(newCh);
+            timesheetKO.canUndo(true);
             //undefined and "" comparision
             if (data.backup() == "")
                 data.backup(undefined);
@@ -887,7 +1083,6 @@
     var load = function () {
         timesheetKO = new timesheetViewModel();
         ko.applyBindings(timesheetKO);
-
        // timesheetKO.showTime();
         $.ajax({
             url: window.configLocation+"/Employee/loadDates",
