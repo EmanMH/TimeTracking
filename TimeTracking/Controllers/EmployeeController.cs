@@ -468,9 +468,20 @@ namespace TimeTracking.Controllers
         public ActionResult TimeSheet()
         {
             
-            ViewBag.empName = es.getUsername(User.Identity.Name);
+            var empName = es.getUsername(User.Identity.Name);
+            var strname = "";
+            foreach (var item in empName.Split(' '))
+            {
+                if (strname != "")
+                    strname += " ";
+                if (item.Length > 1)
+                    strname += item[0].ToString().ToUpper() + item.Substring(1);
+                else
+                    strname += item[0].ToString().ToUpper();
 
-
+            }
+            ViewBag.empName = strname;
+            ViewBag.userid = es.getUserId(User.Identity.Name);
             return View();
         }
 

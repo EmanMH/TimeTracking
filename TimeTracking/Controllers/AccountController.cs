@@ -301,6 +301,8 @@ namespace TimeTracking.Controllers
             {
                 return View(model);
             }
+            model.Username = User.Identity.Name;
+
             var user = await UserManager.FindByNameAsync(model.Username);
             if (user == null)
             {

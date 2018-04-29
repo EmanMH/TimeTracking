@@ -34,11 +34,8 @@
 
         self.items = ko.observableArray([]);
         self.itemsStack = ko.observableArray([]);
-        self.redo=ko.observableArray([]);
-        self.canRedo = ko.observableArray();
         self.serviceCodes = ko.observableArray([]);
         self.PlanSections = ko.observableArray([]);
-        self.itemsOld = ko.observableArray([]);
         self.dateSelected = ko.observable();
         self.dateItems = ko.observableArray([]);
         self.backup = ko.observable();
@@ -175,7 +172,6 @@
             data.times.push(newRow2);
             var newRow = ko.mapping.fromJS(ko.mapping.toJS(data));
 
-         //   timesheetKO.itemsOld()[index](newRow);
 
 
             /* reset the values of the dropdowns of the old row as the new one appear upper of it 
@@ -259,7 +255,6 @@
                     timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
 
                 timesheetKO.items.remove(data);
-                timesheetKO.itemsOld.remove(data);
             }
             else {
                 var index = timesheetKO.items.indexOf(data);
@@ -269,7 +264,6 @@
                 timesheetKO.canUndo(true);
                 data.times.remove(data.times()[data.times().length - 1]);
                 var newData = ko.mapping.fromJS(ko.mapping.toJS(data));
-                timesheetKO.itemsOld()[index](newData);
 
                 if (data.times()[0].isAdded() == true) {
                     timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
@@ -298,11 +292,9 @@
             
             timesheetKO.items([]);
             timesheetKO.itemsStack([]);
-            timesheetKO.redo([]);
 
             timesheetKO.current(null);
 
-            timesheetKO.itemsOld([]);
             timesheetKO.serviceCodes([]);
             timesheetKO.PlanSections([]);
             timesheetKO.backup(undefined);
@@ -321,7 +313,6 @@
                 whichRowsDeleted.pop();
             }
             timesheetKO.canUndo(false);
-            timesheetKO.canRedo(false);
 
             timesheetKO.isSubmitted(false);
 
@@ -348,7 +339,6 @@
 
                     $.each(result.model.items, function (key, value) {
                         timesheetKO.items.push(new vm_form(value));
-                        timesheetKO.itemsOld.push(new vm_form(value));
 
                         //count the number of rows with time2 part
                         //if (value.Time2 == true)
@@ -451,7 +441,6 @@
             
             var model = {
                 items: ko.observableArray([]),
-                itemsOld: ko.observableArray([]),
                 backup: ko.observable(),
                 liveIn: ko.observable(),
                 HasTime2: ko.observable()
@@ -460,7 +449,6 @@
             $.each(timesheetKO.items(), function (key, value) {
                 var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
                 model.items.push(data2);
-               // model.itemsOld.push(data2);
 
                
             });
@@ -480,8 +468,6 @@
             timesheetKO.itemsStack.push(timesheetKO.current());
             timesheetKO.current(model);
             timesheetKO.canUndo(true);
-            timesheetKO.redo([]);
-            timesheetKO.canRedo(false);
 
 
 
@@ -491,7 +477,6 @@
 
             var model = {
                 items: ko.observableArray([]),
-                itemsOld: ko.observableArray([]),
                 backup: ko.observable(),
                 liveIn: ko.observable(),
                 HasTime2: ko.observable()
@@ -500,7 +485,6 @@
             $.each(timesheetKO.items(), function (key, value) {
                 var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
                 model.items.push(data2);
-                // model.itemsOld.push(data2);
 
               
             });
@@ -595,7 +579,6 @@
             // change = timesheetKO.itemsStack.pop();
 
             timesheetKO.items([]);
-            timesheetKO.itemsOld([]);
             timesheetKO.backup(undefined);
             timesheetKO.liveIn(undefined);
             timesheetKO.ChangeCountA(0);
@@ -614,7 +597,6 @@
 
             $.each(change.items(), function (key, value) {
                 timesheetKO.items.push(new vm_form(value));
-                timesheetKO.itemsOld.push(new vm_form(value));
             });
             if (change.backup() == undefined)
                 timesheetKO.backup(undefined)
@@ -630,60 +612,12 @@
 
             if (timesheetKO.itemsStack().length == 1)
                 timesheetKO.canUndo(false);
-            timesheetKO.redo.push(timesheetKO.current());
-            timesheetKO.canRedo(true);
 
             timesheetKO.current(change);
 
         }
 
-        self.rdo = function () {
-
-            var change = timesheetKO.redo.pop();
-            // change = timesheetKO.itemsStack.pop();
-
-            timesheetKO.items([]);
-            timesheetKO.itemsOld([]);
-            timesheetKO.backup(undefined);
-            timesheetKO.liveIn(undefined);
-            timesheetKO.ChangeCountA(0);
-            timesheetKO.isChangedA(false);
-            timesheetKO.ChangeCountT(0);
-            timesheetKO.isChangedT(false);
-            while (deletedRows.length != 0) {
-                deletedRows.pop();
-            }
-            while (deletedSubRows.length != 0) {
-                deletedSubRows.pop();
-            }
-            while (whichRowsDeleted.length != 0) {
-                whichRowsDeleted.pop();
-            }
-
-            $.each(change.items(), function (key, value) {
-                timesheetKO.items.push(new vm_form(value));
-                timesheetKO.itemsOld.push(new vm_form(value));
-            });
-            if (change.backup() == undefined)
-                timesheetKO.backup(undefined)
-            else
-                timesheetKO.backup(change.backup() ? 'Y' : 'N');
-            if (change.liveIn() == undefined)
-                timesheetKO.liveIn(undefined)
-            else
-                timesheetKO.liveIn(change.liveIn() ? 'Y' : 'N');
-            timesheetKO.liveInOld(timesheetKO.liveIn());
-            timesheetKO.backupOld(timesheetKO.backup());
-            timesheetKO.HasTime2(change.HasTime2());
-
-            if (timesheetKO.redo().length == 0)
-                timesheetKO.canRedo(false);
-            timesheetKO.itemsStack.push(timesheetKO.current());
-            timesheetKO.canUndo(true);
-
-            timesheetKO.current(change);
-
-        }
+     
         self.saveDraft = function (data) {
 
             $("#backupid").css("border-color", "");
@@ -727,10 +661,8 @@
                         timesheetKO.isChangedA(false);
                         timesheetKO.ChangeCountT(0);
                         timesheetKO.isChangedT(false);
-                        timesheetKO.itemsOld([]);
                         $.each(timesheetKO.items(), function (key, value) {
                             var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
-                            timesheetKO.itemsOld.push(data2);
                             $.each(value.times(), function (key, value2) {
                                 value2.ccplansectionId(0);
                                 value2.ccserviceCodeId(0);
@@ -749,8 +681,6 @@
                             });
                         });
                         timesheetKO.itemsStack([]);
-                        timesheetKO.redo([]);
-                        timesheetKO.canRedo(false);
 
 
                     },
@@ -844,8 +774,6 @@
                             
                         });
                         timesheetKO.itemsStack([]);
-                        timesheetKO.redo([]);
-                        timesheetKO.canRedo(false);
 
 
                     },
@@ -899,183 +827,6 @@
 
         }
 
-        self.changedItemSVC = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-                var index = timesheetKO.items.indexOf(data);
-                if (data.serviceCodeId() != timesheetKO.itemsOld()[index].serviceCodeId()) {
-                    data.ccserviceCodeId(1);
-                }
-                else
-                    data.ccserviceCodeId(0);
-            }
-        }
-
-        self.changedItemPlan = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.plansectionId() != timesheetKO.itemsOld()[index].plansectionId()) {
-                    data.ccplansectionId(1);
-                }
-                else
-                    data.ccplansectionId(0);
-            }
-        }
-
-        self.changedItemTimeInH1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeInH1() != timesheetKO.itemsOld()[index].TimeInH1()) {
-                    data.ccTimeInH1(1);
-                }
-                else
-                    data.ccTimeInH1(0);
-            }
-        }
-
-        self.changedItemTimeInM1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeInM1() != timesheetKO.itemsOld()[index].TimeInM1()) {
-                    data.ccTimeInM1(1);
-                }
-                else
-                    data.ccTimeInM1(0);
-            }
-        }
-
-        self.changedItemisAmIn = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmIn() != timesheetKO.itemsOld()[index].isAmIn()) {
-                    data.ccisAmIn(1);
-                }
-                else
-                    data.ccisAmIn(0);
-            }
-        }
-
-        self.changedItemisAmIn = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmIn() != timesheetKO.itemsOld()[index].isAmIn()) {
-                    data.ccisAmIn(1);
-                }
-                else
-                    data.ccisAmIn(0);
-            }
-        }
-
-        self.changedItemTimeOutH1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOutH1() != timesheetKO.itemsOld()[index].TimeOutH1()) {
-                    data.ccTimeOutH1(1);
-                }
-                else
-                    data.ccTimeOutH1(0);
-            }
-        }
-        self.changedItemTimeOutM1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOutM1() != timesheetKO.itemsOld()[index].TimeOutM1()) {
-                    data.ccTimeOutM1(1);
-                }
-                else
-                    data.ccTimeOutM1(0);
-            }
-        }
-
-        self.changedItemisAmOut = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmOut() != timesheetKO.itemsOld()[index].isAmOut()) {
-                    data.ccisAmOut(1);
-                }
-                else
-                    data.ccisAmOut(0);
-            }
-        }
-
-        self.changedItemTimeIn2H1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeIn2H1() != timesheetKO.itemsOld()[index].TimeIn2H1()) {
-                    data.ccTimeIn2H1(1);
-                }
-                else
-                    data.ccTimeIn2H1(0);
-            }
-        }
-
-        self.changedItemTimeIn2M1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeIn2M1() != timesheetKO.itemsOld()[index].TimeIn2M1()) {
-                    data.ccTimeIn2M1(1);
-                }
-                else
-                    data.ccTimeIn2M1(0);
-            }
-        }
-
-        self.changedItemisAmIn2 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmIn2() != timesheetKO.itemsOld()[index].isAmIn2()) {
-                    data.ccisAmIn2(1);
-                }
-                else
-                    data.ccisAmIn2(0);
-            }
-        }
-
-        self.changedItemTimeOut2H1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOut2H1() != timesheetKO.itemsOld()[index].TimeOut2H1()) {
-                    data.ccTimeOut2H1(1);
-                }
-                else
-                    data.ccTimeOut2H1(0);
-            }
-        }
-
-        self.changedItemTimeOut2M1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOut2M1() != timesheetKO.itemsOld()[index].TimeOut2M1()) {
-                    data.ccTimeOut2M1(1);
-                }
-                else
-                    data.ccTimeOut2M1(0);
-            }
-        }
-
-        self.changedItemisAmOut2 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmOut2() != timesheetKO.itemsOld()[index].isAmOut2()) {
-                    data.ccisAmOut2(1);
-                }
-                else
-                    data.ccisAmOut2(0);
-            }
-        }
     }
 
   

@@ -96,8 +96,7 @@ namespace TimeTracking.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
-        [Display(Name = "Username")]
+       
         public string Username { get; set; }
 
         [Required]
