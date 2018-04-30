@@ -97,7 +97,7 @@
             </tbody>
         </table>
     </div>
-    <div class=" panel panel-default " style="height:508px;overflow-y:scroll;margin-bottom:2px; ">
+    <div class=" panel panel-default " style="height:518px;overflow-y:scroll;margin-bottom:2px; ">
         <table class="table table-bordered" data-bind="visble:items.length>0" style="font-size:12px !important">
 
             <thead>
@@ -358,7 +358,7 @@
                     </td>
                     <td>
                         <div data-bind="foreach:times">
-                            <select data-bind="value:isAmOut2,visible:Time2,event:{change:$root.addChange}" style="width:45px;padding:0px!important;margin:0px!important;margin-bottom:2px !important;">
+                            <select data-bind="value:isAmOut2,visible:Time2,event:{change:$root.addChange}" style="margin-bottom:2px!important;width:45px;padding:0px!important;margin:0px!important;margin-bottom:2px !important;">
                                 <option value="-1"></option>
                                 <option value="true">AM</option>
                                 <option value="false">PM</option>
@@ -375,11 +375,11 @@
                         @*<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">*@
                         <ul style="list-style:none;padding:10px !important;padding-bottom:0px !important;margin:0px !important;color:navy">
                             <li>
-                                <a href="#" data-bind="click:$root.moreTime,visible:times()[0].Time2()!=true" style="color:navy">Add Time</a>
+                                <a href="#" data-bind="click:$root.moreTime" style="color:navy">Add Time</a>
                             </li>
-                            <li>
-                                <a href="#" data-bind="click:$root.lessTime,visible:times()[0].Time2()==true" style="color:navy">Delete Time</a>
-                            </li>
+                            @*<li>
+                                <a href="#" data-bind="click:$root.lessTime,visible:$root.hastimes($data)==true" style="color:navy">Delete Time</a>
+                            </li>*@
                             <li>
                                 <a href="#" data-bind="click:$root.moreService" style="color:navy">Add Service Code</a>
                             </li>

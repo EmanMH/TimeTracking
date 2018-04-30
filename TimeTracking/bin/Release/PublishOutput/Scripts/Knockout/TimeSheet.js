@@ -34,11 +34,8 @@
 
         self.items = ko.observableArray([]);
         self.itemsStack = ko.observableArray([]);
-        self.redo=ko.observableArray([]);
-        self.canRedo = ko.observableArray();
         self.serviceCodes = ko.observableArray([]);
         self.PlanSections = ko.observableArray([]);
-        self.itemsOld = ko.observableArray([]);
         self.dateSelected = ko.observable();
         self.dateItems = ko.observableArray([]);
         self.backup = ko.observable();
@@ -56,6 +53,16 @@
         self.ChangeCountA = ko.observable(0);
         self.isChangedT = ko.observable();
         self.ChangeCountT = ko.observable(0);
+        self.hastimes = function(data)
+        {
+            if (data != undefined) {
+                for (i = data.times().length - 1; i >= 0; i--) {
+                    if (data.times()[i].Time2() == true)
+                        return true;
+                }
+            }
+            return false;
+        }
         self.setnumtimes = ko.computed(function () {
             numTimes2 = 0;
             $.each(self.items(), function (key, value1) {
@@ -101,15 +108,18 @@
         self.lessTime = function (data) {
            // numTimes2--; // decrease the number rows with time2 part
 
-            $.each(data.times(), function (key, value) {
-                value.Time2(false);
-                value.TimeIn2H1(-1);
-                value.TimeIn2M1(-1);
-                value.isAmIn2(-1);
-                value.TimeOut2H1(-1);
-                value.TimeOut2M1(-1);
-                value.isAmOut2(-1);
-            });
+            for (i = data.times().length - 1; i >= 0; i--) {
+                if (data.times[i].Time2() == true) {
+                    data.times[i].Time(false);
+                    data.times[i].TimeIn2H1(-1);
+                    data.times[i].TimeIn2M1(-1);
+                    data.times[i].isAmIn2(-1);
+                    data.times[i].TimeOut2H1(-1);
+                    data.times[i].TimeOut2M1(-1);
+                    data.times[i].isAmOut2(-1);
+                    break;
+                }
+            }
 
             //reset dropdowns of time 2
             
@@ -122,9 +132,14 @@
         self.moreTime = function (data) {
            // numTimes2++; // increase the number rows with time2 part
             timesheetKO.HasTime2(true);
-            $.each(data.times(), function (key, value) {
-                value.Time2(true);
-            });
+            for (i = data.times().length - 1; i >= 0; i--)
+            {
+                if (data.times()[i].Time2() != true) {
+                    data.times()[i].Time2(true);
+                    break;
+                }
+            }
+            
             timesheetKO.addChange();
             
         }
@@ -136,24 +151,17 @@
             var newRow2 = ko.mapping.fromJS(ko.mapping.toJS(data.times()[0]));
             newRow2.serviceCodeId("");
             newRow2.plansectionId("");
-            newRow2
             newRow2.TimeInH1(-1);
             newRow2.TimeInM1(-1);
-            newRow2
             newRow2.isAmIn(-1);
             newRow2.TimeOutH1(-1);
             newRow2.TimeOutM1(-1);
-            newRow2
-            newRow2
             newRow2.isAmOut(-1);
-            newRow2
             newRow2.TimeIn2H1(-1);
             newRow2.TimeIn2M1(-1);
-            newRow2
             newRow2.isAmIn2(-1);
             newRow2.TimeOut2H1(-1);
             newRow2.TimeOut2M1(-1);
-            newRow2
             newRow2.isAmOut2(-1);
             newRow2.ccplansectionId(0);
             newRow2.ccserviceCodeId(0);
@@ -170,12 +178,13 @@
             newRow2.ccTimeInH1(0);
             newRow2.ccTimeInM1(0);
             newRow2.isAdded(true);
+            newRow2.Time2(false);
+
             // name the row not clicked by the "add time" link
             //add the copy of the row as new row in the table
             data.times.push(newRow2);
             var newRow = ko.mapping.fromJS(ko.mapping.toJS(data));
 
-         //   timesheetKO.itemsOld()[index](newRow);
 
 
             /* reset the values of the dropdowns of the old row as the new one appear upper of it 
@@ -259,7 +268,6 @@
                     timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() + 1);
 
                 timesheetKO.items.remove(data);
-                timesheetKO.itemsOld.remove(data);
             }
             else {
                 var index = timesheetKO.items.indexOf(data);
@@ -269,7 +277,6 @@
                 timesheetKO.canUndo(true);
                 data.times.remove(data.times()[data.times().length - 1]);
                 var newData = ko.mapping.fromJS(ko.mapping.toJS(data));
-                timesheetKO.itemsOld()[index](newData);
 
                 if (data.times()[0].isAdded() == true) {
                     timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
@@ -298,11 +305,9 @@
             
             timesheetKO.items([]);
             timesheetKO.itemsStack([]);
-            timesheetKO.redo([]);
 
             timesheetKO.current(null);
 
-            timesheetKO.itemsOld([]);
             timesheetKO.serviceCodes([]);
             timesheetKO.PlanSections([]);
             timesheetKO.backup(undefined);
@@ -321,7 +326,6 @@
                 whichRowsDeleted.pop();
             }
             timesheetKO.canUndo(false);
-            timesheetKO.canRedo(false);
 
             timesheetKO.isSubmitted(false);
 
@@ -348,7 +352,6 @@
 
                     $.each(result.model.items, function (key, value) {
                         timesheetKO.items.push(new vm_form(value));
-                        timesheetKO.itemsOld.push(new vm_form(value));
 
                         //count the number of rows with time2 part
                         //if (value.Time2 == true)
@@ -451,7 +454,6 @@
             
             var model = {
                 items: ko.observableArray([]),
-                itemsOld: ko.observableArray([]),
                 backup: ko.observable(),
                 liveIn: ko.observable(),
                 HasTime2: ko.observable()
@@ -460,7 +462,6 @@
             $.each(timesheetKO.items(), function (key, value) {
                 var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
                 model.items.push(data2);
-               // model.itemsOld.push(data2);
 
                
             });
@@ -480,8 +481,6 @@
             timesheetKO.itemsStack.push(timesheetKO.current());
             timesheetKO.current(model);
             timesheetKO.canUndo(true);
-            timesheetKO.redo([]);
-            timesheetKO.canRedo(false);
 
 
 
@@ -491,7 +490,6 @@
 
             var model = {
                 items: ko.observableArray([]),
-                itemsOld: ko.observableArray([]),
                 backup: ko.observable(),
                 liveIn: ko.observable(),
                 HasTime2: ko.observable()
@@ -500,7 +498,6 @@
             $.each(timesheetKO.items(), function (key, value) {
                 var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
                 model.items.push(data2);
-                // model.itemsOld.push(data2);
 
               
             });
@@ -534,8 +531,11 @@
                 if (data.backup().trim() != "Y" && data.backup().trim() != 'N' && data.backup().trim() != "y" && data.backup().trim() != 'n') {
                     $("#backupid").css("border-color", "red");
                     $("#backIcon").show();
+                    $("#liveinid").css("border-color", "red");
+                    $("#liveIcon").show();
                     str = "123";
-                    timesheetKO.errortip("Backup must have value Y or N");
+                    //  timesheetKO.errortip("Backup must have value Y or N");
+                    timesheetKO.errortip("Backup and Live-In must have value Y or N");
                     count++;
                 }
                 //str += "<p>Backup must have value Y or N</p>";
@@ -543,9 +543,11 @@
             else {
                 $("#backupid").css("border-color", "red");
                 $("#backIcon").show();
+                $("#liveinid").css("border-color", "red");
+                $("#liveIcon").show();
                 str = "123";
-                timesheetKO.errortip("Backup must have value Y or N");
-
+                //timesheetKO.errortip("Backup must have value Y or N");
+                timesheetKO.errortip("Backup and Live-In must have value Y or N");
                 count++;
 
 
@@ -555,25 +557,30 @@
                 if (data.liveIn().trim() != "Y" && data.liveIn().trim() != 'N' && data.liveIn().trim() != "y" && data.liveIn().trim() != 'n') {
                     $("#liveinid").css("border-color", "red");
                     $("#liveIcon").show();
+                    $("#backupid").css("border-color", "red");
+                    $("#backIcon").show();
                     str = "123";
                     count++;
-
-                    if (timesheetKO.errortip() != "")
-                        timesheetKO.errortip("Backup and Live-In must have value Y or N");
-                        else
-                    timesheetKO.errortip("Live-In must have value Y or N");
+                    timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                    //if (timesheetKO.errortip() != "")
+                    //    timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                    //    else
+                    //timesheetKO.errortip("Live-In must have value Y or N");
 
                 }
             }
             else {
                 $("#liveinid").css("border-color", "red");
                 $("#liveIcon").show();
+                $("#backupid").css("border-color", "red");
+                $("#backIcon").show();
                 str = "123";
                 count++;
-                if (timesheetKO.errortip() != "")
-                    timesheetKO.errortip("Backup and Live-In must have value Y or N");
-                else
-                    timesheetKO.errortip("Live-In must have value Y or N");
+                timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                //if (timesheetKO.errortip() != "")
+                //    timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                //else
+                //    timesheetKO.errortip("Live-In must have value Y or N");
 
             }
 
@@ -595,7 +602,6 @@
             // change = timesheetKO.itemsStack.pop();
 
             timesheetKO.items([]);
-            timesheetKO.itemsOld([]);
             timesheetKO.backup(undefined);
             timesheetKO.liveIn(undefined);
             timesheetKO.ChangeCountA(0);
@@ -614,76 +620,27 @@
 
             $.each(change.items(), function (key, value) {
                 timesheetKO.items.push(new vm_form(value));
-                timesheetKO.itemsOld.push(new vm_form(value));
             });
             if (change.backup() == undefined)
                 timesheetKO.backup(undefined)
             else
-                timesheetKO.backup(change.backup() ? 'Y' : 'N');
+                timesheetKO.backup(change.backup());
             if (change.liveIn() == undefined)
                 timesheetKO.liveIn(undefined)
             else
-                timesheetKO.liveIn(change.liveIn() ? 'Y' : 'N');
+                timesheetKO.liveIn(change.liveIn());
             timesheetKO.liveInOld(timesheetKO.liveIn());
             timesheetKO.backupOld(timesheetKO.backup());
             timesheetKO.HasTime2(change.HasTime2());
 
             if (timesheetKO.itemsStack().length == 1)
                 timesheetKO.canUndo(false);
-            timesheetKO.redo.push(timesheetKO.current());
-            timesheetKO.canRedo(true);
 
             timesheetKO.current(change);
 
         }
 
-        self.rdo = function () {
-
-            var change = timesheetKO.redo.pop();
-            // change = timesheetKO.itemsStack.pop();
-
-            timesheetKO.items([]);
-            timesheetKO.itemsOld([]);
-            timesheetKO.backup(undefined);
-            timesheetKO.liveIn(undefined);
-            timesheetKO.ChangeCountA(0);
-            timesheetKO.isChangedA(false);
-            timesheetKO.ChangeCountT(0);
-            timesheetKO.isChangedT(false);
-            while (deletedRows.length != 0) {
-                deletedRows.pop();
-            }
-            while (deletedSubRows.length != 0) {
-                deletedSubRows.pop();
-            }
-            while (whichRowsDeleted.length != 0) {
-                whichRowsDeleted.pop();
-            }
-
-            $.each(change.items(), function (key, value) {
-                timesheetKO.items.push(new vm_form(value));
-                timesheetKO.itemsOld.push(new vm_form(value));
-            });
-            if (change.backup() == undefined)
-                timesheetKO.backup(undefined)
-            else
-                timesheetKO.backup(change.backup() ? 'Y' : 'N');
-            if (change.liveIn() == undefined)
-                timesheetKO.liveIn(undefined)
-            else
-                timesheetKO.liveIn(change.liveIn() ? 'Y' : 'N');
-            timesheetKO.liveInOld(timesheetKO.liveIn());
-            timesheetKO.backupOld(timesheetKO.backup());
-            timesheetKO.HasTime2(change.HasTime2());
-
-            if (timesheetKO.redo().length == 0)
-                timesheetKO.canRedo(false);
-            timesheetKO.itemsStack.push(timesheetKO.current());
-            timesheetKO.canUndo(true);
-
-            timesheetKO.current(change);
-
-        }
+     
         self.saveDraft = function (data) {
 
             $("#backupid").css("border-color", "");
@@ -702,7 +659,7 @@
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
-                var data = JSON.stringify({ 'items': items, 'backup': data.backup() != undefined ? data.backup().trim() : undefined, 'livein': data.liveIn() != undefined ? data.liveIn().trim() : undefined, 'draft': true, 'id': data.Id() });
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup() != undefined ? data.backup().trim() : undefined, 'livein': data.liveIn() != undefined ? data.liveIn().trim() : undefined, 'draft': true, 'id': data.Id(),'userid':$("[name=userid]").val() });
                 $.ajax({
                     url: window.configLocation + "/Employee/saveTimeSheet",
                     type: 'POST',
@@ -727,10 +684,8 @@
                         timesheetKO.isChangedA(false);
                         timesheetKO.ChangeCountT(0);
                         timesheetKO.isChangedT(false);
-                        timesheetKO.itemsOld([]);
                         $.each(timesheetKO.items(), function (key, value) {
                             var data2 = ko.mapping.fromJS(ko.mapping.toJS(value));
-                            timesheetKO.itemsOld.push(data2);
                             $.each(value.times(), function (key, value2) {
                                 value2.ccplansectionId(0);
                                 value2.ccserviceCodeId(0);
@@ -749,8 +704,6 @@
                             });
                         });
                         timesheetKO.itemsStack([]);
-                        timesheetKO.redo([]);
-                        timesheetKO.canRedo(false);
 
 
                     },
@@ -798,7 +751,7 @@
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
-                var data = JSON.stringify({ 'items': items, 'backup': data.backup().trim(), 'livein': data.liveIn().trim(), 'draft': false, 'id': data.Id() });
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup().trim(), 'livein': data.liveIn().trim(), 'draft': false, 'id': data.Id(), 'userid': $("[name=userid]").val() });
                 $.ajax({
                     url: window.configLocation+ "/Employee/saveTimeSheet",
                     type: 'POST',
@@ -844,8 +797,6 @@
                             
                         });
                         timesheetKO.itemsStack([]);
-                        timesheetKO.redo([]);
-                        timesheetKO.canRedo(false);
 
 
                     },
@@ -899,183 +850,6 @@
 
         }
 
-        self.changedItemSVC = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-                var index = timesheetKO.items.indexOf(data);
-                if (data.serviceCodeId() != timesheetKO.itemsOld()[index].serviceCodeId()) {
-                    data.ccserviceCodeId(1);
-                }
-                else
-                    data.ccserviceCodeId(0);
-            }
-        }
-
-        self.changedItemPlan = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.plansectionId() != timesheetKO.itemsOld()[index].plansectionId()) {
-                    data.ccplansectionId(1);
-                }
-                else
-                    data.ccplansectionId(0);
-            }
-        }
-
-        self.changedItemTimeInH1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeInH1() != timesheetKO.itemsOld()[index].TimeInH1()) {
-                    data.ccTimeInH1(1);
-                }
-                else
-                    data.ccTimeInH1(0);
-            }
-        }
-
-        self.changedItemTimeInM1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeInM1() != timesheetKO.itemsOld()[index].TimeInM1()) {
-                    data.ccTimeInM1(1);
-                }
-                else
-                    data.ccTimeInM1(0);
-            }
-        }
-
-        self.changedItemisAmIn = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmIn() != timesheetKO.itemsOld()[index].isAmIn()) {
-                    data.ccisAmIn(1);
-                }
-                else
-                    data.ccisAmIn(0);
-            }
-        }
-
-        self.changedItemisAmIn = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmIn() != timesheetKO.itemsOld()[index].isAmIn()) {
-                    data.ccisAmIn(1);
-                }
-                else
-                    data.ccisAmIn(0);
-            }
-        }
-
-        self.changedItemTimeOutH1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOutH1() != timesheetKO.itemsOld()[index].TimeOutH1()) {
-                    data.ccTimeOutH1(1);
-                }
-                else
-                    data.ccTimeOutH1(0);
-            }
-        }
-        self.changedItemTimeOutM1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOutM1() != timesheetKO.itemsOld()[index].TimeOutM1()) {
-                    data.ccTimeOutM1(1);
-                }
-                else
-                    data.ccTimeOutM1(0);
-            }
-        }
-
-        self.changedItemisAmOut = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmOut() != timesheetKO.itemsOld()[index].isAmOut()) {
-                    data.ccisAmOut(1);
-                }
-                else
-                    data.ccisAmOut(0);
-            }
-        }
-
-        self.changedItemTimeIn2H1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeIn2H1() != timesheetKO.itemsOld()[index].TimeIn2H1()) {
-                    data.ccTimeIn2H1(1);
-                }
-                else
-                    data.ccTimeIn2H1(0);
-            }
-        }
-
-        self.changedItemTimeIn2M1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeIn2M1() != timesheetKO.itemsOld()[index].TimeIn2M1()) {
-                    data.ccTimeIn2M1(1);
-                }
-                else
-                    data.ccTimeIn2M1(0);
-            }
-        }
-
-        self.changedItemisAmIn2 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmIn2() != timesheetKO.itemsOld()[index].isAmIn2()) {
-                    data.ccisAmIn2(1);
-                }
-                else
-                    data.ccisAmIn2(0);
-            }
-        }
-
-        self.changedItemTimeOut2H1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOut2H1() != timesheetKO.itemsOld()[index].TimeOut2H1()) {
-                    data.ccTimeOut2H1(1);
-                }
-                else
-                    data.ccTimeOut2H1(0);
-            }
-        }
-
-        self.changedItemTimeOut2M1 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.TimeOut2M1() != timesheetKO.itemsOld()[index].TimeOut2M1()) {
-                    data.ccTimeOut2M1(1);
-                }
-                else
-                    data.ccTimeOut2M1(0);
-            }
-        }
-
-        self.changedItemisAmOut2 = function (data) {
-            if (timesheetKO.isSubmitted() != true) {
-
-                var index = timesheetKO.items.indexOf(data);
-                if (data.isAmOut2() != timesheetKO.itemsOld()[index].isAmOut2()) {
-                    data.ccisAmOut2(1);
-                }
-                else
-                    data.ccisAmOut2(0);
-            }
-        }
     }
 
   

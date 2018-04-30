@@ -41,9 +41,16 @@ namespace TimeTracking.Controllers
             TimeSheetModel tsm = new TimeSheetModel();
             TimeSheetItem tItem = new TimeSheetItem();
             List<TimeSheetItem> timeItems = new List<TimeSheetItem>();
-            var svc = es.getServiceCodes();
-            var plans = es.getPlans();
-            tsm.empName = es.getUsername(User.Identity.Name);
+
+            var svc = Session["svc"] == null ? es.getServiceCodes() : (List<serviceCode>)Session["svc"];
+
+            var plans = Session["plans"] == null ? es.getPlans() : (List<planSection>)Session["plans"];
+
+            Session["svc"] = svc;
+            Session["plans"] = plans;
+            tsm.empName = Session["username"] == null ? es.getUsername(User.Identity.Name) : Session["username"].ToString();
+            Session["username"] = tsm.empName;
+            
             svc srv = new Models.svc();
             tsm.serviceCodes = new List<Models.svc>();
             tsm.PlanSections = new List<plan>();
@@ -312,7 +319,7 @@ namespace TimeTracking.Controllers
         }
 
         [HttpPost]
-        public JsonResult saveTimeSheet(string items,string backup,string livein,string draft,string id)
+        public JsonResult saveTimeSheet(string items, string backup, string livein, string draft, string id, string userid)
         {
             //save in db
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
@@ -328,7 +335,7 @@ namespace TimeTracking.Controllers
             ts.DayDate = DateTime.Parse(tsm[0].dates[0]);
             if(isdraft != true)
             ts.fk_statusid = 1;
-            ts.fk_userId = es.getUserId(User.Identity.Name);
+            ts.fk_userId =userid;
             if (backup != null && backup!="")
                 ts.isBackup = backup.ToLower() == "y";
             else
@@ -396,14 +403,14 @@ namespace TimeTracking.Controllers
             if (isdraft != true)
             {
                 //save in excel
-                var svcs = es.getServiceCodes();
+                var svcs =Session["svc"]==null? es.getServiceCodes(): (List<serviceCode>)Session["svc"];
                 ExcelTimeSheet exs = new ExcelTimeSheet();
                 TimeSheetExcel tse = new TimeSheetExcel();
                 TimeRecordExcel tr = new TimeRecordExcel();
                 TimeExcel te = new TimeExcel();
                 List<TimeRecordExcel> timesExcel = new List<TimeRecordExcel>();
 
-                tse.EmployeeName = es.getUsername(User.Identity.Name);
+                tse.EmployeeName = Session["username"] == null ? es.getUsername(User.Identity.Name) : Session["username"].ToString();
                 tse.FromDay = tsm[0].dates[0];
                 tse.LiveInEmployee = ts.isLiveIn.Value;
                 tse.ToDay = tsm[0].dates[4];

@@ -68,7 +68,6 @@ namespace TimeTracking.Models
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required]
         [Display(Name = "Middle Initial")]
         [MaxLength(1)]
         public string MiddleName { get; set; }

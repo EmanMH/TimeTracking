@@ -37,6 +37,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\TimeTracking\bin\Release\PublishOutput\bin\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
       <HintPath>..\TimeTracking\bin\Release\PublishOutput\bin\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
@@ -60,6 +63,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminServices.cs" />
     <Compile Include="Services\EmployeeServices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

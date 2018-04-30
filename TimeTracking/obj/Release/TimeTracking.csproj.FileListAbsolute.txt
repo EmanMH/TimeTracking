@@ -104,3 +104,4 @@ D:\My Work\TC\TimeTracking\TimeTracking\bin\Microsoft.AI.Web.xml
 D:\My Work\TC\TimeTracking\TimeTracking\obj\Release\TimeTracking.csprojResolveAssemblyReference.cache
 D:\My Work\TC\TimeTracking\TimeTracking\obj\Release\TimeTracking.dll
 D:\My Work\TC\TimeTracking\TimeTracking\obj\Release\TimeTracking.pdb
+D:\My Work\TC\TimeTracking\TimeTracking\bin\Glimpse.Core.dll

@@ -53,6 +53,16 @@
         self.ChangeCountA = ko.observable(0);
         self.isChangedT = ko.observable();
         self.ChangeCountT = ko.observable(0);
+        self.hastimes = function(data)
+        {
+            if (data != undefined) {
+                for (i = data.times().length - 1; i >= 0; i--) {
+                    if (data.times()[i].Time2() == true)
+                        return true;
+                }
+            }
+            return false;
+        }
         self.setnumtimes = ko.computed(function () {
             numTimes2 = 0;
             $.each(self.items(), function (key, value1) {
@@ -98,15 +108,18 @@
         self.lessTime = function (data) {
            // numTimes2--; // decrease the number rows with time2 part
 
-            $.each(data.times(), function (key, value) {
-                value.Time2(false);
-                value.TimeIn2H1(-1);
-                value.TimeIn2M1(-1);
-                value.isAmIn2(-1);
-                value.TimeOut2H1(-1);
-                value.TimeOut2M1(-1);
-                value.isAmOut2(-1);
-            });
+            for (i = data.times().length - 1; i >= 0; i--) {
+                if (data.times[i].Time2() == true) {
+                    data.times[i].Time(false);
+                    data.times[i].TimeIn2H1(-1);
+                    data.times[i].TimeIn2M1(-1);
+                    data.times[i].isAmIn2(-1);
+                    data.times[i].TimeOut2H1(-1);
+                    data.times[i].TimeOut2M1(-1);
+                    data.times[i].isAmOut2(-1);
+                    break;
+                }
+            }
 
             //reset dropdowns of time 2
             
@@ -119,9 +132,14 @@
         self.moreTime = function (data) {
            // numTimes2++; // increase the number rows with time2 part
             timesheetKO.HasTime2(true);
-            $.each(data.times(), function (key, value) {
-                value.Time2(true);
-            });
+            for (i = data.times().length - 1; i >= 0; i--)
+            {
+                if (data.times()[i].Time2() != true) {
+                    data.times()[i].Time2(true);
+                    break;
+                }
+            }
+            
             timesheetKO.addChange();
             
         }
@@ -133,24 +151,17 @@
             var newRow2 = ko.mapping.fromJS(ko.mapping.toJS(data.times()[0]));
             newRow2.serviceCodeId("");
             newRow2.plansectionId("");
-            newRow2
             newRow2.TimeInH1(-1);
             newRow2.TimeInM1(-1);
-            newRow2
             newRow2.isAmIn(-1);
             newRow2.TimeOutH1(-1);
             newRow2.TimeOutM1(-1);
-            newRow2
-            newRow2
             newRow2.isAmOut(-1);
-            newRow2
             newRow2.TimeIn2H1(-1);
             newRow2.TimeIn2M1(-1);
-            newRow2
             newRow2.isAmIn2(-1);
             newRow2.TimeOut2H1(-1);
             newRow2.TimeOut2M1(-1);
-            newRow2
             newRow2.isAmOut2(-1);
             newRow2.ccplansectionId(0);
             newRow2.ccserviceCodeId(0);
@@ -167,6 +178,8 @@
             newRow2.ccTimeInH1(0);
             newRow2.ccTimeInM1(0);
             newRow2.isAdded(true);
+            newRow2.Time2(false);
+
             // name the row not clicked by the "add time" link
             //add the copy of the row as new row in the table
             data.times.push(newRow2);
@@ -518,8 +531,11 @@
                 if (data.backup().trim() != "Y" && data.backup().trim() != 'N' && data.backup().trim() != "y" && data.backup().trim() != 'n') {
                     $("#backupid").css("border-color", "red");
                     $("#backIcon").show();
+                    $("#liveinid").css("border-color", "red");
+                    $("#liveIcon").show();
                     str = "123";
-                    timesheetKO.errortip("Backup must have value Y or N");
+                    //  timesheetKO.errortip("Backup must have value Y or N");
+                    timesheetKO.errortip("Backup and Live-In must have value Y or N");
                     count++;
                 }
                 //str += "<p>Backup must have value Y or N</p>";
@@ -527,9 +543,11 @@
             else {
                 $("#backupid").css("border-color", "red");
                 $("#backIcon").show();
+                $("#liveinid").css("border-color", "red");
+                $("#liveIcon").show();
                 str = "123";
-                timesheetKO.errortip("Backup must have value Y or N");
-
+                //timesheetKO.errortip("Backup must have value Y or N");
+                timesheetKO.errortip("Backup and Live-In must have value Y or N");
                 count++;
 
 
@@ -539,25 +557,30 @@
                 if (data.liveIn().trim() != "Y" && data.liveIn().trim() != 'N' && data.liveIn().trim() != "y" && data.liveIn().trim() != 'n') {
                     $("#liveinid").css("border-color", "red");
                     $("#liveIcon").show();
+                    $("#backupid").css("border-color", "red");
+                    $("#backIcon").show();
                     str = "123";
                     count++;
-
-                    if (timesheetKO.errortip() != "")
-                        timesheetKO.errortip("Backup and Live-In must have value Y or N");
-                        else
-                    timesheetKO.errortip("Live-In must have value Y or N");
+                    timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                    //if (timesheetKO.errortip() != "")
+                    //    timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                    //    else
+                    //timesheetKO.errortip("Live-In must have value Y or N");
 
                 }
             }
             else {
                 $("#liveinid").css("border-color", "red");
                 $("#liveIcon").show();
+                $("#backupid").css("border-color", "red");
+                $("#backIcon").show();
                 str = "123";
                 count++;
-                if (timesheetKO.errortip() != "")
-                    timesheetKO.errortip("Backup and Live-In must have value Y or N");
-                else
-                    timesheetKO.errortip("Live-In must have value Y or N");
+                timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                //if (timesheetKO.errortip() != "")
+                //    timesheetKO.errortip("Backup and Live-In must have value Y or N");
+                //else
+                //    timesheetKO.errortip("Live-In must have value Y or N");
 
             }
 
@@ -601,11 +624,11 @@
             if (change.backup() == undefined)
                 timesheetKO.backup(undefined)
             else
-                timesheetKO.backup(change.backup() ? 'Y' : 'N');
+                timesheetKO.backup(change.backup());
             if (change.liveIn() == undefined)
                 timesheetKO.liveIn(undefined)
             else
-                timesheetKO.liveIn(change.liveIn() ? 'Y' : 'N');
+                timesheetKO.liveIn(change.liveIn());
             timesheetKO.liveInOld(timesheetKO.liveIn());
             timesheetKO.backupOld(timesheetKO.backup());
             timesheetKO.HasTime2(change.HasTime2());
@@ -636,7 +659,7 @@
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
-                var data = JSON.stringify({ 'items': items, 'backup': data.backup() != undefined ? data.backup().trim() : undefined, 'livein': data.liveIn() != undefined ? data.liveIn().trim() : undefined, 'draft': true, 'id': data.Id() });
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup() != undefined ? data.backup().trim() : undefined, 'livein': data.liveIn() != undefined ? data.liveIn().trim() : undefined, 'draft': true, 'id': data.Id(),'userid':$("[name=userid]").val() });
                 $.ajax({
                     url: window.configLocation + "/Employee/saveTimeSheet",
                     type: 'POST',
@@ -728,7 +751,7 @@
                 var items = ko.toJSON(data.items());
                 //var backup = ko.toJSON(data.backup());
                 //var livein = ko.toJSON(data.liveIn());
-                var data = JSON.stringify({ 'items': items, 'backup': data.backup().trim(), 'livein': data.liveIn().trim(), 'draft': false, 'id': data.Id() });
+                var data = JSON.stringify({ 'items': items, 'backup': data.backup().trim(), 'livein': data.liveIn().trim(), 'draft': false, 'id': data.Id(), 'userid': $("[name=userid]").val() });
                 $.ajax({
                     url: window.configLocation+ "/Employee/saveTimeSheet",
                     type: 'POST',
