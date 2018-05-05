@@ -3,9 +3,10 @@ D:\My Work\TC\TimeTracking\Data\bin\Release\Data.dll
 D:\My Work\TC\TimeTracking\Data\bin\Release\Data.pdb
 D:\My Work\TC\TimeTracking\Data\bin\Release\EntityFramework.dll
 D:\My Work\TC\TimeTracking\Data\bin\Release\EntityFramework.SqlServer.dll
+D:\My Work\TC\TimeTracking\Data\bin\Release\Glimpse.Core.dll
 D:\My Work\TC\TimeTracking\Data\bin\Release\EntityFramework.xml
 D:\My Work\TC\TimeTracking\Data\bin\Release\EntityFramework.SqlServer.xml
 D:\My Work\TC\TimeTracking\Data\obj\Release\Data.csprojResolveAssemblyReference.cache
+D:\My Work\TC\TimeTracking\Data\obj\Release\Data.csproj.CoreCompileInputs.cache
 D:\My Work\TC\TimeTracking\Data\obj\Release\Data.dll
 D:\My Work\TC\TimeTracking\Data\obj\Release\Data.pdb
-D:\My Work\TC\TimeTracking\Data\bin\Release\Glimpse.Core.dll

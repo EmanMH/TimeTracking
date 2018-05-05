@@ -63,50 +63,25 @@
             }
             return false;
         }
-        self.setnumtimes = ko.computed(function () {
-            numTimes2 = 0;
-            $.each(self.items(), function (key, value1) {
-                $.each(value1.times(), function (key, value) {
-                    if(value.Time2()==true)
-                    {
-                        timesheetKO.HasTime2(true);
-                        numTimes2++;
-                    }
-                });
-            });
-            if (numTimes2==0 && self.items().length!=0)
-                timesheetKO.HasTime2(false);
+        //self.setnumtimes = ko.computed(function () {
+        //    numTimes2 = 0;
+        //    $.each(self.items(), function (key, value1) {
+        //        $.each(value1.times(), function (key, value) {
+        //            if(value.Time2()==true)
+        //            {
+        //                timesheetKO.HasTime2(true);
+        //                numTimes2++;
+        //            }
+        //        });
+        //    });
+        //    if (numTimes2==0 && self.items().length!=0)
+        //        timesheetKO.HasTime2(false);
 
-        }, this);
-        self.totalChangesCount = ko.computed(function () {
-            var count = 0;
-            //$.each(self.items(), function (key, value1) {
-            //    $.each(value1.times(), function (key, value) {
-            //        count += value.ccplansectionId();
-            //        count += value.ccserviceCodeId();
-            //        count += value.ccisAmIn2();
-            //        count += value.ccisAmOut2();
-            //        count += value.ccTimeOut2H1();
-            //        count += value.ccTimeOut2M1();
-            //        count += value.ccTimeIn2H1();
-            //        count += value.ccTimeIn2M1();
-            //        count += value.ccisAmIn();
-            //        count += value.ccisAmOut();
-            //        count += value.ccTimeOutH1();
-            //        count += value.ccTimeOutM1();
-            //        count += value.ccTimeInH1();
-            //        count += value.ccTimeInM1(); 
-            //    });
-               
-            //});
-            //count += self.ChangeCountT(); //+self.ChangeCountA(); 
-            return count;
-    }, this);
-        
+        //}, this);
         
        
         self.lessTime = function (data) {
-           // numTimes2--; // decrease the number rows with time2 part
+            numTimes2--; // decrease the number rows with time2 part
 
             for (i = data.times().length - 1; i >= 0; i--) {
                 if (data.times[i].Time2() == true) {
@@ -125,12 +100,12 @@
             
 
             //if no more time2 part in any rows the stop display its columns
-            //if (numTimes2 == 0)
-            //    timesheetKO.HasTime2(false);
+            if (numTimes2 == 0)
+                timesheetKO.HasTime2(false);
         }
 
         self.moreTime = function (data) {
-           // numTimes2++; // increase the number rows with time2 part
+            numTimes2++; // increase the number rows with time2 part
             timesheetKO.HasTime2(true);
             for (i = data.times().length - 1; i >= 0; i--)
             {
@@ -253,13 +228,13 @@
                 timesheetKO.canUndo(true); //enable undo button
 
                 //if the deleted row has a time2 part then decrease the number rows with time2 part
-                //if (data.times()[0].Time2() == true)
-                //    numTimes2--;
+                if (data.times()[0].Time2() == true)
+                    numTimes2--;
 
                 //if that was the last row with time2 part then stop display its column
-                //if (numTimes2 == 0) {
-                //    timesheetKO.HasTime2(false);
-                //}
+                if (numTimes2 == 0) {
+                    timesheetKO.HasTime2(false);
+                }
 
                 if (data.times()[0].isAdded() == true) {
                     timesheetKO.ChangeCountT(timesheetKO.ChangeCountT() - 1);
@@ -354,8 +329,8 @@
                         timesheetKO.items.push(new vm_form(value));
 
                         //count the number of rows with time2 part
-                        //if (value.Time2 == true)
-                        //    numTimes2++;
+                        if (value.Time2 == true)
+                            numTimes2++;
                     });
                     if (result.model.isBackup == null)
                         timesheetKO.backup(undefined)
@@ -636,7 +611,9 @@
             if (timesheetKO.itemsStack().length == 1)
                 timesheetKO.canUndo(false);
 
-            timesheetKO.current(change);
+            var change2 = ko.mapping.fromJS(ko.mapping.toJS(change));
+
+            timesheetKO.current(change2);
 
         }
 

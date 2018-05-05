@@ -1,7 +1,10 @@
 D:\My Work\TC\TimeTracking\Utilities\bin\Debug\Utilities.dll
 D:\My Work\TC\TimeTracking\Utilities\bin\Debug\Utilities.pdb
+D:\My Work\TC\TimeTracking\Utilities\bin\Debug\EPPlus.dll
+D:\My Work\TC\TimeTracking\Utilities\bin\Debug\Glimpse.Core.dll
+D:\My Work\TC\TimeTracking\Utilities\bin\Debug\EPPlus.xml
+D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
+D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.csproj.ResolveComReference.cache
+D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.csproj.CoreCompileInputs.cache
 D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.dll
 D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.pdb
-D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.csproj.ResolveComReference.cache
-D:\My Work\TC\TimeTracking\Utilities\bin\Debug\Glimpse.Core.dll
-D:\My Work\TC\TimeTracking\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache

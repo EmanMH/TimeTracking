@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Office.Interop.Excel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using Microsoft.Office.Core;
-using System.Globalization;
-
+using OfficeOpenXml;
 
 namespace Save_DataToExcel
 {
@@ -67,9 +65,17 @@ namespace Save_DataToExcel
 
         public TimeSpan CalculateTotalWorkingHours(int tih, int tim, string ti_am_pm, int toh, int tom, string to_am_pm) {
             var ci = new CultureInfo("en-US");
+
             DateTime entry = DateTime.ParseExact(tih + ":" + tim + " " + ti_am_pm, "h:m tt", ci);
             DateTime leave = DateTime.ParseExact(toh + ":" + tom + " " + to_am_pm, "h:m tt", ci);
+           
             return leave - entry;
+
+            //string startTime = tih.ToString()+":"+tim.ToString()+" "+ti_am_pm;
+            //string endTime = toh.ToString() + ":" + tom.ToString() + " " + to_am_pm;
+
+            //TimeSpan duration = DateTime.Parse(endTime).Subtract(DateTime.Parse(startTime));
+            //return duration;
         }
 
         void SetNewCurrentCulture()
@@ -85,218 +91,192 @@ namespace Save_DataToExcel
 
         public string FillSheet(TimeSheetExcel ts,string templatepath,string timesheetpath)
         {
-            Application oXL;
-            _Workbook oWB;
-            _Worksheet oSheet;
-            object misvalue = System.Reflection.Missing.Value;
-            int RowNum = 8;
-            string fileName = "";
-            string result = "";
-
-            try
+            using (var pck = new OfficeOpenXml.ExcelPackage())
             {
-                SetNewCurrentCulture();
-
-                //Start Excel and get Application object.
-                oXL = new Microsoft.Office.Interop.Excel.Application();
-
-                //Skip the Exception of the Protection Excel Template File
-                oXL.FileValidation = MsoFileValidationMode.msoFileValidationSkip;
-
-                string path = templatepath;
-                result += " before open";
-
-                //Open the Template Sheet
-                oWB = oXL.Workbooks.Open(path, Missing.Value,
-                       Missing.Value, Missing.Value, Missing.Value,
-                       Missing.Value, Missing.Value, Missing.Value,
-                       Missing.Value, Missing.Value, Missing.Value,
-                       Missing.Value, Missing.Value); 
-                result += " ,1";
-                //oXL.Visible = true;
-                oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
-                result += " ,2";
-
-
-                //Fill the sheet with data
-                oSheet.get_Range("C2", "N2").Value = ts.EmployeeName;
-               // oSheet.get_Range("U2", "Z2").Value2 = StringtoStringArray(ts.EmployeeID);
-
-               // oSheet.get_Range("C3", "N3").Value = ts.ParticipantName;
-                //oSheet.get_Range("T3", "Z3").Value2 = StringtoStringArray(ts.ParticipantID);
-
-              //  oSheet.get_Range("M4", "R4").Value = ts.Phone;
-               // oSheet.get_Range("V4", "AF4").Value = ts.Email;
-                result += " ,3";
-
-                oSheet.get_Range("C5", "F5").Value = ts.Year;
-                result += " ,4";
-
-                oSheet.get_Range("L5", "S5").Value = ts.FromDay;
-                result += " ,5";
-
-                oSheet.get_Range("Z5", "AF5").Value = ts.ToDay;
-                result += " ,6";
-
-
-                if (ts.LiveInEmployee)
-                    oSheet.get_Range("S28").Value = "X";
-                else
-                    oSheet.get_Range("W28").Value = "X";
-
-                result += " ,7";
-
-
-                double cnt = (double)ts.TimeRecordsLst.Count / (double)15;
-                int count = 0;
-                if ((cnt % 1) > 0)
+                using (var stream = File.OpenRead(templatepath))
                 {
-                    count = (int)cnt;
-                    count++;
-                }
-                else
-                {
-                    count = (int)cnt;
-                }
-
-
-                for (int i = 1; i < count; i++)
-                {
-                    oSheet.Copy(oXL.ActiveWorkbook.Worksheets[i + 1]);
-                }
-                result += " ,8";
-
-
-                foreach (TimeRecordExcel tr in ts.TimeRecordsLst ) {
-                    oSheet.get_Range("A" + RowNum.ToString()).Value = tr.MonthNumber.ToString("00");
-                    oSheet.get_Range("B" + RowNum.ToString()).Value = tr.Day.ToString("00");
-                    oSheet.get_Range("C" + RowNum.ToString()).Value = tr.ServiceCode;
-                    oSheet.get_Range("D" + RowNum.ToString() , "F" + RowNum.ToString()).Value = tr.EnterPlan.ToUpper();
-                    oSheet.get_Range("G" + RowNum.ToString()).Value = tr.Backup.ToString().ToUpper();
-
-                    oSheet.get_Range("H" + RowNum.ToString(), "I" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeIn1.Hours.ToString("00"));
-                    oSheet.get_Range("J" + RowNum.ToString(), "K" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeIn1.Mins.ToString("00"));
-                    oSheet.get_Range("L" + RowNum.ToString(), "M" + RowNum.ToString()).Value = tr.TimeIn1.AmOrPm.ToUpper();
-                    oSheet.get_Range("N" + RowNum.ToString(), "O" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeOut1.Hours.ToString("00"));
-                    oSheet.get_Range("P" + RowNum.ToString(), "Q" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"));
-                    oSheet.get_Range("R" + RowNum.ToString(), "S" + RowNum.ToString()).Value = tr.TimeOut1.AmOrPm.ToUpper();
-
-
-                    tr.TotalWorkedHours = tr.TotalWorkedHours + CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
-                                                                       , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
-
-                    if (tr.TimeIn2.Hours != 0)
+                    int RowNum = 8;
+                    string fileName = "";
+                    pck.Load(stream);
+                    var ws = pck.Workbook.Worksheets.First();
+                    ws.Cells["C2:N2"].Value = ts.EmployeeName;
+                    ws.Cells["C5:F5"].Value = ts.Year;
+                    ws.Cells["L5:S5"].Value = ts.FromDay;
+                    ws.Cells["Z5:AF5"].Value = ts.ToDay;
+                    if (ts.LiveInEmployee)
+                        ws.Cells["S28"].Value = "X";
+                    else
+                        ws.Cells["W28"].Value = "X";
+                    double cnt = (double)ts.TimeRecordsLst.Count / (double)15;
+                    int count = 0;
+                    int sheetindex = 0;
+                    if ((cnt % 1) > 0)
                     {
-                        oSheet.get_Range("T" + RowNum.ToString(), "U" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeIn2.Hours.ToString("00"));
-                        oSheet.get_Range("V" + RowNum.ToString(), "W" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeIn2.Mins.ToString("00"));
-                        oSheet.get_Range("X" + RowNum.ToString(), "Y" + RowNum.ToString()).Value = tr.TimeIn2.AmOrPm.ToUpper();
-                        oSheet.get_Range("Z" + RowNum.ToString(), "AA" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeOut2.Hours.ToString("00"));
-                        oSheet.get_Range("AB" + RowNum.ToString(), "AC" + RowNum.ToString()).Value2 = StringtoStringArray(tr.TimeOut2.Mins.ToString("00"));
-                        oSheet.get_Range("AD" + RowNum.ToString(), "AE" + RowNum.ToString()).Value = tr.TimeOut2.AmOrPm.ToUpper();
+                        count = (int)cnt;
+                        count++;
+                    }
+                    else
+                    {
+                        count = (int)cnt;
+                    }
 
-                        tr.TotalWorkedHours = tr.TotalWorkedHours + CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
-                                                                       , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm);
 
+                    for (int i = 1; i < count; i++)
+                    {
+                        pck.Workbook.Worksheets.Add("Sheet ("+i.ToString()+")",ws);
+                    }
+
+                    foreach (TimeRecordExcel tr in ts.TimeRecordsLst)
+                    {
+                        ws.Cells["A" + RowNum.ToString()].Value = tr.MonthNumber.ToString("00");
+                        ws.Cells["B" + RowNum.ToString()].Value = tr.Day.ToString("00");
+                        ws.Cells["C" + RowNum.ToString()].Value = tr.ServiceCode;
+                        ws.Cells["D" + RowNum.ToString()+":F" + RowNum.ToString()].Value = tr.EnterPlan.ToUpper();
+                        ws.Cells["G" + RowNum.ToString()].Value = tr.Backup.ToString().ToUpper();
+                        ws.Cells["H" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Hours.ToString("00"))[0];
+                        ws.Cells["I" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Hours.ToString("00"))[1];
+                        ws.Cells["J" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Mins.ToString("00"))[0];
+                        ws.Cells["K" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Mins.ToString("00"))[1];
+                        ws.Cells["L" + RowNum.ToString()+":M" + RowNum.ToString()].Value= tr.TimeIn1.AmOrPm.ToUpper();
+                        ws.Cells["N" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Hours.ToString("00"))[0];
+                        ws.Cells["O" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Hours.ToString("00"))[1];
+                        ws.Cells["P" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"))[0];
+                        ws.Cells["Q" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"))[1];
+                        ws.Cells["R" + RowNum.ToString()+":S" + RowNum.ToString()].Value = tr.TimeOut1.AmOrPm.ToUpper();
+
+                        var calculatedHours = CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
+                                                                           , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
+                        if (calculatedHours.TotalHours < 0)
+                            tr.TotalWorkedHours +=TimeSpan.FromHours(24)+ calculatedHours;
+                        else
+                            tr.TotalWorkedHours += calculatedHours;
+
+
+                        if (tr.TimeIn2.Hours != 0)
+                        {
+                             ws.Cells["T" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Hours.ToString("00"))[0];
+                            ws.Cells["U" + RowNum.ToString() ].Value = StringtoStringArray(tr.TimeIn2.Hours.ToString("00"))[1];
+                            ws.Cells["V" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Mins.ToString("00"))[0];
+                            ws.Cells["W" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Mins.ToString("00"))[1];
+                            ws.Cells["X" + RowNum.ToString()+":Y" + RowNum.ToString()].Value = tr.TimeIn2.AmOrPm.ToUpper();
+                             ws.Cells["Z" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Hours.ToString("00"))[0];
+                            ws.Cells["AA" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Hours.ToString("00"))[1];
+                            ws.Cells["AB" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Mins.ToString("00"))[0];
+                            ws.Cells["AC" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Mins.ToString("00"))[1];
+                            ws.Cells["AD" + RowNum.ToString()+":AE" + RowNum.ToString()].Value = tr.TimeOut2.AmOrPm.ToUpper();
+
+                             calculatedHours= CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
+                                                                           , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm) ;
+                            if (calculatedHours.TotalHours < 0)
+                                tr.TotalWorkedHours  += TimeSpan.FromHours(24) + calculatedHours;
+                            else
+                                tr.TotalWorkedHours += calculatedHours;
+
+                            if (tr.ServiceCode.Equals("032"))
+                            {
+                                if(calculatedHours.TotalHours <= 0)
+                                ts.Total032WorkedHours += TimeSpan.FromHours(24) + calculatedHours;
+                                else
+                                    ts.Total032WorkedHours += calculatedHours;
+
+                            }
+                            else if (tr.ServiceCode.Equals("011"))
+                            {
+                                if (calculatedHours.TotalHours <= 0)
+                                    ts.Total011WorkedHours += TimeSpan.FromHours(24) + calculatedHours;
+                                else
+                                    ts.Total011WorkedHours += calculatedHours;
+                            }
+
+                        }
+                         calculatedHours= CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
+                                                                           , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
+                        // Calculate total working hours per each Service Code
                         if (tr.ServiceCode.Equals("032"))
                         {
-                            ts.Total032WorkedHours += CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
-                                                                       , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm);
+                            if (calculatedHours.TotalHours < 0)
+                                ts.Total032WorkedHours += TimeSpan.FromHours(24) + calculatedHours;
+                            else
+                                ts.Total032WorkedHours += calculatedHours;
                         }
                         else if (tr.ServiceCode.Equals("011"))
                         {
-                            ts.Total011WorkedHours += CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
-                                                                       , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm);
+                            if (calculatedHours.TotalHours < 0)
+                                ts.Total011WorkedHours += TimeSpan.FromHours(24) + calculatedHours;
+                            else
+                                ts.Total011WorkedHours += calculatedHours;
+                        }
+                       ws.Cells["AF" + RowNum.ToString()].Value = Math.Abs(tr.TotalWorkedHours.TotalHours);
+
+
+
+                        RowNum++;
+
+
+                        if (RowNum > 22)
+                        {
+                            RowNum = 8;
+                            sheetindex++;
+
+                            // save before go to the next sheet the total working hours per each Service Code
+                            if (ts.Total032WorkedHours.TotalHours != 0)
+                            {
+                                ws.Cells["F24:G24"].Value = "032";
+                                ws.Cells["H24:J24"].Value = Math.Abs(ts.Total032WorkedHours.TotalHours);
+                            }
+                            if (ts.Total011WorkedHours.TotalHours != 0)
+                            {
+                                 ws.Cells["F26:G26"].Value = "011";
+                                ws.Cells["H26:J26"].Value = Math.Abs(ts.Total011WorkedHours.TotalHours);
+                            }
+                            ts.Total011WorkedHours = new TimeSpan();
+                            ts.Total032WorkedHours = new TimeSpan();
+
+                            ws = pck.Workbook.Worksheets[sheetindex];
                         }
 
                     }
 
-                    // Calculate total working hours per each Service Code
-                    if (tr.ServiceCode.Equals("032"))
+                    if (RowNum <= 22)
                     {
-                        ts.Total032WorkedHours += CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
-                                                                       , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
-                    }
-                    else if (tr.ServiceCode.Equals("011"))
-                    {
-                        ts.Total011WorkedHours += CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
-                                                                       , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
-                    }
-                    oSheet.get_Range("AF" + RowNum.ToString()).Value = tr.TotalWorkedHours.TotalHours;
-
-
-
-                    RowNum++;
-                    
-
-                    if (RowNum > 22) {
-                        RowNum = 8;
-
-                        // save before go to the next sheet the total working hours per each Service Code
+                        // save in the last sheet the total working hours per each Service Code
                         if (ts.Total032WorkedHours.TotalHours != 0)
                         {
-                            oSheet.get_Range("F24", "G24").Value = "032";
-                            oSheet.get_Range("H24", "J24").Value = ts.Total032WorkedHours.TotalHours;
+                            ws.Cells["F24:G24"].Value = "032";
+                            ws.Cells["H24:J24"].Value = Math.Abs(ts.Total032WorkedHours.TotalHours);
                         }
                         if (ts.Total011WorkedHours.TotalHours != 0)
                         {
-                            oSheet.get_Range("F26", "G26").Value = "011";
-                            oSheet.get_Range("H26", "J26").Value = ts.Total011WorkedHours.TotalHours;
+                            ws.Cells["F26:G26"].Value = "011";
+                            ws.Cells["H26:J26"].Value = Math.Abs(ts.Total011WorkedHours.TotalHours);
                         }
                         ts.Total011WorkedHours = new TimeSpan();
                         ts.Total032WorkedHours = new TimeSpan();
-						
-                        oSheet = oSheet.Next;
                     }
 
+                    string dirPath = Path.Combine(timesheetpath + @"/" + ts.EmployeeName+ "_" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-"));
+                    if (!Directory.Exists(dirPath))
+                        Directory.CreateDirectory(dirPath);
+                    fileName = dirPath + @"/" + ts.EmployeeName + "_" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-") + ".xlsx";
+                    // oXL.DisplayAlerts = false;
+                    byte[] data = pck.GetAsByteArray();
+
+                    File.WriteAllBytes(fileName, data);
+
+                    //oWB.SaveAs(fileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
+                    //    false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
+                    //    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+                    //oWB.Close();
                 }
-				
-				if (RowNum <= 22)
-                {
-                    // save in the last sheet the total working hours per each Service Code
-                    if (ts.Total032WorkedHours.TotalHours != 0)
-                    {
-                        oSheet.get_Range("F24", "G24").Value = "032";
-                        oSheet.get_Range("H24", "J24").Value = ts.Total032WorkedHours.TotalHours;
-                    }
-                    if (ts.Total011WorkedHours.TotalHours != 0)
-                    {
-                        oSheet.get_Range("F26", "G26").Value = "011";
-                        oSheet.get_Range("H26", "J26").Value = ts.Total011WorkedHours.TotalHours;
-                    }
-                    ts.Total011WorkedHours = new TimeSpan();
-                    ts.Total032WorkedHours = new TimeSpan();
-                }
-                result += " ,9";
-
-
-                oXL.ActiveWorkbook.Sheets[1].Activate();
-                result += " ,10";
-
-                oXL.UserControl = false;
-                result += " ,11";
-
-                string dirPath = Path.Combine(timesheetpath+ @"/" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-"));
-                if (!Directory.Exists(dirPath))
-                    Directory.CreateDirectory(dirPath);
-                fileName = dirPath + @"/" + ts.EmployeeName + "_" + ts.FromDay.Replace("/", "-") + "_" + ts.ToDay.Replace("/", "-") + ".xls";
-                oXL.DisplayAlerts = false;
-                oWB.SaveAs(fileName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
-                    false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
-                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                result += " ,12";
-
-                oWB.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                return result+" error:"+e.Message;
-            }
-            finally
-            {
-                ResetCurrentCulture();
             }
 
+
+            // oXL.ActiveWorkbook.Sheets[1].Activate();
+
+            //  oXL.UserControl = false;
+
+            return "";  
         }
 
         //static void Main(string[] args)

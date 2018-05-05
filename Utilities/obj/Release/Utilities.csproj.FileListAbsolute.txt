@@ -1,7 +1,9 @@
 D:\My Work\TC\TimeTracking\Utilities\bin\Release\Utilities.dll
 D:\My Work\TC\TimeTracking\Utilities\bin\Release\Utilities.pdb
-D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.csprojResolveAssemblyReference.cache
+D:\My Work\TC\TimeTracking\Utilities\bin\Release\EPPlus.dll
+D:\My Work\TC\TimeTracking\Utilities\bin\Release\Glimpse.Core.dll
+D:\My Work\TC\TimeTracking\Utilities\bin\Release\EPPlus.xml
+D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.csproj.ResolveComReference.cache
+D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.csproj.CoreCompileInputs.cache
 D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.dll
 D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.pdb
-D:\My Work\TC\TimeTracking\Utilities\obj\Release\Utilities.csproj.ResolveComReference.cache
-D:\My Work\TC\TimeTracking\Utilities\bin\Release\Glimpse.Core.dll

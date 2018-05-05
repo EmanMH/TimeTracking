@@ -53,6 +53,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Data\bin\Debug\Data.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Glimpse.Core">
       <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
     </Reference>
@@ -68,9 +71,11 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -256,7 +261,6 @@
     </Content>
     <Content Include="Scripts\config.js" />
     <Content Include="Scripts\Knockout\Logs.js" />
-    <Content Include="Template\Employee-Weekly-Timesheet.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -317,6 +321,7 @@
     <Content Include="Views\Employee\TimeSheet.cshtml" />
     <Content Include="Views\Employee\Logs.cshtml" />
     <Content Include="Views\Admin\ReviewTimesheet.cshtml" />
+    <Content Include="Template\Employee-Weekly-Timesheet.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -37,6 +37,9 @@ namespace TimeTracking.Controllers
             string[] dates = dateSelected.Split(str.ToCharArray());
             var day1 = DateTime.Parse(dates[0]);
             var timesheets = es.getTimeSheet(DateTime.Parse(dates[0]), User.Identity.Name);
+            List<TimeInOut> timeinouts = new List<TimeInOut>();
+            if (timesheets !=null && timesheets.TimeInOuts!=null)
+             timeinouts = timesheets.TimeInOuts.ToList();
             ModelStack mdl= new ModelStack();
             TimeSheetModel tsm = new TimeSheetModel();
             TimeSheetItem tItem = new TimeSheetItem();
@@ -115,9 +118,10 @@ namespace TimeTracking.Controllers
 
                 if (timesheets.fk_statusid == 3)
                 {
+                    tsm.isViewOnly = false;
                     for (int i = 0; i < 7; i++)
                     {
-                        var items = timesheets.TimeInOuts.Where(x => x.dayDate.Value.Date.ToShortDateString() == day1.ToShortDateString()).ToList();
+                        var items = timeinouts.Where(x => x.dayDate.Value.Date.ToShortDateString() == day1.ToShortDateString()).ToList();
                         var dateditems = items.GroupBy(x => x.dayDate);
                         if (items.Count > 0)
                         {
@@ -210,7 +214,7 @@ namespace TimeTracking.Controllers
 
                 else
                 {
-                    var items = timesheets.TimeInOuts.ToList();
+                    var items = timeinouts;
                     var dateditems = items.GroupBy(x => x.dayDate);
                         foreach (var itemsvals in dateditems)
                         {
@@ -465,7 +469,7 @@ namespace TimeTracking.Controllers
                     tr = new TimeRecordExcel();
 
                 }
-                string res = exs.FillSheet(tse, Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xls"), Server.MapPath("~/TimeSheets"));
+                string res = exs.FillSheet(tse, Server.MapPath(@"~/Template/Employee-Weekly-Timesheet.xlsx"), Server.MapPath("~/TimeSheets"));
 
                 return Json(tsid);
             }

@@ -245,7 +245,9 @@ namespace TimeTracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Username);
+                  adminServices = new AdminServices();
+                var user = adminServices.getByUsername(model.Username);
+                //var user = await UserManager.FindByNameAsync(model.Username);
                 if (user == null )
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -255,7 +257,7 @@ namespace TimeTracking.Controllers
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new {  code = code }, protocol: Request.Url.Scheme);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new {  code = code,username=model.Username }, protocol: Request.Url.Scheme);
                  Email.sendEmail(user.Email, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -284,8 +286,9 @@ namespace TimeTracking.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string code,string username)
         {
+            Session["resetusername"] = username;
             return code == null ? View("Error") : View();
         }
 
@@ -301,7 +304,12 @@ namespace TimeTracking.Controllers
             {
                 return View(model);
             }
+            if(User.Identity.IsAuthenticated)
             model.Username = User.Identity.Name;
+            else
+            {
+                model.Username = Session["resetusername"].ToString();
+            }
 
             var user = await UserManager.FindByNameAsync(model.Username);
             if (user == null)
@@ -312,9 +320,14 @@ namespace TimeTracking.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                adminServices = new AdminServices();
-                adminServices.UpdateFirstPasswordReset(user.Id);
-                return RedirectToAction("TimeSheet", "Employee");
+                if (User.Identity.IsAuthenticated)
+                {
+                    adminServices = new AdminServices();
+                    adminServices.UpdateFirstPasswordReset(user.Id);
+                    return RedirectToAction("TimeSheet", "Employee");
+                }
+                else
+                    return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
             return View();

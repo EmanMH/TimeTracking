@@ -15,6 +15,8 @@ nav ul li {
     list-style: none;
 }
 
+
+
 .content {
     padding-left: 50px;
     position: relative;
@@ -578,10 +580,7 @@ h1, h2, p {
     padding-right: 0px;
 }
 
-#loginLink:hover
-{
-color:white !important;
-}
+
 
 @media (min-width: 768px) {
     .navbar > .container .navbar-brand {
