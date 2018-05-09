@@ -106,16 +106,16 @@
                     <th>Service<br />Code</th>
                     <th>Plan<br />Section</th>
                     <th>Time In</th>
-                    <th>AM/PM</th>
+                    <th>AM / PM</th>
                     <th>Time Out</th>
-                    <th>AM/PM</th>
+                    <th>AM / PM</th>
                     <!-- ko if: HasTime2 -->
                     <th>Time In</th>
-                    <th>AM/PM</th>
+                    <th>AM / PM</th>
                     <th>Time Out</th>
-                    <th>AM/PM</th>
+                    <th>AM / PM</th>
                     <!-- /ko -->
-                    <th>Action</th>
+                    <th style="padding-left:3px !important;">Action</th>
 
                 </tr>
             </thead>
@@ -373,12 +373,11 @@
                                 Action
                             </button>*@
                         @*<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">*@
-                        <ul style="list-style:none;padding:10px !important;padding-bottom:0px !important;margin:0px !important;color:navy">
+                        <ul style="list-style:none;padding:3px !important;padding-bottom:0px !important;margin:0px !important;color:navy;font-size:11px !important">
                             <li>
-                                <a href="#" data-bind="click:$root.moreTime" style="color:navy">Add Time</a>
+                                <a href="#" data-bind="click:$root.moreTime" style="color:navy">Add Time</a><a href="#" data-bind="click:$root.lessTime,visible:Time2Times()==true" style="color:navy">/Delete Time</a>
                             </li>
                             @*<li>
-                                <a href="#" data-bind="click:$root.lessTime,visible:$root.hastimes($data)==true" style="color:navy">Delete Time</a>
                             </li>*@
                             <li>
                                 <a href="#" data-bind="click:$root.moreService" style="color:navy">Add Service Code</a>

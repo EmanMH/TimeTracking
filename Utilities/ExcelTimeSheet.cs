@@ -98,18 +98,22 @@ namespace Save_DataToExcel
                     int RowNum = 8;
                     string fileName = "";
                     pck.Load(stream);
-                    var ws = pck.Workbook.Worksheets.First();
-                    ws.Cells["C2:N2"].Value = ts.EmployeeName;
-                    ws.Cells["C5:F5"].Value = ts.Year;
-                    ws.Cells["L5:S5"].Value = ts.FromDay;
-                    ws.Cells["Z5:AF5"].Value = ts.ToDay;
+                    List<ExcelWorksheet> wsList = new List<ExcelWorksheet>();
+                    var ws1 = pck.Workbook.Worksheets.First();
+                    wsList.Add(ws1);
+                    int sheetindex = 0;
+
+                    var ws = wsList[sheetindex];
+                    wsList[sheetindex].Cells["C2:N2"].Value = ts.EmployeeName;
+                    wsList[sheetindex].Cells["C5:F5"].Value = ts.Year;
+                    wsList[sheetindex].Cells["L5:S5"].Value = ts.FromDay;
+                    wsList[sheetindex].Cells["Z5:AF5"].Value = ts.ToDay;
                     if (ts.LiveInEmployee)
-                        ws.Cells["S28"].Value = "X";
+                        wsList[sheetindex].Cells["S28"].Value = "X";
                     else
-                        ws.Cells["W28"].Value = "X";
+                        wsList[sheetindex].Cells["W28"].Value = "X";
                     double cnt = (double)ts.TimeRecordsLst.Count / (double)15;
                     int count = 0;
-                    int sheetindex = 0;
                     if ((cnt % 1) > 0)
                     {
                         count = (int)cnt;
@@ -123,26 +127,30 @@ namespace Save_DataToExcel
 
                     for (int i = 1; i < count; i++)
                     {
-                        pck.Workbook.Worksheets.Add("Sheet ("+i.ToString()+")",ws);
+                    wsList.Add(pck.Workbook.Worksheets.Add("Sheet ("+i.ToString()+")",ws));
                     }
+
+
+
+                    double tot = 0;
 
                     foreach (TimeRecordExcel tr in ts.TimeRecordsLst)
                     {
-                        ws.Cells["A" + RowNum.ToString()].Value = tr.MonthNumber.ToString("00");
-                        ws.Cells["B" + RowNum.ToString()].Value = tr.Day.ToString("00");
-                        ws.Cells["C" + RowNum.ToString()].Value = tr.ServiceCode;
-                        ws.Cells["D" + RowNum.ToString()+":F" + RowNum.ToString()].Value = tr.EnterPlan.ToUpper();
-                        ws.Cells["G" + RowNum.ToString()].Value = tr.Backup.ToString().ToUpper();
-                        ws.Cells["H" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Hours.ToString("00"))[0];
-                        ws.Cells["I" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Hours.ToString("00"))[1];
-                        ws.Cells["J" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Mins.ToString("00"))[0];
-                        ws.Cells["K" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Mins.ToString("00"))[1];
-                        ws.Cells["L" + RowNum.ToString()+":M" + RowNum.ToString()].Value= tr.TimeIn1.AmOrPm.ToUpper();
-                        ws.Cells["N" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Hours.ToString("00"))[0];
-                        ws.Cells["O" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Hours.ToString("00"))[1];
-                        ws.Cells["P" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"))[0];
-                        ws.Cells["Q" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"))[1];
-                        ws.Cells["R" + RowNum.ToString()+":S" + RowNum.ToString()].Value = tr.TimeOut1.AmOrPm.ToUpper();
+                        wsList[sheetindex].Cells["A" + RowNum.ToString()].Value = tr.MonthNumber.ToString("00");
+                        wsList[sheetindex].Cells["B" + RowNum.ToString()].Value = tr.Day.ToString("00");
+                        wsList[sheetindex].Cells["C" + RowNum.ToString()].Value = tr.ServiceCode;
+                        wsList[sheetindex].Cells["D" + RowNum.ToString()+":F" + RowNum.ToString()].Value = tr.EnterPlan.ToUpper();
+                        wsList[sheetindex].Cells["G" + RowNum.ToString()].Value = tr.Backup.ToString().ToUpper();
+                        wsList[sheetindex].Cells["H" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Hours.ToString("00"))[0];
+                        wsList[sheetindex].Cells["I" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Hours.ToString("00"))[1];
+                        wsList[sheetindex].Cells["J" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Mins.ToString("00"))[0];
+                        wsList[sheetindex].Cells["K" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn1.Mins.ToString("00"))[1];
+                        wsList[sheetindex].Cells["L" + RowNum.ToString()+":M" + RowNum.ToString()].Value= tr.TimeIn1.AmOrPm.ToUpper();
+                        wsList[sheetindex].Cells["N" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Hours.ToString("00"))[0];
+                        wsList[sheetindex].Cells["O" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Hours.ToString("00"))[1];
+                        wsList[sheetindex].Cells["P" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"))[0];
+                        wsList[sheetindex].Cells["Q" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut1.Mins.ToString("00"))[1];
+                        wsList[sheetindex].Cells["R" + RowNum.ToString()+":S" + RowNum.ToString()].Value = tr.TimeOut1.AmOrPm.ToUpper();
 
                         var calculatedHours = CalculateTotalWorkingHours(tr.TimeIn1.Hours, tr.TimeIn1.Mins, tr.TimeIn1.AmOrPm
                                                                            , tr.TimeOut1.Hours, tr.TimeOut1.Mins, tr.TimeOut1.AmOrPm);
@@ -154,16 +162,16 @@ namespace Save_DataToExcel
 
                         if (tr.TimeIn2.Hours != 0)
                         {
-                             ws.Cells["T" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Hours.ToString("00"))[0];
-                            ws.Cells["U" + RowNum.ToString() ].Value = StringtoStringArray(tr.TimeIn2.Hours.ToString("00"))[1];
-                            ws.Cells["V" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Mins.ToString("00"))[0];
-                            ws.Cells["W" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Mins.ToString("00"))[1];
-                            ws.Cells["X" + RowNum.ToString()+":Y" + RowNum.ToString()].Value = tr.TimeIn2.AmOrPm.ToUpper();
-                             ws.Cells["Z" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Hours.ToString("00"))[0];
-                            ws.Cells["AA" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Hours.ToString("00"))[1];
-                            ws.Cells["AB" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Mins.ToString("00"))[0];
-                            ws.Cells["AC" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Mins.ToString("00"))[1];
-                            ws.Cells["AD" + RowNum.ToString()+":AE" + RowNum.ToString()].Value = tr.TimeOut2.AmOrPm.ToUpper();
+                            wsList[sheetindex].Cells["T" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Hours.ToString("00"))[0];
+                            wsList[sheetindex].Cells["U" + RowNum.ToString() ].Value = StringtoStringArray(tr.TimeIn2.Hours.ToString("00"))[1];
+                            wsList[sheetindex].Cells["V" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Mins.ToString("00"))[0];
+                            wsList[sheetindex].Cells["W" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeIn2.Mins.ToString("00"))[1];
+                            wsList[sheetindex].Cells["X" + RowNum.ToString()+":Y" + RowNum.ToString()].Value = tr.TimeIn2.AmOrPm.ToUpper();
+                            wsList[sheetindex].Cells["Z" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Hours.ToString("00"))[0];
+                            wsList[sheetindex].Cells["AA" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Hours.ToString("00"))[1];
+                            wsList[sheetindex].Cells["AB" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Mins.ToString("00"))[0];
+                            wsList[sheetindex].Cells["AC" + RowNum.ToString()].Value = StringtoStringArray(tr.TimeOut2.Mins.ToString("00"))[1];
+                            wsList[sheetindex].Cells["AD" + RowNum.ToString()+":AE" + RowNum.ToString()].Value = tr.TimeOut2.AmOrPm.ToUpper();
 
                              calculatedHours= CalculateTotalWorkingHours(tr.TimeIn2.Hours, tr.TimeIn2.Mins, tr.TimeIn2.AmOrPm
                                                                            , tr.TimeOut2.Hours, tr.TimeOut2.Mins, tr.TimeOut2.AmOrPm) ;
@@ -206,8 +214,8 @@ namespace Save_DataToExcel
                             else
                                 ts.Total011WorkedHours += calculatedHours;
                         }
-                       ws.Cells["AF" + RowNum.ToString()].Value = Math.Abs(tr.TotalWorkedHours.TotalHours);
-
+                        wsList[sheetindex].Cells["AF" + RowNum.ToString()].Value = Math.Abs(tr.TotalWorkedHours.TotalHours);
+                        tot += tr.TotalWorkedHours.TotalHours;
 
 
                         RowNum++;
@@ -216,23 +224,29 @@ namespace Save_DataToExcel
                         if (RowNum > 22)
                         {
                             RowNum = 8;
-                            sheetindex++;
 
                             // save before go to the next sheet the total working hours per each Service Code
                             if (ts.Total032WorkedHours.TotalHours != 0)
                             {
-                                ws.Cells["F24:G24"].Value = "032";
-                                ws.Cells["H24:J24"].Value = Math.Abs(ts.Total032WorkedHours.TotalHours);
+                                wsList[sheetindex].Cells["F24:G24"].Value = "032";
+                                wsList[sheetindex].Cells["H24:J24"].Value = Math.Abs(ts.Total032WorkedHours.TotalHours);
                             }
                             if (ts.Total011WorkedHours.TotalHours != 0)
                             {
-                                 ws.Cells["F26:G26"].Value = "011";
-                                ws.Cells["H26:J26"].Value = Math.Abs(ts.Total011WorkedHours.TotalHours);
+                                wsList[sheetindex].Cells["F26:G26"].Value = "011";
+                                wsList[sheetindex].Cells["H26:J26"].Value = Math.Abs(ts.Total011WorkedHours.TotalHours);
                             }
+                            wsList[sheetindex].Cells["AF26"].Value = tot;
+                            wsList[sheetindex].Cells["AA26:AD26"].Value = tot;
+
+                            tot = 0;
                             ts.Total011WorkedHours = new TimeSpan();
                             ts.Total032WorkedHours = new TimeSpan();
+                            sheetindex++;
 
-                            ws = pck.Workbook.Worksheets[sheetindex];
+                            // ws = wsList[sheetindex];
+
+
                         }
 
                     }
@@ -242,14 +256,17 @@ namespace Save_DataToExcel
                         // save in the last sheet the total working hours per each Service Code
                         if (ts.Total032WorkedHours.TotalHours != 0)
                         {
-                            ws.Cells["F24:G24"].Value = "032";
-                            ws.Cells["H24:J24"].Value = Math.Abs(ts.Total032WorkedHours.TotalHours);
+                            wsList[sheetindex].Cells["F24:G24"].Value = "032";
+                            wsList[sheetindex].Cells["H24:J24"].Value = Math.Abs(ts.Total032WorkedHours.TotalHours);
                         }
                         if (ts.Total011WorkedHours.TotalHours != 0)
                         {
-                            ws.Cells["F26:G26"].Value = "011";
-                            ws.Cells["H26:J26"].Value = Math.Abs(ts.Total011WorkedHours.TotalHours);
+                            wsList[sheetindex].Cells["F26:G26"].Value = "011";
+                            wsList[sheetindex].Cells["H26:J26"].Value = Math.Abs(ts.Total011WorkedHours.TotalHours);
                         }
+                        wsList[sheetindex].Cells["AF26"].Value = tot;
+                        wsList[sheetindex].Cells["AA26:AD26"].Value = tot;
+                        tot = 0;
                         ts.Total011WorkedHours = new TimeSpan();
                         ts.Total032WorkedHours = new TimeSpan();
                     }

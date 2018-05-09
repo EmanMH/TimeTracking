@@ -113,6 +113,7 @@ namespace TimeTracking.Models
         public string[] dates { get; set; }
         public string dayName { get; set; }
         public string dayDate { get; set; }
+        public bool Time2Times { get; set; }
         public List<times> times { get; set; }
     }
 

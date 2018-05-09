@@ -84,14 +84,22 @@
             numTimes2--; // decrease the number rows with time2 part
 
             for (i = data.times().length - 1; i >= 0; i--) {
-                if (data.times[i].Time2() == true) {
-                    data.times[i].Time(false);
-                    data.times[i].TimeIn2H1(-1);
-                    data.times[i].TimeIn2M1(-1);
-                    data.times[i].isAmIn2(-1);
-                    data.times[i].TimeOut2H1(-1);
-                    data.times[i].TimeOut2M1(-1);
-                    data.times[i].isAmOut2(-1);
+                if (data.times()[i].Time2() == true) {
+                    data.times()[i].Time2(false);
+                    data.times()[i].TimeIn2H1(-1);
+                    data.times()[i].TimeIn2M1(-1);
+                    data.times()[i].isAmIn2(-1);
+                    data.times()[i].TimeOut2H1(-1);
+                    data.times()[i].TimeOut2M1(-1);
+                    data.times()[i].isAmOut2(-1);
+                    break;
+                }
+            }
+            data.Time2Times(false);
+
+            for (i = data.times().length - 1; i >= 0; i--) {
+                if (data.times()[i].Time2() == true) {
+                    data.Time2Times(true);
                     break;
                 }
             }
@@ -114,7 +122,7 @@
                     break;
                 }
             }
-            
+            data.Time2Times(true);
             timesheetKO.addChange();
             
         }
